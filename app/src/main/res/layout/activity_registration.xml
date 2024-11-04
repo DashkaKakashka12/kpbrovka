@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RegistrationActivity">
+
+
+    <TextView
+        android:id="@+id/NameTextReg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="200dp"
+        android:textSize="15dp"
+        android:text="Имя"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/NameEditReg"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:hint=""
+        android:inputType="text"
+        android:padding="8dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/roundbackround"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/NameTextReg" />
+
+
+    <TextView
+        android:id="@+id/PassTextReg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="15dp"
+        android:text="Пароль"
+        android:textSize="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/NameEditReg" />
+
+
+    <EditText
+        android:id="@+id/PassEditReg"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:hint=""
+        android:padding="8dp"
+        android:inputType="numberPassword"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/roundbackround"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/PassTextReg" />
+
+    <TextView
+        android:id="@+id/PassTextReg2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="15dp"
+        android:text="Повторите пароль"
+        android:textSize="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/PassEditReg" />
+
+    <EditText
+        android:id="@+id/PassEditReg2"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:hint=""
+        android:padding="8dp"
+        android:inputType="textPassword"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/roundbackround"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/PassTextReg2" />
+
+    <Button
+        android:id="@+id/RegButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:backgroundTint="#DD9BB2"
+        android:text="Зарегистрироваться"
+        android:onClick="registrationUser"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/PassEditReg2" />
+
+    <TextView
+        android:id="@+id/logText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:textSize="14dp"
+        android:onClick="loginUser"
+        android:text="Войти"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/RegButton" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

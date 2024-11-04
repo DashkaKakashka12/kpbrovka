@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Имя"
+            android:textSize="22dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="20dp"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Имя Фамилия"
+            android:background="@color/white"
+            android:textSize="20dp"
+            android:layout_margin="40dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Пароль"
+            android:textSize="22dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="20dp"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Пароль"
+            android:background="@color/white"
+            android:textSize="20dp"
+            android:layout_margin="40dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Отель"
+            android:textSize="22dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="20dp"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Название отеля"
+            android:background="@color/white"
+            android:textSize="20dp"
+            android:layout_margin="40dp"/>
+
+</LinearLayout>

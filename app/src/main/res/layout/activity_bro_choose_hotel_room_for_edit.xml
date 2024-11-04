@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".BroChooseHotelRoomForEdit"
+    android:background="#EBEAEA">
+
+
+    <TextView
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="DreamStay"
+        android:textColor="@color/black"
+        android:background="@color/white"
+        android:gravity="center"
+        android:textSize="21dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <ImageView
+        android:id="@+id/leftArrow"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="7dp"
+        app:srcCompat="@drawable/left_arrow_on_black"
+        android:onClick="backToBroHotelEdit"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:scrollbars="none"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:id="@+id/help0"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#EBEAEA"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+
+        <LinearLayout
+            android:id="@+id/help"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            android:padding="15dp"
+            android:background="@drawable/rounded_corners"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/photoEdit"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Номер стандарт с 1 двуспальной кроватью"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/pensil"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/pencil"
+                    android:onClick="broEditHotelRoom"/>
+            </LinearLayout>
+
+
+            <ImageView
+                android:id="@+id/photo"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:srcCompat="@drawable/photo1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/help2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical"
+            android:padding="15dp"
+            android:background="@drawable/rounded_corners"
+            app:layout_constraintTop_toBottomOf="@+id/help">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/photoEdit2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Номер стандарт с 2 односпальными кроватями"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/pensil2"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/pencil" />
+            </LinearLayout>
+
+
+            <ImageView
+                android:id="@+id/photo2"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:srcCompat="@drawable/photo1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/help3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/rounded_corners"
+            android:orientation="vertical"
+            android:padding="15dp"
+            app:layout_constraintTop_toBottomOf="@+id/help2">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/photoEdit3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Номер стандарт улучшенный с 1 двуспальной кроватью"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/pensil3"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/pencil" />
+            </LinearLayout>
+
+
+            <ImageView
+                android:id="@+id/photo3"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:srcCompat="@drawable/photo1" />
+
+        </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/help4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/rounded_corners"
+                android:orientation="vertical"
+                android:padding="15dp"
+                app:layout_constraintTop_toBottomOf="@+id/help3">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/photoEdit4"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Номер стандарт улучшенный с 2 односпальными кроватями"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+
+                    <ImageView
+                        android:id="@+id/pensil4"
+                        android:layout_width="21dp"
+                        android:layout_height="21dp"
+                        android:layout_gravity="center"
+                        app:srcCompat="@drawable/pencil" />
+                </LinearLayout>
+
+
+                <ImageView
+                    android:id="@+id/photo4"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    app:srcCompat="@drawable/photo1" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/help5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/rounded_corners"
+                android:orientation="vertical"
+                android:padding="15dp"
+                app:layout_constraintTop_toBottomOf="@+id/help4">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/photoEdit5"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Номер делюкс с 1 двуспальной кроватью"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+
+                    <ImageView
+                        android:id="@+id/pensil5"
+                        android:layout_width="21dp"
+                        android:layout_height="21dp"
+                        android:layout_gravity="center"
+                        app:srcCompat="@drawable/pencil" />
+                </LinearLayout>
+
+
+                <ImageView
+                    android:id="@+id/photo5"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    app:srcCompat="@drawable/photo1" />
+
+            </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/help6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/rounded_corners"
+            android:orientation="vertical"
+            android:layout_marginBottom="15dp"
+            app:layout_constraintTop_toBottomOf="@+id/help5">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/eddHotelRoom"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Добавить номер"
+                    android:textSize="20sp"
+                    android:gravity="center"
+                    android:layout_gravity="center"/>
+                <ImageView
+                    android:id="@+id/plus"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    app:srcCompat="@drawable/plus"
+                    android:layout_gravity="center"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

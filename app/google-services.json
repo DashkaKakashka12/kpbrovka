@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "243654840449",
+    "project_id": "kpbroyka",
+    "storage_bucket": "kpbroyka.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:243654840449:android:5a8550a4d0f7a48b707d80",
+        "android_client_info": {
+          "package_name": "com.mgke.kpbrovka"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBVpDAigk72c_RJ83X99qDTQS2HYlAHXc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

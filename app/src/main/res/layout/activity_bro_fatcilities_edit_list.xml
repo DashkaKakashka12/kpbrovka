@@ -1,0 +1,293 @@
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".BroFacilitiesEdit"
+        android:background="@color/black">
+
+
+        <LinearLayout
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+            <ImageView
+                android:id="@+id/leftArrow"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="7dp"
+                app:srcCompat="@drawable/left_arrow_on_black"
+                android:onClick="backToBroHotelEdit"/>
+            <TextView
+                android:id="@+id/facilities"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="60dp"
+                android:text="Удобства"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="21sp" />
+            <ImageView
+                android:id="@+id/checkMark"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginEnd="10dp"
+                app:srcCompat="@drawable/check_mark_blac" />
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="20dp"
+            android:scrollbars="none"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:layout_constraintBottom_toBottomOf="parent">
+            <LinearLayout
+                android:id="@+id/help"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="30dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="15dp"
+                app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="15dp">
+                    <TextView
+                        android:id="@+id/nameInternet"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="Название"
+                        android:textSize="17sp"
+                        android:textColor="#979595"/>
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        app:srcCompat="@drawable/trashcan_icon"/>
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/internet"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Интернет"
+                    android:background="@color/white"
+                    android:textSize="17sp"
+                    android:layout_marginBottom="15dp"/>
+
+                <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Список"
+                android:textSize="17sp"
+                android:textColor="#979595"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="15dp"/>
+
+
+                <EditText
+                    android:id="@+id/internetList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=" Доступ в интернет: в номерах \n
+Доступ в интернет: на всей территории отеля\n
+Доступ в интернет: бесплатный"
+                    android:textSize="13sp"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginBottom="15dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="15dp">
+                    <TextView
+                        android:id="@+id/nameServices"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="Название"
+                        android:textSize="17sp"
+                        android:textColor="#979595"/>
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        app:srcCompat="@drawable/trashcan_icon"/>
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/services"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Услуги и удобства"
+                    android:background="@color/white"
+                    android:textSize="17sp"
+                    android:layout_marginBottom="15dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Список"
+                    android:textSize="17sp"
+                    android:textColor="#979595"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginBottom="15dp"/>
+
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Частота уборки: по запросу\n
+Носильщик\n
+Предоставление отчётных документов\n
+Трансфер: платный\n
+Швейцар\n
+Банкетный зал\n
+Химчистка\n
+Камера хранения\n
+Тип сейфа: в номере\n
+Тип сейфа: бесплатный\n
+Прачечная\n
+Обслуживание номеров\n
+Можно проводить вечеринки\n
+Проживание с животными: платно\n
+Консьерж-сервис\n
+Проживание с животными\n
+Прокат: машин\n
+Обмен валюты\n
+Ускоренная регистрация заезда/отъезда\n
+Ограничения проживания с животными: проживание с животными по запросу"
+                    android:textSize="13sp"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginBottom="15dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="15dp">
+                    <TextView
+                        android:id="@+id/nameEat"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="Название"
+                        android:textSize="17sp"
+                        android:textColor="#979595"/>
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        app:srcCompat="@drawable/trashcan_icon"/>
+                </LinearLayout>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Питание"
+                    android:background="@color/white"
+                    android:textSize="17sp"
+                    android:layout_marginBottom="15dp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Список"
+                    android:textSize="17sp"
+                    android:textColor="#979595"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginBottom="15dp"/>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Питание: завтрак (шведский стол)\n
+Шампанское на завтрак\n
+Бар\n
+Завтрак\n
+Ресторан\n
+Кафе\n
+Количество баров: 1\n
+Количество ресторанов: 1"
+                    android:textSize="13sp"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginBottom="15dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="15dp">
+                    <TextView
+                        android:id="@+id/nameFamily"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="Название"
+                        android:textSize="17sp"
+                        android:textColor="#979595"/>
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        app:srcCompat="@drawable/trashcan_icon"/>
+                </LinearLayout>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Для семей"
+                    android:background="@color/white"
+                    android:textSize="17sp"
+                    android:layout_marginBottom="15dp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Список"
+                    android:textSize="17sp"
+                    android:textColor="#979595"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginBottom="15dp"/>
+
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Детские кроватки/люльки\n
+Детское меню\n
+Игровая комната\n
+Детская коляска: нет\n
+Детская кровать (0-1 год): бесплатно\n
+Детская кровать (2-3 года): платно\n
+Детская кровать (4-10 лет): платно\n
+Детские ТВ каналы\n"
+                    android:textSize="13sp"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginBottom="15dp"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Добавить категорию"
+                    android:layout_marginBottom="20dp"
+                    android:backgroundTint="@color/black"
+                    android:textColor="@color/white"/>
+
+            </LinearLayout>
+        </ScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>

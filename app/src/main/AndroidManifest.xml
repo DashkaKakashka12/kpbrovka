@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.kpbrovka"
+        tools:targetApi="31">
+        <activity
+            android:name=".BroEditDescriptionHotelRoom"
+            android:exported="false" />
+        <activity
+            android:name=".DialogBroChooseHotelRoomMainFacilities"
+            android:exported="false" />
+        <activity
+            android:name=".BroEditHotelRoomFacilities"
+            android:exported="false" />
+        <activity
+            android:name=".BroChooseHotelRoomForEdit"
+            android:exported="false" />
+        <activity
+            android:name=".BroHotelRoomEdit"
+            android:exported="false" />
+        <activity
+            android:name=".DialogBroChooseMainFacilities"
+            android:exported="false" />
+        <activity
+            android:name=".BroFacilitiesEditList"
+            android:exported="false" />
+        <activity
+            android:name=".BroFacilitiesEdit"
+            android:exported="false" />
+        <activity
+            android:name=".AdminChekBronist"
+            android:exported="false" />
+        <activity
+            android:name=".BroHotelEdit"
+            android:exported="false" />
+        <activity
+            android:name=".ProfileUserActivity"
+            android:exported="false" />
+        <activity
+            android:name=".BookingUserActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SavedUserActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainUserActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RegistrationActivity"
+            android:exported="true" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
