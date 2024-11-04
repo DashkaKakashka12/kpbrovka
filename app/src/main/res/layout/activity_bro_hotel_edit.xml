@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".BroHotelEdit"
-    android:background="#EBEAEA">
+    android:background="#EBEAEA"
+    android:id="@+id/bro_hotel_edit">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
 
     <TextView
+        android:onClick="onBurger"
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -535,7 +541,7 @@
                         android:layout_marginTop="5dp"
                         android:layout_marginEnd="15dp"
                         android:textSize="8sp"
-                        android:text="Один из лучших и самый любимый отель Минска. Большие номера, удобная кровать, водичка в номер. ..."
+                        android:text="Один из лучших и самый любимый отель Минска. Большие номера, удобная кровать, водичка в номер. ..."/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -563,5 +569,13 @@
         </LinearLayout>
     </ScrollView>
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigationMenu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:menu="@menu/bro_menu" />
+
+</androidx.drawerlayout.widget.DrawerLayout>

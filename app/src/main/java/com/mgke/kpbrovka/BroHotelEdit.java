@@ -2,6 +2,8 @@ package com.mgke.kpbrovka;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -74,4 +76,8 @@ public class BroHotelEdit extends AppCompatActivity {
         finish();
     }
 
+    public void onBurger(View view) {
+        DrawerLayout b = findViewById(R.id.bro_hotel_edit);
+        b.openDrawer(GravityCompat.START);
+    }
 }

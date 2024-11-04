@@ -10,6 +10,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.mgke.kpbrovka.model.HotelRoom;
+import com.mgke.kpbrovka.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,9 +24,12 @@ public class HotelRoomRepository {
         this.db = db;
     }
 
-    public void addHotelRoom(HotelRoom hotelRoom) {
-        db.collection("hotelRooms")
-                .add(hotelRoom);
+
+    public String addHotelRoom(HotelRoom hotelRoom) {
+        String hotelRoomId = db.collection("hotelRooms").document().getId();
+        hotelRoom.id = hotelRoomId;
+        db.collection("hotelRooms").document(hotelRoomId).set(hotelRoom);
+        return hotelRoomId;
     }
 
     public CompletableFuture<List<HotelRoom>> getAllHotelRooms() {
@@ -76,8 +80,8 @@ public class HotelRoomRepository {
                 .delete();
     }
 
-    public void updateHotelRoom(HotelRoom hotelRoom, HotelRoom newHotelRoom) {
+    public void updateHotelRoom(HotelRoom hotelRoom) {
         db.collection("hotelRooms").document(hotelRoom.id)
-                .set(newHotelRoom, SetOptions.merge());
+                .set(hotelRoom);
     }
 }

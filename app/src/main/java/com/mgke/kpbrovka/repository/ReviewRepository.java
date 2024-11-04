@@ -9,6 +9,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
+import com.mgke.kpbrovka.model.Reservation;
 import com.mgke.kpbrovka.model.Review;
 import com.mgke.kpbrovka.model.User;
 
@@ -24,9 +25,12 @@ public class ReviewRepository {
         this.db = db;
     }
 
-    public void addReview(Review review) {
-        db.collection("reviews")
-                .add(review);
+
+    public String addReview(Review review) {
+        String reviewId = db.collection("reviews").document().getId();
+        review.id = reviewId;
+        db.collection("reviews").document(reviewId).set(review);
+        return reviewId;
     }
 
     public CompletableFuture<List<Review>> getAllReviews() {
@@ -77,8 +81,8 @@ public class ReviewRepository {
                 .delete();
     }
 
-    public void updateReview(Review review, User newReview) {
+    public void updateReview(Review review) {
         db.collection("reviews").document(review.id)
-                .set(newReview, SetOptions.merge());
+                .set(review);
     }
 }

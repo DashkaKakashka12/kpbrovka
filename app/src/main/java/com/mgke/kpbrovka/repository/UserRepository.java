@@ -30,9 +30,11 @@ public class UserRepository {
         this.db = db;
     }
 
-    public void addUser(User user) {
-        db.collection("users")
-                .add(user);
+    public String addUser(User user) {
+        String userId = db.collection("users").document().getId();
+        user.id = userId;
+        db.collection("users").document(userId).set(user);
+        return userId;
     }
 
     public CompletableFuture<List<User>> getAllUsers() {
@@ -83,8 +85,8 @@ public class UserRepository {
                 .delete();
     }
 
-    public void updateUser(User user, User newUser) {
+    public void updateUser(User user) {
         db.collection("users").document(user.id)
-                .set(newUser, SetOptions.merge());
+                .set(user);
     }
 }

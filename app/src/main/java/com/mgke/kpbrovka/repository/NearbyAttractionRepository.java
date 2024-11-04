@@ -9,6 +9,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
+import com.mgke.kpbrovka.model.HotelRoom;
 import com.mgke.kpbrovka.model.NearbyAttraction;
 
 import java.util.ArrayList;
@@ -22,9 +23,12 @@ public class NearbyAttractionRepository {
         this.db = db;
     }
 
-    public void addNearbyAttraction(NearbyAttraction nearbyAttraction) {
-        db.collection("NearbyAttraction")
-                .add(nearbyAttraction);
+
+    public String addNearbyAttraction(NearbyAttraction nearbyAttraction) {
+        String nearbyAttractionId = db.collection("NearbyAttraction").document().getId();
+        nearbyAttraction.id = nearbyAttractionId;
+        db.collection("NearbyAttraction").document(nearbyAttractionId).set(nearbyAttraction);
+        return nearbyAttractionId;
     }
 
     public CompletableFuture<List<NearbyAttraction>> getAllNearbyAttractions() {
@@ -75,8 +79,8 @@ public class NearbyAttractionRepository {
                 .delete();
     }
 
-    public void updateNearbyAttraction(NearbyAttraction nearbyAttraction, NearbyAttraction newNearbyAttraction) {
+    public void updateNearbyAttraction(NearbyAttraction nearbyAttraction) {
         db.collection("nearbyAttractions").document(nearbyAttraction.id)
-                .set(newNearbyAttraction, SetOptions.merge());
+                .set(nearbyAttraction);
     }
 }

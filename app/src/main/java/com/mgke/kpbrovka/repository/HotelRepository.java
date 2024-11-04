@@ -4,12 +4,14 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.mgke.kpbrovka.model.Hotel;
+import com.mgke.kpbrovka.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,9 +25,13 @@ public class HotelRepository {
         this.db = db;
     }
 
-    public void addHotel(Hotel hotel) {
-        db.collection("hotels")
-                .add(hotel);
+    public String addHotel(Hotel hotel) {
+        String hotelId = db.collection("hotels").document().getId();
+        hotel.id = hotelId;
+        hotel.dataCreation = Timestamp.now();
+        hotel.dataEdit = Timestamp.now();
+        db.collection("hotels").document(hotelId).set(hotel);
+        return hotelId;
     }
 
     public CompletableFuture<List<Hotel>> getAllHotels() {
@@ -76,8 +82,8 @@ public class HotelRepository {
                 .delete();
     }
 
-    public void updateHotel(Hotel hotel, Hotel newHotel) {
+    public void updateHotel(Hotel hotel) {
         db.collection("hotels").document(hotel.id)
-                .set(newHotel, SetOptions.merge());
+                .set(hotel);
     }
 }
