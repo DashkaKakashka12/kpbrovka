@@ -1,23 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AdminChekBronist"
-    android:background="#EBEAEA">
+    android:background="#EBEAEA"
+    android:id="@+id/admin_chek_bronist">
 
-    <TextView
-        android:id="@+id/toolbar"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:text="DreamStay"
-        android:textColor="@color/black"
-        android:background="@color/white"
-        android:gravity="center"
-        android:textSize="21dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="DreamStay"
+            android:textColor="@color/black"
+            android:background="@color/white"
+            android:gravity="center"
+            android:textSize="21dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+        <ImageView
+            android:onClick="onBurger"
+            android:id="@+id/menu"
+            android:layout_width="27dp"
+            android:layout_height="27dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/menu_burger_icon" />
 
     <LinearLayout
         android:id="@+id/help"
@@ -89,7 +106,9 @@
             android:layout_marginTop="30dp"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:divider="@null"
+            android:dividerHeight="0dp"/>
 
 
     </LinearLayout>
@@ -97,3 +116,13 @@
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+<com.google.android.material.navigation.NavigationView
+
+android:id="@+id/navigationMenu"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:layout_gravity="start"
+app:menu="@menu/admin_menu" />
+
+    </androidx.drawerlayout.widget.DrawerLayout>

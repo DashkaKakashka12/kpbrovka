@@ -2,6 +2,8 @@ package com.mgke.kpbrovka;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -10,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.mgke.kpbrovka.adapter.ListOfBroAdapter;
 import com.mgke.kpbrovka.model.Hotel;
@@ -30,6 +33,10 @@ public class AdminChekBronist extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_chek_bronist);
+
+        NavigationView navigationView = findViewById(R.id.navigationMenu);
+        AdminBurgerMenuSelect navigationListener = new AdminBurgerMenuSelect(this);
+        navigationView.setNavigationItemSelectedListener(navigationListener);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         userRepository = new UserRepository(db);
@@ -136,5 +143,10 @@ public class AdminChekBronist extends AppCompatActivity {
 
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    public void onBurger(View view) {
+        DrawerLayout b = findViewById(R.id.admin_chek_bronist);
+        b.openDrawer(GravityCompat.START);
     }
 }

@@ -13,7 +13,10 @@
         android:theme="@style/Theme.kpbrovka"
         tools:targetApi="31">
         <activity
-            android:name=".BroReviewEdit"
+            android:name=".AdminEditHotel"
+            android:exported="false" />
+        <activity
+            android:name=".BroReservationEdit"
             android:exported="false" />
         <activity
             android:name=".BroCheckReviews"
@@ -47,13 +50,7 @@
             android:exported="false" />
         <activity
             android:name=".AdminChekBronist"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".BroHotelEdit"
             android:exported="false" />
@@ -74,7 +71,13 @@
             android:exported="true" />
         <activity
             android:name=".LoginActivity"
-            android:exported="true"></activity>
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

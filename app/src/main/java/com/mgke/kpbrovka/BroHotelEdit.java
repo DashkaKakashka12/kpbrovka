@@ -8,7 +8,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 
 import com.google.android.material.navigation.NavigationView;
@@ -20,36 +19,9 @@ public class BroHotelEdit extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bro_hotel_edit);
 
-
         NavigationView navigationView = findViewById(R.id.navigationMenu);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
-                Intent a = null;
-
-                if (menuItem.getItemId() == R.id.profile) {
-                    a = new Intent(BroHotelEdit.this, BroHotelEdit.class);
-                } else if (menuItem.getItemId() == R.id.user_profile) {
-                    a = new Intent(BroHotelEdit.this, BroHotelEdit.class);
-                } else if (menuItem.getItemId() == R.id.hotel) {
-                    a = new Intent(BroHotelEdit.this, BroHotelEdit.class);
-                } else if (menuItem.getItemId() == R.id.rooms) {
-                    a = new Intent(BroHotelEdit.this, BroChooseHotelRoomForEdit.class);
-                } else if (menuItem.getItemId() == R.id.dates) {
-                    a = new Intent(BroHotelEdit.this, BroHotelEdit.class);
-                }else if (menuItem.getItemId() == R.id.booking_confirmation) {
-                    a = new Intent(BroHotelEdit.this, BroHotelEdit.class);
-                }else if (menuItem.getItemId() == R.id.cancel_booking) {
-                    a = new Intent(BroHotelEdit.this, BroHotelEdit.class);
-                }else if (menuItem.getItemId() == R.id.visitor_registration) {
-                    a = new Intent(BroHotelEdit.this, BroHotelEdit.class);
-                }
-
-                startActivity(a);
-                finish();
-                return true;
-            }
-        });
+        BroBurgerMenuSelect navigationListener = new BroBurgerMenuSelect(this);
+        navigationView.setNavigationItemSelectedListener(navigationListener);
 
     }
 

@@ -37,12 +37,16 @@
         android:title="Бронирования"
         android:icon="@drawable/checkmark_icon"/>
 
+    <item
+    android:id="@+id/hoteliers"
+    android:orderInCategory="7"
+    android:title="Отельеры"
+    android:icon="@drawable/hotelier_icon"/>
+
 
     <item
         android:id="@+id/visitor_registration"
-        android:orderInCategory="7"
+        android:orderInCategory="8"
         android:title="Регистрация посетителя"
         android:icon="@drawable/man_icon"/>
-
-
 </menu>

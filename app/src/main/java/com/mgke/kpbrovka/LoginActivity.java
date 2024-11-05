@@ -30,4 +30,10 @@ public class LoginActivity extends AppCompatActivity {
         finish();
     }
 
+    public void admin(View b){
+        Intent a = new Intent(this, AdminEditHotel.class);
+        startActivity(a);
+        finish();
+    }
+
 }
