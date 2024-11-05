@@ -12,6 +12,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.mgke.kpbrovka.model.Hotel;
 import com.mgke.kpbrovka.model.User;
+import com.mgke.kpbrovka.model.UserType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +67,25 @@ public class HotelRepository {
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                Hotel hotel = document.toObject(Hotel.class);
+                                future.complete(hotel);
+                            }
+                        }
+                    }
+                });
+
+        return future;
+    }
+
+    public CompletableFuture<Hotel> getHotelByUserId(String userId) {
+        final CompletableFuture<Hotel> future = new CompletableFuture<>();
+
+        db.collection("hotels").whereEqualTo("userId", userId)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
                             if (document.exists()) {
                                 Hotel hotel = document.toObject(Hotel.class);
                                 future.complete(hotel);

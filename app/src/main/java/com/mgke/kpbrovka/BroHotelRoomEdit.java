@@ -16,8 +16,8 @@ public class BroHotelRoomEdit extends AppCompatActivity {
         setContentView(R.layout.activity_bro_hotel_room_edit);
     }
 
-    public void backToBroHotelEdit (View b){
-        Intent a = new Intent(this, BroHotelEdit.class);
+    public void backToBroChooseHotelRoom (View b){
+        Intent a = new Intent(this, BroChooseHotelRoomForEdit.class);
         startActivity(a);
         finish();
     }

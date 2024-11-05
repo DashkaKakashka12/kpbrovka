@@ -46,7 +46,7 @@ public class BroEditHotelRoomFacilities extends AppCompatActivity {
 
 
     public void backToBroHotelEdit (View b){
-        Intent a = new Intent(this, BroHotelEdit.class);
+        Intent a = new Intent(this, BroHotelRoomEdit.class);
         startActivity(a);
         finish();
     }

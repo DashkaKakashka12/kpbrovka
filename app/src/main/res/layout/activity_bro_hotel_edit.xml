@@ -14,7 +14,6 @@
 
 
     <TextView
-        android:onClick="onBurger"
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -26,7 +25,19 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
-    <ScrollView
+
+        <ImageView
+            android:onClick="onBurger"
+            android:id="@+id/menu"
+            android:layout_width="27dp"
+            android:layout_height="27dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/menu_burger_icon" />
+
+        <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="20dp"
@@ -236,7 +247,6 @@
                 <ImageView
                     android:layout_width="21dp"
                     android:layout_height="21dp"
-                    android:onClick="goToBroEditHotelRoom"
                     android:src="@drawable/pencil" />
             </LinearLayout>
 
@@ -262,9 +272,9 @@
                 <ImageView
                     android:layout_width="21dp"
                     android:layout_height="21dp"
-                    android:src="@drawable/pencil" />
+                    android:src="@drawable/pencil"
+                    android:onClick="editReviews"/>
             </LinearLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -364,7 +374,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Персонал" />
+                    android:text="Удобства" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -382,7 +392,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal"
-                android:layout_marginBottom="40dp">
+                android:layout_marginBottom="20dp">
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -415,37 +425,17 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="10dp">
-
-                        <ImageView
-                            android:layout_width="10dp"
-                            android:layout_height="10dp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/star_icon" />
-                        <ImageView
-                            android:layout_width="10dp"
-                            android:layout_height="10dp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/star_icon" />
-                        <ImageView
-                            android:layout_width="10dp"
-                            android:layout_height="10dp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/star_icon" />
-                        <ImageView
-                            android:layout_width="10dp"
-                            android:layout_height="10dp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/star_icon" />
-                        <ImageView
-                            android:layout_width="10dp"
-                            android:layout_height="10dp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/star_icon" />
-
+                        android:orientation="horizontal">
+                        <RatingBar
+                            android:id="@+id/ratingBar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:numStars="5"
+                            android:stepSize="5"
+                            android:scaleX="0.3"
+                            android:scaleY="0.3"/>
                     </LinearLayout>
+
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -557,15 +547,13 @@
             </LinearLayout>
 
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-            </Button>
-
-
-
-
-
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Читать все отзывы"
+                android:layout_gravity="center"
+                android:backgroundTint="#EBEAEA"
+                android:textColor="@color/black"
+                android:onClick="checkReviews"/>
         </LinearLayout>
     </ScrollView>
 
