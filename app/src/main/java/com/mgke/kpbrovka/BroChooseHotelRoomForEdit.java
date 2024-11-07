@@ -19,7 +19,7 @@ public class BroChooseHotelRoomForEdit extends AppCompatActivity {
 
 
         NavigationView navigationView = findViewById(R.id.navigationMenu);
-        BroBurgerMenuSelect navigationListener = new BroBurgerMenuSelect(this);
+        BroBurgerMenuSelect navigationListener = new BroBurgerMenuSelect(this, navigationView);
         navigationView.setNavigationItemSelectedListener(navigationListener);
 
     }

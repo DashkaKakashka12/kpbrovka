@@ -6,22 +6,24 @@ public class Review {
     public String id;
     public String reservationId;
     public Timestamp dataCreation;
-    public Timestamp dataEdit;
-    public int valueForMoney;
-    public int comfort;
-    public int cleanness;
-    public int staff;
-    public int facilities;
+    public int stars;
+    public double valueForMoney;
+    public double comfort;
+    public double cleanness;
+    public double staff;
+
+    public double facilities;
+
     public String text;
 
     public Review() {
     }
 
-    public Review(String id, String reservationId, Timestamp dataCreation, Timestamp dataEdit, int valueForMoney, int comfort, int cleanness, int staff, int facilities, String text) {
+    public Review(String id, String reservationId, Timestamp dataCreation, int stars, double valueForMoney, double comfort, double cleanness, double staff, double facilities, String text) {
         this.id = id;
         this.reservationId = reservationId;
         this.dataCreation = dataCreation;
-        this.dataEdit = dataEdit;
+        this.stars = stars;
         this.valueForMoney = valueForMoney;
         this.comfort = comfort;
         this.cleanness = cleanness;

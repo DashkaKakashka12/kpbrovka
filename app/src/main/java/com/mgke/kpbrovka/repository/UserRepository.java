@@ -80,6 +80,27 @@ public class UserRepository {
         return future;
     }
 
+    public CompletableFuture<User> getUserByName(String userName) {
+        final CompletableFuture<User> future = new CompletableFuture<>();
+
+        db.collection("users").whereEqualTo("name", userName)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            if (document.exists()) {
+                                User user = document.toObject(User.class);
+                                future.complete(user);
+                            }
+                        }
+                        future.complete(null);
+                    }
+                });
+
+        return future;
+    }
+
+
     public CompletableFuture<List<User>> getUsersByUserType(UserType userType) {
         final CompletableFuture<List<User>> future = new CompletableFuture<>();
         List<User> userList = new ArrayList<>();

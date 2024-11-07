@@ -9,12 +9,12 @@ import android.view.View;
 
 import com.google.android.material.navigation.NavigationView;
 
-public class AdminEditHotel extends AppCompatActivity {
+public class AdminHotelEdit extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin_edit_hotel);
+        setContentView(R.layout.activity_admin_hotel_edit);
 
         NavigationView navigationView = findViewById(R.id.navigationMenu1);
         AdminBurgerMenuSelect navigationListener = new AdminBurgerMenuSelect(this);

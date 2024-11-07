@@ -1,46 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:id="@+id/profile"
-        android:orderInCategory="1"
-        android:title="Имечко"
-        android:icon="@drawable/profileuser"/>
 
     <item
         android:id="@+id/user_profile"
-        android:orderInCategory="2"
+        android:orderInCategory="1"
         android:title="Профиль"
         android:icon="@drawable/profileuser"/>
 
     <item
         android:id="@+id/hotel"
-        android:orderInCategory="3"
+        android:orderInCategory="2"
         android:title="Отель"
         android:icon="@drawable/hotel_icon"/>
 
     <item
         android:id="@+id/rooms"
-        android:orderInCategory="4"
+        android:orderInCategory="3"
         android:title="Номера"
         android:icon="@drawable/hotel_room_icon"/>
 
     <item
         android:id="@+id/dates"
-        android:orderInCategory="5"
+        android:orderInCategory="4"
         android:title="Даты"
         android:icon="@drawable/calendar_icon"/>
 
     <item
         android:id="@+id/bookings"
-        android:orderInCategory="6"
+        android:orderInCategory="5"
         android:title="Бронирования"
         android:icon="@drawable/checkmark_icon"/>
 
 
     <item
         android:id="@+id/visitor_registration"
-        android:orderInCategory="7"
+        android:orderInCategory="6"
         android:title="Регистрация посетителя"
         android:icon="@drawable/man_icon"/>
 

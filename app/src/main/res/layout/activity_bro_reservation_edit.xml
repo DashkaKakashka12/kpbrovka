@@ -150,6 +150,7 @@
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigationMenu"
         android:layout_width="match_parent"
+        app:headerLayout="@layout/nav_menu_item_custom"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:menu="@menu/bro_menu" />

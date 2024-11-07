@@ -4,13 +4,20 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
+import com.mgke.kpbrovka.model.Hotel;
+
+import per.wsj.library.AndRatingBar;
 
 public class BroHotelEdit extends AppCompatActivity {
 
@@ -20,7 +27,7 @@ public class BroHotelEdit extends AppCompatActivity {
         setContentView(R.layout.activity_bro_hotel_edit);
 
         NavigationView navigationView = findViewById(R.id.navigationMenu);
-        BroBurgerMenuSelect navigationListener = new BroBurgerMenuSelect(this);
+        BroBurgerMenuSelect navigationListener = new BroBurgerMenuSelect(this, navigationView);
         navigationView.setNavigationItemSelectedListener(navigationListener);
 
     }
@@ -92,6 +99,30 @@ public class BroHotelEdit extends AppCompatActivity {
         Intent a = new Intent(this, BroCheckReviews.class);
         startActivity(a);
         finish();
+    }
+
+    public void setUpValue (Hotel hotel){
+        TextView name = findViewById(R.id.broEditHotelName);
+        RecyclerView facilities = findViewById(R.id.broEditFacilities);
+        TextView adress = findViewById(R.id.broEditAdress);
+        ImageView photo = findViewById(R.id.photo);
+        AndRatingBar stars = findViewById(R.id.stars);
+        AndRatingBar stars2 = findViewById(R.id.stars2);
+        ImageView userIcon = findViewById(R.id.userIcon);
+        ImageView userIcon2 = findViewById(R.id.userIcon2);
+        TextView textOfReview = findViewById(R.id.textOfReview);
+        TextView textOfReview2 = findViewById(R.id.textOfReview2);
+        ProgressBar progressBar1 = findViewById(R.id.progressBar1);
+        ProgressBar progressBar2 = findViewById(R.id.progressBar2);
+        ProgressBar progressBar3 = findViewById(R.id.progressBar3);
+        ProgressBar progressBar4 = findViewById(R.id.progressBar4);
+        ProgressBar progressBar5 = findViewById(R.id.progressBar5);
+        TextView int1 = findViewById(R.id.int1);
+        TextView int2 = findViewById(R.id.int2);
+        TextView int3 = findViewById(R.id.int3);
+        TextView int4 = findViewById(R.id.int4);
+        TextView int5 = findViewById(R.id.int5);
+
     }
 
 

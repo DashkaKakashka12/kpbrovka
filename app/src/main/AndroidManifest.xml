@@ -13,7 +13,10 @@
         android:theme="@style/Theme.kpbrovka"
         tools:targetApi="31">
         <activity
-            android:name=".AdminEditHotel"
+            android:name=".BroProfileEdit"
+            android:exported="false" />
+        <activity
+            android:name=".AdminHotelEdit"
             android:exported="false" />
         <activity
             android:name=".BroReservationEdit"

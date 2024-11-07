@@ -21,7 +21,7 @@ public class BroReservationEdit extends AppCompatActivity {
         setContentView(R.layout.activity_bro_reservation_edit);
 
         NavigationView navigationView = findViewById(R.id.navigationMenu);
-        BroBurgerMenuSelect navigationListener = new BroBurgerMenuSelect(this);
+        BroBurgerMenuSelect navigationListener = new BroBurgerMenuSelect(this, navigationView);
         navigationView.setNavigationItemSelectedListener(navigationListener);
 
         indicator1 = findViewById(R.id.indecator1);

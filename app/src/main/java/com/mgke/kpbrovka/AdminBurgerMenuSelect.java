@@ -19,21 +19,21 @@ public class AdminBurgerMenuSelect implements NavigationView.OnNavigationItemSel
 
 
         if (menuItem.getItemId() == R.id.profile) {
-            a = new Intent(context, AdminEditHotel.class);
+            a = new Intent(context, AdminHotelEdit.class);
         } else if (menuItem.getItemId() == R.id.user_profile) {
-            a = new Intent(context, AdminEditHotel.class);
+            a = new Intent(context, AdminHotelEdit.class);
         } else if (menuItem.getItemId() == R.id.hotel) {
-            a = new Intent(context, AdminEditHotel.class);
+            a = new Intent(context, AdminHotelEdit.class);
         } else if (menuItem.getItemId() == R.id.rooms) {
-            a = new Intent(context, AdminEditHotel.class);
+            a = new Intent(context, AdminHotelEdit.class);
         } else if (menuItem.getItemId() == R.id.dates) {
-            a = new Intent(context, AdminEditHotel.class);
+            a = new Intent(context, AdminHotelEdit.class);
         }else if (menuItem.getItemId() == R.id.bookings) {
-            a = new Intent(context, AdminEditHotel.class);
+            a = new Intent(context, AdminHotelEdit.class);
         }else if (menuItem.getItemId() == R.id.hoteliers) {
             a = new Intent(context, AdminChekBronist.class);
         }else if (menuItem.getItemId() == R.id.visitor_registration) {
-            a = new Intent(context, AdminEditHotel.class);
+            a = new Intent(context, AdminHotelEdit.class);
         }
 
 
