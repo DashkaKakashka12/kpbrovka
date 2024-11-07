@@ -7,9 +7,10 @@
 
 
     <EditText
+        android:id="@+id/rename"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Старое название"
+        android:hint="Название"
         android:background="@color/white"
         android:textSize="20dp"
         android:layout_margin="40dp"/>

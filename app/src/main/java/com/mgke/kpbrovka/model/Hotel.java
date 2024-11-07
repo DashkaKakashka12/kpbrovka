@@ -4,13 +4,15 @@ package com.mgke.kpbrovka.model;
 
 import com.google.firebase.Timestamp;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class Hotel {
     public String id;
 
-    public List<String> facilities;
+    public List<String> facilities = new ArrayList<>();
+    public String adress;
     public String hotelName;
     public String photos;
     public String description;
@@ -21,9 +23,10 @@ public class Hotel {
     public Coordinates coordinates;
 
 
-    public Hotel(String id, List<String> facilities, String hotelName, String photos, String description, boolean isActive, String userId, Timestamp dataCreation, Timestamp dataEdit, Coordinates coordinates) {
+    public Hotel(String id, List<String> facilities, String adress, String hotelName, String photos, String description, boolean isActive, String userId, Timestamp dataCreation, Timestamp dataEdit, Coordinates coordinates) {
         this.id = id;
         this.facilities = facilities;
+        this.adress = adress;
         this.hotelName = hotelName;
         this.photos = photos;
         this.description = description;
@@ -33,7 +36,6 @@ public class Hotel {
         this.dataEdit = dataEdit;
         this.coordinates = coordinates;
     }
-
 
     public Hotel() {
     }

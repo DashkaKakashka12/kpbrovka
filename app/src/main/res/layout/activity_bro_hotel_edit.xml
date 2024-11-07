@@ -73,6 +73,7 @@
                     android:textSize="16sp" />
 
                 <ImageView
+                    android:onClick="onClickOpenGallery"
                     android:id="@+id/broEditPhoto"
                     android:layout_width="21dp"
                     android:layout_height="21dp"
@@ -134,14 +135,9 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/broEditFacilities"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <TextView
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Все удобства >"
-                android:textSize="10sp" />
+                android:orientation="horizontal"/>
+
 
             <LinearLayout
                 android:layout_width="match_parent"

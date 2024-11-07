@@ -42,6 +42,8 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
 
     implementation ("com.github.wdsqjq:AndRatingBar:1.0.6")
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
+    implementation("com.google.firebase:firebase-storage")
 
     implementation(platform("com.google.firebase:firebase-bom:33.3.0"))
     implementation("com.google.firebase:firebase-analytics")
