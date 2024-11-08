@@ -9,8 +9,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
+import com.mgke.kpbrovka.model.Hotel;
 import com.mgke.kpbrovka.model.HotelRoom;
 import com.mgke.kpbrovka.model.User;
+import com.mgke.kpbrovka.model.UserType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +32,27 @@ public class HotelRoomRepository {
         hotelRoom.id = hotelRoomId;
         db.collection("hotelRooms").document(hotelRoomId).set(hotelRoom);
         return hotelRoomId;
+    }
+
+    public CompletableFuture<List<HotelRoom>> getHotelRoomByHotelId(String hotelId) {
+        final CompletableFuture<List<HotelRoom>> future = new CompletableFuture<>();
+        List<HotelRoom> hotelRoomList = new ArrayList<>();
+
+        db.collection("hotelRooms").whereEqualTo("hotelId", hotelId)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            if (document.exists()) {
+                                HotelRoom hotelRoom = document.toObject(HotelRoom.class);
+                                hotelRoomList.add(hotelRoom);
+                            }
+                        }
+                        future.complete(hotelRoomList);
+                    }
+                });
+
+        return future;
     }
 
     public CompletableFuture<List<HotelRoom>> getAllHotelRooms() {
