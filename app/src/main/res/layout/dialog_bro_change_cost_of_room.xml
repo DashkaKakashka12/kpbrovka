@@ -56,20 +56,22 @@
             android:layout_margin="5dp">
 
             <EditText
+                android:id="@+id/cost1"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:hint="Прошлая цена"
+                android:hint="Цена"
                 android:background="@color/white"
                 android:padding="5dp"
                 android:gravity="center"
                 android:textSize="20sp" />
 
             <EditText
+                android:id="@+id/cost2"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:hint="Прошлая цена"
+                android:hint="Цена"
                 android:background="@color/white"
                 android:padding="5dp"
                 android:gravity="center"

@@ -157,7 +157,7 @@ public class BroHotelEdit extends AppCompatActivity {
 
     public void broEditFacilities(View b) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View customView = getLayoutInflater().inflate(R.layout.activity_dialog_bro_choose_main_facilities, null);
+        View customView = getLayoutInflater().inflate(R.layout.dialog_bro_choose_main_facilities, null);
 
         CheckBox[] checkBoxes = new CheckBox[]{
                 customView.findViewById(R.id.checkBoxSafe),

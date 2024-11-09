@@ -39,6 +39,7 @@
 
 
             <ListView
+                android:layout_margin="20dp"
                 android:id="@+id/listOfRooms"
                 android:divider="@null"
                 android:dividerHeight="10dp"
@@ -46,9 +47,11 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/bottom"/>
 
             <LinearLayout
+                android:id="@+id/bottom"
                 android:onClick="broEditHotelRoom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

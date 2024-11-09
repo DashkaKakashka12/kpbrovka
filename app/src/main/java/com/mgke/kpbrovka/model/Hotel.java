@@ -18,12 +18,10 @@ public class Hotel {
     public String description;
     public boolean isActive;
     public String userId;
-    public Timestamp dataCreation;
-    public Timestamp dataEdit;
     public Coordinates coordinates;
 
 
-    public Hotel(String id, List<String> facilities, String adress, String hotelName, String photos, String description, boolean isActive, String userId, Timestamp dataCreation, Timestamp dataEdit, Coordinates coordinates) {
+    public Hotel(String id, List<String> facilities, String adress, String hotelName, String photos, String description, boolean isActive, String userId, Coordinates coordinates) {
         this.id = id;
         this.facilities = facilities;
         this.adress = adress;
@@ -32,8 +30,6 @@ public class Hotel {
         this.description = description;
         this.isActive = isActive;
         this.userId = userId;
-        this.dataCreation = dataCreation;
-        this.dataEdit = dataEdit;
         this.coordinates = coordinates;
     }
 

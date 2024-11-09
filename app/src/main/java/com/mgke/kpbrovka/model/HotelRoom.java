@@ -9,10 +9,10 @@ public class HotelRoom {
 
     public String id;
     public String hotelId;
-    public Timestamp dataCreation;
     public String photos;
 
     public String name;
+    public String description;
 
     public List<String> facilities = new ArrayList<>();
     public double costWithout;
@@ -25,12 +25,12 @@ public class HotelRoom {
     public HotelRoom() {
     }
 
-    public HotelRoom(String id, String hotelId, Timestamp dataCreation, String photos, String name, List<String> facilities, double costWithout, double costWith, int count) {
+    public HotelRoom(String id, String hotelId, String photos, String name, String description, List<String> facilities, double costWithout, double costWith, int count) {
         this.id = id;
         this.hotelId = hotelId;
-        this.dataCreation = dataCreation;
         this.photos = photos;
         this.name = name;
+        this.description = description;
         this.facilities = facilities;
         this.costWithout = costWithout;
         this.costWith = costWith;

@@ -4,9 +4,10 @@
     android:layout_height="match_parent">
 
     <EditText
+        android:id="@+id/countOfHotelRooms"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Прошлое количество номеров"
+        android:hint="Количество номеров"
         android:background="@color/white"
         android:textSize="20dp"
         android:layout_margin="40dp"/>

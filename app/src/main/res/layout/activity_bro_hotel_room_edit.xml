@@ -65,6 +65,7 @@
                     android:textSize="16sp" />
 
                 <ImageView
+                    android:onClick="onClickOpenGallery"
                     android:id="@+id/pensil"
                     android:layout_width="21dp"
                     android:layout_height="21dp"
@@ -99,10 +100,40 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="Номер стандарт с 1 двуспальной кроватью" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Описание" />
+
+                <ImageView
+                    android:id="@+id/photo121"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
+                    app:srcCompat="@drawable/pencil"
+                    android:onClick="broEditHotelRoomDescription"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/descriptionText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text=" Доступ в интернет: в номерах \n
+Доступ в интернет: на всей территории отеля\n
+Доступ в интернет: бесплатный" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -124,59 +155,12 @@
                     android:onClick="broEditFacilitiesOfRoom"/>
             </LinearLayout>
 
-            <HorizontalScrollView
+            <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:scrollbars="none">
+                android:orientation="horizontal"
+                android:id="@+id/listFacilities"/>
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Утюг" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
-                        android:text="Рабочее место" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
-                        android:text="Мини-бар" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
-                        android:text="Сейф" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
-                        android:text="Фен" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
-                        android:text="Холодильник" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
-                        android:text="Все удобства >"
-                        android:onClick="facilitiesListHotelRoom"/>
-                </LinearLayout>
-            </HorizontalScrollView>
 
 
             <LinearLayout
@@ -211,12 +195,14 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/cost1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Без питания\n510BYN" />
 
                 <TextView
+                    android:id="@+id/cost2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -245,11 +231,12 @@
                 <ImageView
                     android:layout_width="21dp"
                     android:layout_height="21dp"
-                    android:onClick="broChangeNumberOfRooms"
+                    android:onClick="broChangeCountOfRooms"
                     android:src="@drawable/pencil" />
             </LinearLayout>
 
             <TextView
+                android:id="@+id/countOfRooms"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"

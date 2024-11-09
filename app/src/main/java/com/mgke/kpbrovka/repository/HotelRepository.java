@@ -29,8 +29,6 @@ public class HotelRepository {
     public String addHotel(Hotel hotel) {
         String hotelId = db.collection("hotels").document().getId();
         hotel.id = hotelId;
-        hotel.dataCreation = Timestamp.now();
-        hotel.dataEdit = Timestamp.now();
         db.collection("hotels").document(hotelId).set(hotel);
         return hotelId;
     }

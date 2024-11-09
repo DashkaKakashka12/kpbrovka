@@ -4,8 +4,6 @@ import com.google.firebase.Timestamp;
 
 public class Reservation {
     public String id;
-    public Timestamp dataCreation;
-    public Timestamp dataEdit;
     public String userId;
     public String contactInformation;
     public String wishesForTheNumber;
@@ -15,10 +13,8 @@ public class Reservation {
     public Reservation() {
     }
 
-    public Reservation(String id, Timestamp dataCreation, Timestamp dataEdit, String userId, String contactInformation, String wishesForTheNumber, String status, String hotelRoomId) {
+    public Reservation(String id, String userId, String contactInformation, String wishesForTheNumber, String status, String hotelRoomId) {
         this.id = id;
-        this.dataCreation = dataCreation;
-        this.dataEdit = dataEdit;
         this.userId = userId;
         this.contactInformation = contactInformation;
         this.wishesForTheNumber = wishesForTheNumber;
