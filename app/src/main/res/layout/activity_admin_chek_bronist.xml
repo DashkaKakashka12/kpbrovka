@@ -119,10 +119,11 @@
 
 <com.google.android.material.navigation.NavigationView
 
-android:id="@+id/navigationMenu"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:layout_gravity="start"
-app:menu="@menu/admin_menu" />
+    android:id="@+id/navigationMenu"
+    app:headerLayout="@layout/user_nav_menu_item_custom"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="start"
+    app:menu="@menu/admin_menu" />
 
     </androidx.drawerlayout.widget.DrawerLayout>

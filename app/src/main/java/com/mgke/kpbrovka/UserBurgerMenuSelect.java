@@ -1,4 +1,5 @@
 package com.mgke.kpbrovka;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -7,12 +8,12 @@ import android.view.View;
 
 import com.google.android.material.navigation.NavigationView;
 
-public class AdminBurgerMenuSelect implements NavigationView.OnNavigationItemSelectedListener {
+public class UserBurgerMenuSelect implements NavigationView.OnNavigationItemSelectedListener {
 
     private Context context;
     private NavigationView navigationView;
 
-    public AdminBurgerMenuSelect(Context context, NavigationView navigationView) {
+    public UserBurgerMenuSelect(Context context, NavigationView navigationView) {
         this.context = context;
         this.navigationView = navigationView;
         setupMenu();
@@ -32,7 +33,7 @@ public class AdminBurgerMenuSelect implements NavigationView.OnNavigationItemSel
         });
     }
 
-    public AdminBurgerMenuSelect(Context context) {
+    public UserBurgerMenuSelect(Context context) {
         this.context = context;
     }
 
@@ -40,21 +41,14 @@ public class AdminBurgerMenuSelect implements NavigationView.OnNavigationItemSel
     public boolean onNavigationItemSelected(MenuItem menuItem) {
         Intent a = null;
 
-
         if (menuItem.getItemId() == R.id.user_profile) {
-            a = new Intent(context, AdminHotelEdit.class);
-        } else if (menuItem.getItemId() == R.id.hotel) {
-            a = new Intent(context, AdminHotelEdit.class);
-        } else if (menuItem.getItemId() == R.id.rooms) {
-            a = new Intent(context, AdminHotelEdit.class);
-        } else if (menuItem.getItemId() == R.id.dates) {
-            a = new Intent(context, AdminHotelEdit.class);
-        }else if (menuItem.getItemId() == R.id.bookings) {
-            a = new Intent(context, AdminHotelEdit.class);
-        }else if (menuItem.getItemId() == R.id.hoteliers) {
-            a = new Intent(context, AdminChekBronist.class);
-        }else if (menuItem.getItemId() == R.id.visitor_registration) {
-            a = new Intent(context, AdminHotelEdit.class);
+            a = new Intent(context, ProfileUserActivity.class);
+        } else if (menuItem.getItemId() == R.id.find) {
+            a = new Intent(context, MainUserActivity.class);
+        } else if (menuItem.getItemId() == R.id.saved) {
+            a = new Intent(context, SavedUserActivity.class);
+        } else if (menuItem.getItemId() == R.id.bookings) {
+            a = new Intent(context, MainUserActivity.class);
         }
 
 

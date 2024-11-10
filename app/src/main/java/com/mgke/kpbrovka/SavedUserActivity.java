@@ -1,10 +1,14 @@
 package com.mgke.kpbrovka;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import com.google.android.material.navigation.NavigationView;
 
 public class SavedUserActivity extends AppCompatActivity {
 
@@ -12,23 +16,15 @@ public class SavedUserActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saved_user);
+
+        NavigationView navigationView = findViewById(R.id.navigationMenuUser);
+        UserBurgerMenuSelect navigationListener = new UserBurgerMenuSelect(this);
+        navigationView.setNavigationItemSelectedListener(navigationListener);
     }
 
-    public void findClick(View view) {
-        Intent intent = new Intent(this, MainUserActivity.class);
-        startActivity(intent);
-        finish();
+    public void onBurger(View view) {
+        DrawerLayout b = findViewById(R.id.saved_user);
+        b.openDrawer(GravityCompat.START);
     }
 
-    public void bookingClick(View view) {
-        Intent intent = new Intent(this, BookingUserActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
-    public void profileUserClick(View view) {
-        Intent intent = new Intent(this, ProfileUserActivity.class);
-        startActivity(intent);
-        finish();
-    }
 }

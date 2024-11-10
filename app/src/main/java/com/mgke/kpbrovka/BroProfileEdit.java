@@ -1,32 +1,108 @@
 package com.mgke.kpbrovka;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.mgke.kpbrovka.auth.Authentication;
+import com.mgke.kpbrovka.model.User;
+import com.mgke.kpbrovka.repository.UserRepository;
 
 public class BroProfileEdit extends AppCompatActivity {
 
+    private ActivityResultLauncher<Intent> imagePickerLauncher;
+    public UserRepository userRepository;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bro_profile_edit);
 
+        setValue();
+        userRepository = new UserRepository(FirebaseFirestore.getInstance());
 
+
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageReference = storage.getReference();
+        imagePickerLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                        Uri imageUri = result.getData().getData();
+                        if (imageUri != null) {
+                            ImageView photo = findViewById(R.id.photo);
+                            Glide.with(this).load(imageUri).apply(new RequestOptions()
+                                    .centerCrop()
+                                    .circleCrop()).into(photo);
+
+                            String userId = Authentication.user.id;
+                            StorageReference userRef = storageReference.child("users/" + userId + ".jpg");
+
+                            UploadTask uploadTask = userRef.putFile(imageUri);
+                            uploadTask.addOnSuccessListener(taskSnapshot -> userRef.getDownloadUrl().addOnSuccessListener(downloadUri -> {
+                                String imageUrlString = downloadUri.toString();
+
+                                Authentication.user.photo = imageUrlString;
+                                userRepository.updateUser(Authentication.user);
+                            }));
+                        }
+                    }
+                });
     }
 
+    private void setValue (){
+        ImageView photo = findViewById(R.id.photo);
+        TextView name = findViewById(R.id.name);
+        TextView pass = findViewById(R.id.password);
+        TextView email = findViewById(R.id.email);
+
+
+        Glide.with(this).load(Authentication.user.photo).apply(new RequestOptions()
+                .centerCrop()
+                .circleCrop()).into(photo);
+
+        name.setText(Authentication.user.name);
+        pass.setText(Authentication.user.pass);
+        email.setText(Authentication.user.email);
+
+    }
     public void broEditName(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View customView = getLayoutInflater().inflate(R.layout.dialog_bro_edit_name, null);
+        EditText name = customView.findViewById(R.id.name);
+        name.setText(Authentication.user.name);
         builder.setView(customView);
         builder.setTitle("Имя")
                 .setPositiveButton("ОК", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        Authentication.user.name = name.getText().toString();
+                        userRepository.updateUser(Authentication.user);
+                        TextView nameUser = findViewById(R.id.name);
+                        nameUser.setText(Authentication.user.name);
                     }
                 })
                 .setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
@@ -43,11 +119,17 @@ public class BroProfileEdit extends AppCompatActivity {
     public void broEditPassword(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View customView = getLayoutInflater().inflate(R.layout.dialog_bro_edit_password, null);
+        EditText pass = customView.findViewById(R.id.password1);
+        pass.setText(Authentication.user.pass);
         builder.setView(customView);
-        builder.setTitle("Имя")
+        builder.setTitle("Пароль")
                 .setPositiveButton("ОК", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        Authentication.user.pass = pass.getText().toString();
+                        userRepository.updateUser(Authentication.user);
+                        TextView namePass = findViewById(R.id.password);
+                        namePass.setText(Authentication.user.pass);
                     }
                 })
                 .setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
@@ -64,11 +146,17 @@ public class BroProfileEdit extends AppCompatActivity {
     public void broEditEmail(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View customView = getLayoutInflater().inflate(R.layout.dialog_bro_edit_email, null);
+        EditText email = customView.findViewById(R.id.editEmail1);
+        email.setText(Authentication.user.email);
         builder.setView(customView);
-        builder.setTitle("Имя")
+        builder.setTitle("Email")
                 .setPositiveButton("ОК", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        Authentication.user.email = email.getText().toString();
+                        userRepository.updateUser(Authentication.user);
+                        TextView emailUser = findViewById(R.id.editEmail1);
+                        emailUser.setText(Authentication.user.email);
                     }
                 })
                 .setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
@@ -88,33 +176,42 @@ public class BroProfileEdit extends AppCompatActivity {
         finish();
     }
 
+    public void back (View b){
+        Intent a = new Intent(this, BroHotelEdit.class);
+        startActivity(a);
+        finish();
+    }
 
-    public boolean onNavigationItemSelected(MenuItem menuItem) {
-        int menuId = menuItem.getItemId();
 
-        if (menuId == R.id.profile) {
-            Intent profileIntent = new Intent(this, BroProfileEdit.class);
-            startActivity(profileIntent);
-        } else if (menuId == R.id.hotel) {
-            Intent userProfileIntent = new Intent(this, BroHotelEdit.class);
-            startActivity(userProfileIntent);
-        } if (menuId == R.id.rooms) {
-            Intent profileIntent = new Intent(this, BroChooseHotelRoomForEdit.class);
-            startActivity(profileIntent);
-        } else if (menuId == R.id.dates) {
-            Intent userProfileIntent = new Intent(this, BroReservationEdit.class);
-            startActivity(userProfileIntent);
-        } if (menuId == R.id.bookings) {
-            Intent profileIntent = new Intent(this, BroReservationEdit.class);
-            startActivity(profileIntent);
-        } else if (menuId == R.id.visitor_registration) {
-            Intent userProfileIntent = new Intent(this, BroReservationEdit.class);
-            startActivity(userProfileIntent);
+    public void onClickOpenGallery(View view) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_MEDIA_IMAGES)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.READ_MEDIA_IMAGES}, 1);
+            } else {
+                openGallery();
+            }
+        } else {
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+            } else {
+                openGallery();
+            }
         }
-        else {
-            return false;
+    }
+
+    private void openGallery() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        imagePickerLauncher.launch(intent);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            openGallery();
         }
-        return true;
     }
 }
 

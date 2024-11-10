@@ -100,6 +100,7 @@ public class BroHotelEdit extends AppCompatActivity {
 
 
 
+
     public void broRenameHotel(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View customView = getLayoutInflater().inflate(R.layout.dialog_bro_rename_hotel, null);
@@ -114,6 +115,10 @@ public class BroHotelEdit extends AppCompatActivity {
                         hotelRepository.updateHotel(hotel);
                         TextView name = findViewById(R.id.broEditHotelName);
                         name.setText(hotel.hotelName);
+                        NavigationView navigationView = findViewById(R.id.navigationMenu);
+                        View nav = navigationView.getHeaderView(0);
+                        TextView hotelName = nav.findViewById(R.id.subtitle);
+                        hotelName.setText("Бронист отеля " + hotel.hotelName);
                     }
                 })
                 .setNegativeButton("Отмена", new DialogInterface.OnClickListener() {

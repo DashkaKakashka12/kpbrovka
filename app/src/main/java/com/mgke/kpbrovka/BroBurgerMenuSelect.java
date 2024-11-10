@@ -6,9 +6,18 @@ import android.content.Intent;
 
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.mgke.kpbrovka.auth.Authentication;
+import com.mgke.kpbrovka.repository.HotelRepository;
+import com.mgke.kpbrovka.repository.UserRepository;
 
 public class BroBurgerMenuSelect implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -23,6 +32,19 @@ public class BroBurgerMenuSelect implements NavigationView.OnNavigationItemSelec
 
     private void setupMenu() {
         View view = navigationView.getHeaderView(0);
+        TextView name = view.findViewById(R.id.title);
+        name.setText(Authentication.user.name);
+        ImageView photo = view.findViewById(R.id.icon);
+        Glide.with(context).load(Authentication.user.photo).apply(new RequestOptions()
+                .centerCrop()
+                .circleCrop()).into(photo);
+        HotelRepository hotelRepository = new HotelRepository(FirebaseFirestore.getInstance());
+        hotelRepository.getHotelByUserId(Authentication.user.id).thenAccept(hotel -> {
+            TextView hotelName = view.findViewById(R.id.subtitle);
+            hotelName.setText("Бронист отеля " + hotel.hotelName);
+        });
+
+
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -33,7 +55,11 @@ public class BroBurgerMenuSelect implements NavigationView.OnNavigationItemSelec
                 }
             }
         });
+
+
     }
+
+
 
     @Override
     public boolean onNavigationItemSelected(MenuItem menuItem) {
@@ -56,6 +82,7 @@ public class BroBurgerMenuSelect implements NavigationView.OnNavigationItemSelec
         if (intent != null) {
             context.startActivity(intent);
             ((Activity) context).finish();
+
         }
 
         return true;
