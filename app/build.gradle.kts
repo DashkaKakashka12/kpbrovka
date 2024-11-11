@@ -45,6 +45,11 @@ dependencies {
     implementation ("com.github.bumptech.glide:glide:4.16.0")
     implementation("com.google.firebase:firebase-storage")
 
+    runtimeOnly("com.cloudinary:cloudinary-android-core:3.0.2")
+    implementation("com.cloudinary:cloudinary-android-preprocess:3.0.2")
+    implementation("com.cloudinary:cloudinary-android:3.0.2")
+    implementation("com.cloudinary:cloudinary-android-ui:3.0.2")
+
     implementation(platform("com.google.firebase:firebase-bom:33.3.0"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth")

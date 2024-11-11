@@ -69,8 +69,6 @@ public class BroHotelEdit extends AppCompatActivity {
         });
 
 
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageReference = storage.getReference();
         imagePickerLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
@@ -83,15 +81,17 @@ public class BroHotelEdit extends AppCompatActivity {
                                     .into(photo);
 
                             String hotelId = hotel.id;
-                            StorageReference hotelRef = storageReference.child("hotels/" + hotelId + ".jpg");
+                            CloudinaryUploader uploader = new CloudinaryUploader(this);
 
-                            UploadTask uploadTask = hotelRef.putFile(imageUri);
-                            uploadTask.addOnSuccessListener(taskSnapshot -> hotelRef.getDownloadUrl().addOnSuccessListener(downloadUri -> {
-                                String imageUrlString = downloadUri.toString();
-
-                                hotel.photos = imageUrlString;
-                                hotelRepository.updateHotel(hotel);
-                            }));
+                            uploader.uploadImage(imageUri, hotelId, new CloudinaryUploader.UploadCallback() {
+                                @Override
+                                public void onUploadComplete(String imageUrl) {
+                                    if (imageUrl != null) {
+                                        hotel.photos = imageUrl;
+                                        hotelRepository.updateHotel(hotel);
+                                    }
+                                }
+                            });
                         }
                     }
                 });

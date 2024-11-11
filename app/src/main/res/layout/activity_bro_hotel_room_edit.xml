@@ -75,6 +75,7 @@
 
             <ImageView
                 android:id="@+id/photo"
+                android:scaleType="fitXY"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 app:srcCompat="@drawable/photo1" />
@@ -134,6 +135,27 @@
                 android:text=" Доступ в интернет: в номерах \n
 Доступ в интернет: на всей территории отеля\n
 Доступ в интернет: бесплатный" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Тип кровати" />
+
+                <ImageView
+                    android:id="@+id/photo3"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
+                    app:srcCompat="@drawable/pencil"
+                    android:onClick="broEditHotelRoomTypeOfBed"/>
+            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"

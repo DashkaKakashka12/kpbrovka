@@ -44,9 +44,6 @@ public class BroProfileEdit extends AppCompatActivity {
         setValue();
         userRepository = new UserRepository(FirebaseFirestore.getInstance());
 
-
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageReference = storage.getReference();
         imagePickerLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
@@ -59,15 +56,16 @@ public class BroProfileEdit extends AppCompatActivity {
                                     .circleCrop()).into(photo);
 
                             String userId = Authentication.user.id;
-                            StorageReference userRef = storageReference.child("users/" + userId + ".jpg");
-
-                            UploadTask uploadTask = userRef.putFile(imageUri);
-                            uploadTask.addOnSuccessListener(taskSnapshot -> userRef.getDownloadUrl().addOnSuccessListener(downloadUri -> {
-                                String imageUrlString = downloadUri.toString();
-
-                                Authentication.user.photo = imageUrlString;
-                                userRepository.updateUser(Authentication.user);
-                            }));
+                            CloudinaryUploader uploader = new CloudinaryUploader(this);
+                            uploader.uploadImage(imageUri, userId, new CloudinaryUploader.UploadCallback() {
+                                @Override
+                                public void onUploadComplete(String imageUrl) {
+                                    if (imageUrl != null) {
+                                        Authentication.user.photo = imageUrl;
+                                        userRepository.updateUser(Authentication.user);
+                                    }
+                                }
+                            });
                         }
                     }
                 });
