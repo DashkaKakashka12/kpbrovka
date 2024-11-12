@@ -64,7 +64,9 @@
                 android:background="@color/white"
                 android:padding="5dp"
                 android:gravity="center"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:inputType="numberDecimal"
+                android:maxLength="6"/>
 
             <EditText
                 android:id="@+id/cost2"
@@ -76,7 +78,9 @@
                 android:padding="5dp"
                 android:gravity="center"
                 android:layout_marginStart="20dp"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:inputType="numberDecimal"
+                android:maxLength="6"/>
 
         </LinearLayout>
 

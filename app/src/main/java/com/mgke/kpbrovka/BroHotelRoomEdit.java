@@ -18,11 +18,16 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.InputFilter;
+import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -40,6 +45,7 @@ public class BroHotelRoomEdit extends AppCompatActivity {
     private HotelRoom hotelRoom;
     private HotelRoomRepository hotelRoomRepository;
     private FacilitiesAdapter adapter;
+    private TextView mainTextView;
     private ActivityResultLauncher<Intent> imagePickerLauncher;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,9 +96,11 @@ public class BroHotelRoomEdit extends AppCompatActivity {
         TextView cost2 = findViewById(R.id.cost2);
         TextView countOfRooms = findViewById(R.id.countOfRooms);
         TextView description = findViewById(R.id.descriptionText);
+        TextView type = findViewById(R.id.type);
 
         Glide.with(this).load(hotelRoom.photos).into(photo);
         name.setText(hotelRoom.name);
+        type.setText(hotelRoom.typeOfBed);
         cost1.setText("Без питания\n" + hotelRoom.costWithout);
         cost2.setText("Включён завтрак\n" + hotelRoom.costWith);
         countOfRooms.setText(String.valueOf(hotelRoom.count));
@@ -109,7 +117,7 @@ public class BroHotelRoomEdit extends AppCompatActivity {
         finish();
     }
 
-    public void broEditFacilitiesOfRoom (View b){
+    public void broEditFacilitiesOfRoom(View b){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View customView = getLayoutInflater().inflate(R.layout.dialog_bro_choose_hotel_room_main_facilities, null);
 
@@ -160,17 +168,79 @@ public class BroHotelRoomEdit extends AppCompatActivity {
 
     }
 
-    public void broEditHotelRoomDescription (View b){
+
+    public void broChooseTypeOfBedHotelRoom(View b) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View customView = getLayoutInflater().inflate(R.layout.dialog_bro_choose_type_of_bad, null);
+
+        CheckBox[] checkBoxes = new CheckBox[]{
+                customView.findViewById(R.id.bed1),
+                customView.findViewById(R.id.bedLittle2),
+                customView.findViewById(R.id.bed2),
+                customView.findViewById(R.id.bedLittle1)
+        };
+
+        String[] typeOfBed = {"1 двухспальная кровать", "2 односпальные кровати", "2 двухспальные кровати", "1 односпальная кровать"};
+
+        for (int i = 0; i < typeOfBed.length; i++) {
+            checkBoxes[i].setChecked(hotelRoom.typeOfBed.equals(typeOfBed[i]));
+
+
+            checkBoxes[i].setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (isChecked) {
+                    // Сбрасываем состояние других чекбоксов
+                    for (int j = 0; j < checkBoxes.length; j++) {
+                        if (checkBoxes[j] != buttonView) {
+                            checkBoxes[j].setChecked(false);
+                        }
+                    }
+                }
+            });
+        }
+
+
+        builder.setView(customView)
+                .setTitle("Выбор кровати")
+                .setPositiveButton("ОК", (dialog, which) -> {
+                    String selectedType = null;
+                    for (int i = 0; i < checkBoxes.length; i++) {
+                        if (checkBoxes[i].isChecked()) {
+                            selectedType = typeOfBed[i];
+                        }
+                    }
+
+                    hotelRoom.typeOfBed = selectedType;
+                    hotelRoomRepository.updateHotelRoom(hotelRoom);
+                    TextView mainTextView = findViewById(R.id.type);
+                    mainTextView.setText(hotelRoom.typeOfBed);
+
+                })
+                .setNegativeButton("Отмена", (dialog, which) -> dialog.dismiss());
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+
+    public void broEditHotelRoomDescription(View b) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View customView = getLayoutInflater().inflate(R.layout.dialog_bro_edit_hotel_room_description, null);
         EditText editText = customView.findViewById(R.id.description);
         editText.setText(hotelRoom.description);
+
         builder.setView(customView);
         builder.setTitle("Описание")
                 .setPositiveButton("ОК", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        hotelRoom.description = editText.getText().toString();
+                        String newDescription = editText.getText().toString();
+
+                        if (newDescription.length() < 20) {
+                            Toast.makeText(b.getContext(), "Описание должно содержать минимум 20 символов.", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+
+                        hotelRoom.description = newDescription;
                         hotelRoomRepository.updateHotelRoom(hotelRoom);
                         TextView description = findViewById(R.id.descriptionText);
                         description.setText(hotelRoom.description);
@@ -185,7 +255,6 @@ public class BroHotelRoomEdit extends AppCompatActivity {
 
         AlertDialog dialog = builder.create();
         dialog.show();
-
     }
 
 
@@ -199,7 +268,14 @@ public class BroHotelRoomEdit extends AppCompatActivity {
                 .setPositiveButton("ОК", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        hotelRoom.name = editText.getText().toString();
+                        String newName = editText.getText().toString();
+
+                        if (newName.length() < 20) {
+                            Toast.makeText(view.getContext(), "Название номера должно содержать минимум 20 символов и не превышать 200 символов.", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+
+                        hotelRoom.name = newName;
                         hotelRoomRepository.updateHotelRoom(hotelRoom);
                         TextView name = findViewById(R.id.name);
                         name.setText(hotelRoom.name);
@@ -221,6 +297,8 @@ public class BroHotelRoomEdit extends AppCompatActivity {
         View customView = getLayoutInflater().inflate(R.layout.dialog_bro_change_number_of_rooms, null);
         EditText editText = customView.findViewById(R.id.countOfHotelRooms);
         editText.setText(String.valueOf(hotelRoom.count));
+        editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+        editText.setFilters(new InputFilter[] { new InputFilter.LengthFilter(5) });
         builder.setView(customView);
         builder.setTitle("Количество номеров")
                 .setPositiveButton("ОК", new DialogInterface.OnClickListener() {
@@ -256,11 +334,12 @@ public class BroHotelRoomEdit extends AppCompatActivity {
                 .setPositiveButton("ОК", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        hotelRoom.costWithout = Integer.valueOf(editText1.getText().toString());
+
+                        hotelRoom.costWithout = Double.valueOf(editText1.getText().toString().replaceAll("^0+(?!$)", ""));
                         TextView cost1 = findViewById(R.id.cost1);
                         cost1.setText("Без питания\n" + hotelRoom.costWithout);
 
-                        hotelRoom.costWith = Integer.valueOf(editText2.getText().toString());
+                        hotelRoom.costWith = Double.valueOf(editText2.getText().toString().replaceAll("^0+(?!$)", ""));
                         hotelRoomRepository.updateHotelRoom(hotelRoom);
                         TextView cost2 = findViewById(R.id.cost2);
                         cost2.setText("Включён завтрак\n" + hotelRoom.costWith);
@@ -310,6 +389,5 @@ public class BroHotelRoomEdit extends AppCompatActivity {
             openGallery();
         }
     }
-
 
 }

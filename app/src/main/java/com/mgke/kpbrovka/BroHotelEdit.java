@@ -19,6 +19,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.InputFilter;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -38,6 +39,7 @@ import com.mgke.kpbrovka.model.Hotel;
 import com.mgke.kpbrovka.repository.HotelRepository;
 
 import android.Manifest;
+import android.widget.Toast;
 
 
 import java.util.ArrayList;
@@ -106,12 +108,21 @@ public class BroHotelEdit extends AppCompatActivity {
         View customView = getLayoutInflater().inflate(R.layout.dialog_bro_rename_hotel, null);
         EditText editText = customView.findViewById(R.id.rename);
         editText.setText(hotel.hotelName);
+
         builder.setView(customView);
         builder.setTitle("Название")
                 .setPositiveButton("ОК", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        hotel.hotelName = editText.getText().toString();
+                        String newHotelName = editText.getText().toString();
+
+                        if (newHotelName.isEmpty() || newHotelName.length() < 10) {
+                            Toast.makeText(view.getContext(), "Название не может быть пустым и должно содержать минимум 10 символов.", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+
+
+                        hotel.hotelName = newHotelName;
                         hotelRepository.updateHotel(hotel);
                         TextView name = findViewById(R.id.broEditHotelName);
                         name.setText(hotel.hotelName);
@@ -138,12 +149,21 @@ public class BroHotelEdit extends AppCompatActivity {
         View customView = getLayoutInflater().inflate(R.layout.dialog_bro_rename_address, null);
         EditText editText = customView.findViewById(R.id.rename);
         editText.setText(hotel.adress);
+
         builder.setView(customView);
         builder.setTitle("Адрес")
                 .setPositiveButton("ОК", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        hotel.adress = editText.getText().toString();
+                        String newAddress = editText.getText().toString();
+
+                        if (newAddress.isEmpty() || newAddress.length() < 5) {
+                            Toast.makeText(view.getContext(), "Адрес не может быть пустым и должен содержать минимум 5 символов.", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+
+
+                        hotel.adress = newAddress;
                         hotelRepository.updateHotel(hotel);
                         TextView adress = findViewById(R.id.broEditAdress);
                         adress.setText(hotel.adress);

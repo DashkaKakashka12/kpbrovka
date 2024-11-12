@@ -61,7 +61,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="Добавить брониста"
+                android:text="Добавить отельера"
                 android:textSize="20sp"
                 android:gravity="center"
                 android:layout_gravity="center"/>
@@ -76,10 +76,11 @@
 
         <LinearLayout
             android:layout_width="300dp"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:background="@drawable/rounded_corners"
             android:layout_marginTop="20dp"
+            android:padding="10dp"
             android:layout_gravity="center">
             <EditText
                 android:id="@+id/find"

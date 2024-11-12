@@ -31,7 +31,8 @@
         android:background="@drawable/roundbackround"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/nametext" />
+        app:layout_constraintTop_toBottomOf="@id/nametext"
+        android:maxLength="35"/>
 
 
     <TextView

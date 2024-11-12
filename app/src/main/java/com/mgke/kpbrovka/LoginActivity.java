@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.mgke.kpbrovka.auth.Authentication;
+import com.mgke.kpbrovka.model.UserType;
 import com.mgke.kpbrovka.repository.UserRepository;
 
 public class LoginActivity extends AppCompatActivity {
@@ -29,22 +30,31 @@ public class LoginActivity extends AppCompatActivity {
         finish();
     }
 
-    public void login(View b){
+    public void login(View b) {
         EditText name = findViewById(R.id.nameEdit);
         EditText password = findViewById(R.id.passEdit);
         String textName = name.getText().toString();
-        String textPassword= password.getText().toString();
+        String textPassword = password.getText().toString();
+
         userRepository.getUserByName(textName).thenAccept(user -> {
             if (user == null) {
                 Toast.makeText(this, "Неверное имя или пароль", Toast.LENGTH_LONG).show();
-            } else if (user.pass.equals(textPassword)){
+            } else if (user.pass.equals(textPassword)) {
                 Authentication.user = user;
-                Intent a = new Intent(this, BroHotelEdit.class);
+                Intent a;
+                if (user.type == UserType.ADMINISTRATOR){
+                    a = new Intent(this, AdminHotelEdit.class);
+                } else if (user.type == UserType.HOTELIER){
+                    a = new Intent(this, BroHotelEdit.class);
+                } else {
+                    a = new Intent(this, MainUserActivity.class);
+                }
                 startActivity(a);
                 finish();
-            } else Toast.makeText(this, "Неверное имя или пароль", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, "Неверное имя или пароль", Toast.LENGTH_LONG).show();
+            }
         });
-
     }
 
     public void admin(View b){
