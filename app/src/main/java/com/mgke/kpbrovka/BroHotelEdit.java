@@ -28,21 +28,29 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.google.protobuf.StringValue;
 import com.mgke.kpbrovka.adapter.FacilitiesAdapter;
 import com.mgke.kpbrovka.auth.Authentication;
 import com.mgke.kpbrovka.model.Hotel;
+import com.mgke.kpbrovka.model.Review;
 import com.mgke.kpbrovka.repository.HotelRepository;
+import com.mgke.kpbrovka.repository.ReviewRepository;
+import com.mgke.kpbrovka.repository.UserRepository;
 
 import android.Manifest;
 import android.widget.Toast;
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import per.wsj.library.AndRatingBar;
@@ -53,6 +61,10 @@ public class BroHotelEdit extends AppCompatActivity {
     private Hotel hotel;
     private FacilitiesAdapter adapter;
     private ActivityResultLauncher<Intent> imagePickerLauncher;
+
+    private ReviewRepository reviewRepository;
+
+    private UserRepository userRepository;
 
 
     @Override
@@ -65,6 +77,8 @@ public class BroHotelEdit extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(navigationListener);
 
         hotelRepository = new HotelRepository(FirebaseFirestore.getInstance());
+        reviewRepository = new ReviewRepository(FirebaseFirestore.getInstance());
+        userRepository = new UserRepository(FirebaseFirestore.getInstance());
         hotelRepository.getHotelByUserId(Authentication.user.id).thenAccept(hotel -> {
             this.hotel = hotel;
             setUpValue ();
@@ -237,6 +251,7 @@ public class BroHotelEdit extends AppCompatActivity {
 
     public void checkReviews (View b){
         Intent a = new Intent(this, BroCheckReviews.class);
+        a.putExtra("id", hotel.id);
         startActivity(a);
         finish();
     }
@@ -250,6 +265,8 @@ public class BroHotelEdit extends AppCompatActivity {
         AndRatingBar stars2 = findViewById(R.id.stars2);
         ImageView userIcon = findViewById(R.id.userIcon);
         ImageView userIcon2 = findViewById(R.id.userIcon2);
+        TextView nameAndData = findViewById(R.id.userNameAndData);
+        TextView nameAndData2 = findViewById(R.id.userNameAndData2);
         TextView textOfReview = findViewById(R.id.textOfReview);
         TextView textOfReview2 = findViewById(R.id.textOfReview2);
         ProgressBar progressBar1 = findViewById(R.id.progressBar1);
@@ -270,6 +287,68 @@ public class BroHotelEdit extends AppCompatActivity {
         adapter = new FacilitiesAdapter(hotel.facilities);
         facilities.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         facilities.setAdapter(adapter);
+
+        reviewRepository.getReviewsByHotelId(hotel.id).thenAccept(list -> {
+          Review review1 = list.get(0);
+          Review review2 = list.get(1);
+
+          stars.setNumStars(review1.stars);
+          stars2.setNumStars(review2.stars);
+
+          textOfReview.setText(review1.text);
+          textOfReview2.setText(review2.text);
+
+          userRepository.getUserById(review1.userId).thenAccept(user -> {
+              if (user.photo != null){
+              Glide.with(this).load(user.photo).apply(new RequestOptions()
+                      .centerCrop()
+                      .circleCrop()).into(userIcon);
+              }
+
+              nameAndData.setText(user.name + "\n" + formatTimestamp(review1.dataCreation));
+          });
+          userRepository.getUserById(review2.userId).thenAccept(user -> {
+              if (user.photo != null){
+              Glide.with(this).load(user.photo).apply(new RequestOptions()
+                      .centerCrop()
+                      .circleCrop()).into(userIcon2);
+              }
+
+              nameAndData2.setText(user.name + "\n" + formatTimestamp(review2.dataCreation));
+          });
+
+
+          int[] mass = new int[5];
+          for (int i = 0; i < list.size(); i++){
+              mass[0] += list.get(i).valueForMoney;
+              mass[1] += list.get(i).comfort;
+              mass[2] += list.get(i).cleanness;
+              mass[3] += list.get(i).staff;
+              mass[4] += list.get(i).facilities;
+          }
+
+          int1.setText(String.valueOf((double) mass[0] / list.size()));
+          int2.setText(String.valueOf((double) mass[1] / list.size()));
+          int3.setText(String.valueOf((double) mass[2] / list.size()));
+          int4.setText(String.valueOf((double) mass[3] / list.size()));
+          int5.setText(String.valueOf((double) mass[4] / list.size()));
+
+          progressBar1.setProgress(mass[0] / list.size());
+          progressBar2.setProgress(mass[1] / list.size());
+          progressBar3.setProgress(mass[2] / list.size());
+          progressBar4.setProgress(mass[3] / list.size());
+          progressBar5.setProgress(mass[4] / list.size());
+
+        });
+
+    }
+
+    public static String formatTimestamp(Timestamp timestamp) {
+        Date date = timestamp.toDate();
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+
+        return dateFormat.format(date);
     }
 
     public void onClickOpenGallery(View view) {

@@ -98,33 +98,37 @@ public class BroProfileEdit extends AppCompatActivity {
 
         builder.setView(customView);
         builder.setTitle("Имя")
-                .setPositiveButton("ОК", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String newName = name.getText().toString();
-
-
-                        if (newName.isEmpty()) {
-                            Toast.makeText(view.getContext(), "Имя не может быть пустым.", Toast.LENGTH_LONG).show();
-                            return;
-                        }
-
-                        Authentication.user.name = newName;
-                        userRepository.updateUser(Authentication.user);
-                        TextView nameUser = findViewById(R.id.name);
-                        nameUser.setText(Authentication.user.name);
-                    }
-                })
-                .setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
+                .setPositiveButton("ОК", null)
+                .setNegativeButton("Отмена", (dialog, which) -> dialog.dismiss());
 
         AlertDialog dialog = builder.create();
+
+        dialog.setOnShowListener(dialogInterface -> {
+            Button buttonOk = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+            buttonOk.setOnClickListener(v -> {
+                String newName = name.getText().toString().trim();
+
+                if (newName.isEmpty()) {
+                    name.setError("Имя не может быть пустым.");
+                    return;
+                }
+
+                if (newName.length() < 5 || newName.length() > 20) {
+                    name.setError("Имя должно содержать от 5 до 20 символов.");
+                    return;
+                }
+
+                Authentication.user.name = newName;
+                userRepository.updateUser(Authentication.user);
+                TextView nameUser = findViewById(R.id.name);
+                nameUser.setText(Authentication.user.name);
+                dialog.dismiss();
+            });
+        });
+
         dialog.show();
     }
+
     public void broEditPassword(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View customView = getLayoutInflater().inflate(R.layout.dialog_bro_edit_password, null);
@@ -133,30 +137,35 @@ public class BroProfileEdit extends AppCompatActivity {
 
         builder.setView(customView);
         builder.setTitle("Пароль")
-                .setPositiveButton("ОК", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String newPassword = pass.getText().toString();
-
-                        if (newPassword.length() < 5 || !newPassword.matches(".*[a-zA-Zа-яА-ЯЁё].*")) {
-                            Toast.makeText(view.getContext(), "Пароль должен содержать минимум 5 символов и хотя бы одну букву.", Toast.LENGTH_LONG).show();
-                            return;
-                        }
-
-                        Authentication.user.pass = newPassword;
-                        userRepository.updateUser(Authentication.user);
-                        TextView namePass = findViewById(R.id.password);
-                        namePass.setText(Authentication.user.pass);
-                    }
-                })
-                .setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
+                .setPositiveButton("ОК", null)
+                .setNegativeButton("Отмена", (dialog, which) -> dialog.dismiss());
 
         AlertDialog dialog = builder.create();
+
+        dialog.setOnShowListener(dialogInterface -> {
+            Button buttonOk = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+            buttonOk.setOnClickListener(v -> {
+                String newPassword = pass.getText().toString();
+
+                if (newPassword.length() < 5) {
+                    pass.setError("Пароль должен содержать минимум 5 символов.");
+                    return;
+                }
+
+                if (!newPassword.matches(".*[a-zA-Zа-яА-ЯЁё].*") || !newPassword.matches(".*\\d.*")) {
+                    pass.setError("Пароль должен содержать хотя бы одну букву и одну цифру.");
+                    return;
+                }
+
+
+                Authentication.user.pass = newPassword;
+                userRepository.updateUser(Authentication.user);
+                TextView namePass = findViewById(R.id.password);
+                namePass.setText(Authentication.user.pass);
+                dialog.dismiss();
+            });
+        });
+
         dialog.show();
     }
 
@@ -169,20 +178,14 @@ public class BroProfileEdit extends AppCompatActivity {
         builder.setView(customView);
         builder.setTitle("Email")
                 .setPositiveButton("ОК", null)
-                .setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
+                .setNegativeButton("Отмена", (dialog, which) -> dialog.dismiss());
 
         AlertDialog dialog = builder.create();
 
-
         dialog.setOnShowListener(dialogInterface -> {
-            Button buttonOk = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+            Button buttonOk = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
             buttonOk.setOnClickListener(v -> {
-                String newEmail = email.getText().toString();
+                String newEmail = email.getText().toString().trim();
 
                 String validationMessage = validateEmail(newEmail);
                 if (validationMessage == null) {
@@ -192,8 +195,7 @@ public class BroProfileEdit extends AppCompatActivity {
                     emailUser.setText(Authentication.user.email);
                     dialog.dismiss();
                 } else {
-
-                    Toast.makeText(this, validationMessage, Toast.LENGTH_LONG).show();
+                    email.setError(validationMessage);
                 }
             });
         });
@@ -201,9 +203,7 @@ public class BroProfileEdit extends AppCompatActivity {
         dialog.show();
     }
 
-
     private String validateEmail(String email) {
-
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
         if (email.isEmpty()) {
@@ -214,7 +214,7 @@ public class BroProfileEdit extends AppCompatActivity {
             return "Введите корректный email.";
         }
 
-        return null; // Email прошел все проверки
+        return null;
     }
 
     public void exit (View b){

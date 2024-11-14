@@ -5,12 +5,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.mgke.kpbrovka.R;
+import com.mgke.kpbrovka.auth.Authentication;
 import com.mgke.kpbrovka.model.User;
 import com.mgke.kpbrovka.repository.HotelRepository;
 import com.mgke.kpbrovka.repository.UserRepository;
@@ -32,6 +36,11 @@ public class ListOfBroAdapter extends ArrayAdapter<User> {
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.bro_item_list, parent, false);
         }
+
+        ImageView icon = convertView.findViewById(R.id.icon);
+        Glide.with(getContext()).load(user.photo).apply(new RequestOptions()
+                .centerCrop()
+                .circleCrop()).into(icon);
 
         TextView textView = convertView.findViewById(R.id.koresh);
         textView.setText(user.name);

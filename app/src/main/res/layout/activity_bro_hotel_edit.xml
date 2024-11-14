@@ -418,14 +418,6 @@
                         android:text="Отличная гостиница, очень вкусные завтраки, в лаундж гостинной тоже всё хорошо и вкусно. Номер отличный, с х..." />
 
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_marginStart="15dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="15dp"
-                        android:textSize="8sp"
-                        android:text="Читать полностью >" />
 
                 </LinearLayout>
 
@@ -481,14 +473,6 @@
                         android:textSize="8sp"
                         android:text="Один из лучших и самый любимый отель Минска. Большие номера, удобная кровать, водичка в номер. ..."/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_marginStart="15dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="15dp"
-                        android:textSize="8sp"
-                        android:text="Читать полностью >" />
 
                 </LinearLayout>
 

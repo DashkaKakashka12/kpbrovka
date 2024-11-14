@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -78,28 +79,34 @@ public class AdminChekBronist extends AppCompatActivity {
 
         builder.setView(customView);
         builder.setTitle("Обновление брониста")
-                .setPositiveButton("ОК", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        user.name = name.getText().toString();
-                        user.pass = password.getText().toString();
-                        user.email = email.getText().toString();
-                        userRepository.updateUser(user);
-
-                        hotel.hotelName = hotelName.getText().toString();
-                        hotelRepository.updateHotel(hotel);
-
-                        listOfBroAdapter.notifyDataSetChanged();
-                    }
-                })
-                .setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
+                .setPositiveButton("ОК", null);
 
         AlertDialog dialog = builder.create();
+        dialog.setOnShowListener(dialogInterface -> {
+            Button btnPositive = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+            btnPositive.setOnClickListener(v -> {
+                if (validateInput(name, password, email)) {
+                    user.name = name.getText().toString();
+                    user.pass = password.getText().toString();
+                    user.email = email.getText().toString();
+                    userRepository.updateUser(user);
+
+                    hotel.hotelName = hotelName.getText().toString();
+                    hotelRepository.updateHotel(hotel);
+
+                    listOfBroAdapter.notifyDataSetChanged();
+                    dialog.dismiss();
+                }
+            });
+        });
+
+        builder.setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
         dialog.show();
     }
 
@@ -108,41 +115,72 @@ public class AdminChekBronist extends AppCompatActivity {
         View customView = getLayoutInflater().inflate(R.layout.dialog_admin_edd_bro, null);
         builder.setView(customView);
         builder.setTitle("Добавление брониста")
-                .setPositiveButton("ОК", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        User user = new User();
-                        EditText name = customView.findViewById(R.id.name);
-                        EditText password = customView.findViewById(R.id.password);
-                        EditText hotelName = customView.findViewById(R.id.hotel_name);
-                        EditText email = customView.findViewById(R.id.email);
-
-                        user.name = name.getText().toString();
-                        user.pass = password.getText().toString();
-                        user.type = UserType.HOTELIER;
-                        user.email = email.getText().toString();
-                        String userId = userRepository.addUser(user);
-
-                        Hotel hotel = new Hotel();
-                        hotel.hotelName = hotelName.getText().toString();
-                        hotel.isActive = false;
-                        hotel.userId = userId;
-                        hotelRepository.addHotel(hotel);
-
-                        user.id = userId;
-                        userList.add(user);
-                        listOfBroAdapter.notifyDataSetChanged();
-                    }
-                })
-                .setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
+                .setPositiveButton("ОК", null);
 
         AlertDialog dialog = builder.create();
+        dialog.setOnShowListener(dialogInterface -> {
+            Button btnPositive = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+            btnPositive.setOnClickListener(v -> {
+                User user = new User();
+                EditText name = customView.findViewById(R.id.name);
+                EditText password = customView.findViewById(R.id.password);
+                EditText hotelName = customView.findViewById(R.id.hotel_name);
+                EditText email = customView.findViewById(R.id.email);
+
+                if (validateInput(name, password, email)) {
+                    user.name = name.getText().toString();
+                    user.pass = password.getText().toString();
+                    user.type = UserType.HOTELIER;
+                    user.email = email.getText().toString();
+                    String userId = userRepository.addUser(user);
+
+                    Hotel hotel = new Hotel();
+                    hotel.hotelName = hotelName.getText().toString();
+                    hotel.isActive = false;
+                    hotel.userId = userId;
+                    hotelRepository.addHotel(hotel);
+
+                    user.id = userId;
+                    userList.add(user);
+                    listOfBroAdapter.notifyDataSetChanged();
+                    dialog.dismiss();
+                }
+            });
+        });
+
+        builder.setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
         dialog.show();
+    }
+
+    private boolean validateInput(EditText name, EditText password, EditText email) {
+        String nameText = name.getText().toString().trim();
+        String passwordText = password.getText().toString();
+        String emailText = email.getText().toString().trim();
+
+        if (nameText.length() < 5 || nameText.length() > 20) {
+            name.setError("Имя должно содержать от 5 до 20 символов.");
+            return false;
+        }
+
+        if (passwordText.length() < 5 ||
+                !passwordText.matches(".*[a-zA-Zа-яА-ЯЁё].*") ||
+                !passwordText.matches(".*\\d.*")) {
+            password.setError("Пароль должен содержать минимум 5 символов, одну букву и одну цифру.");
+            return false;
+        }
+
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(emailText).matches()) {
+            email.setError("Введите корректный адрес электронной почты.");
+            return false;
+        }
+
+        return true;
     }
 
     public void onBurger(View view) {

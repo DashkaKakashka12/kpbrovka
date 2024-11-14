@@ -27,32 +27,29 @@ public class RegistrationActivity extends AppCompatActivity {
         String passwordConfirm = passEdit2.getText().toString();
 
         if (name.length() < 5 || name.length() > 20) {
-            Toast.makeText(this, "Имя должно содержать от 5 до 20 символов.", Toast.LENGTH_LONG).show();
+            nameEdit.setError("Имя должно содержать от 5 до 20 символов.");
             return;
         }
-
 
         if (!isValidPassword(password)) {
-            Toast.makeText(this, "Пароль должен содержать минимум 5 символов и хотя бы одну букву.", Toast.LENGTH_LONG).show();
+            passEdit.setError("Пароль должен содержать минимум 5 символов, одну букву и одну цифру.");
             return;
         }
-
 
         if (!password.equals(passwordConfirm)) {
-            Toast.makeText(this, "Пароли не совпадают.", Toast.LENGTH_LONG).show();
+            passEdit2.setError("Пароли не совпадают.");
             return;
         }
-
 
         Toast.makeText(this, "Регистрация успешна!", Toast.LENGTH_SHORT).show();
     }
 
     private boolean isValidPassword(String password) {
-
-        return password.length() >= 5 && password.matches(".*[a-zA-Zа-яА-ЯЁё].*");
+        return password.length() >= 5 &&
+                password.matches(".*[a-zA-Zа-яА-ЯЁё].*") &&
+                password.matches(".*\\d.*");
     }
 
     public void loginUser(View view) {
-
     }
 }

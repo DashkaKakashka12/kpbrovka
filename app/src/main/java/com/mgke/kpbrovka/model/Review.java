@@ -4,24 +4,26 @@ import com.google.firebase.Timestamp;
 
 public class Review {
     public String id;
-    public String reservationId;
+    public String userId;
+    public String hotelId;
     public Timestamp dataCreation;
     public int stars;
-    public double valueForMoney;
-    public double comfort;
-    public double cleanness;
-    public double staff;
+    public int valueForMoney;
+    public int comfort;
+    public int cleanness;
+    public int staff;
 
-    public double facilities;
+    public int facilities;
 
     public String text;
 
     public Review() {
     }
 
-    public Review(String id, String reservationId, Timestamp dataCreation, int stars, double valueForMoney, double comfort, double cleanness, double staff, double facilities, String text) {
+    public Review(String id, String userId, String hotelId, Timestamp dataCreation, int stars, int valueForMoney, int comfort, int cleanness, int staff, int facilities, String text) {
         this.id = id;
-        this.reservationId = reservationId;
+        this.userId = userId;
+        this.hotelId = hotelId;
         this.dataCreation = dataCreation;
         this.stars = stars;
         this.valueForMoney = valueForMoney;

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/rounded_corners_grey"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:layout_margin="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp">
+        <ImageView
+            android:id="@+id/photo"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_gravity="center"
+            android:src="@drawable/profileuser" />
+        <TextView
+            android:id="@+id/nameAndData"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_marginStart="10dp"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:text="Эдвард Хайд\n12.07.2024" />
+        <ImageView
+            android:id="@+id/delete"
+            android:layout_width="21dp"
+            android:layout_height="27dp"
+            android:background="@drawable/trashcan_icon"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+
+    <per.wsj.library.AndRatingBar
+        android:id="@+id/stars"
+        android:layout_width="wrap_content"
+        android:layout_height="15dp"
+        android:rating="5"
+        app:scaleFactor="0.9"
+        android:stepSize="1"
+        android:layout_marginStart="13dp"/>
+
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textSize="10sp"
+        android:text="Отличная гостиница, очень вкусные завтраки, в лаундж гостиной тоже всё хорошо и вкусно. Номер отличный,
+с хорошим видом на город, качественное постельное белье и подушки. В мой день
+рождения отель сделал комплимент, что тоже было очень приятно. Спа с бассейном и двумя саунами 70 и 90 градусов,
+очень в них не хватало возможности подкидывать воды на камни, очень сухой воздух, поэтом душевые завалены
+одноразовыми стаканами, которые используются для подкидывания воды, но в целом общее ощущение от спа это не портит. Бесплатная парковка."/>
+
+</LinearLayout>

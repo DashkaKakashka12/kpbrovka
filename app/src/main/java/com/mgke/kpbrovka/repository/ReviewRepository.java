@@ -9,6 +9,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
+import com.mgke.kpbrovka.model.Hotel;
+import com.mgke.kpbrovka.model.HotelRoom;
 import com.mgke.kpbrovka.model.Reservation;
 import com.mgke.kpbrovka.model.Review;
 import com.mgke.kpbrovka.model.User;
@@ -70,6 +72,29 @@ public class ReviewRepository {
                                 future.complete(review);
                             }
                         }
+                    }
+                });
+
+        return future;
+    }
+
+
+
+    public CompletableFuture<List<Review>> getReviewsByHotelId(String hotelId) {
+        final CompletableFuture<List<Review>> future = new CompletableFuture<>();
+        List<Review> reviewList = new ArrayList<>();
+
+        db.collection("reviews").whereEqualTo("hotelId", hotelId)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            if (document.exists()) {
+                                Review review = document.toObject(Review.class);
+                                reviewList.add(review);
+                            }
+                        }
+                        future.complete(reviewList);
                     }
                 });
 
