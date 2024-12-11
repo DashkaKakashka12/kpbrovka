@@ -23,6 +23,7 @@ import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -101,8 +102,8 @@ public class BroHotelRoomEdit extends AppCompatActivity {
         Glide.with(this).load(hotelRoom.photos).into(photo);
         name.setText(hotelRoom.name);
         type.setText(hotelRoom.typeOfBed);
-        cost1.setText("Без питания\n" + hotelRoom.costWithout);
-        cost2.setText("Включён завтрак\n" + hotelRoom.costWith);
+        cost1.setText("Без питания\n" + hotelRoom.costWithout + " BYN");
+        cost2.setText("Включён завтрак\n" + hotelRoom.costWith + " BYN");
         countOfRooms.setText(String.valueOf(hotelRoom.count));
         description.setText(hotelRoom.description);
 
@@ -183,12 +184,12 @@ public class BroHotelRoomEdit extends AppCompatActivity {
         String[] typeOfBed = {"1 двухспальная кровать", "2 односпальные кровати", "2 двухспальные кровати", "1 односпальная кровать"};
 
         for (int i = 0; i < typeOfBed.length; i++) {
-            checkBoxes[i].setChecked(hotelRoom.typeOfBed.equals(typeOfBed[i]));
-
+            if (hotelRoom.typeOfBed != null) {
+                checkBoxes[i].setChecked(hotelRoom.typeOfBed.equals(typeOfBed[i]));
+            }
 
             checkBoxes[i].setOnCheckedChangeListener((buttonView, isChecked) -> {
                 if (isChecked) {
-                    // Сбрасываем состояние других чекбоксов
                     for (int j = 0; j < checkBoxes.length; j++) {
                         if (checkBoxes[j] != buttonView) {
                             checkBoxes[j].setChecked(false);
@@ -228,32 +229,32 @@ public class BroHotelRoomEdit extends AppCompatActivity {
         EditText editText = customView.findViewById(R.id.description);
         editText.setText(hotelRoom.description);
 
-        builder.setView(customView);
-        builder.setTitle("Описание")
-                .setPositiveButton("ОК", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String newDescription = editText.getText().toString();
-
-                        if (newDescription.length() < 20) {
-                            Toast.makeText(b.getContext(), "Описание должно содержать минимум 20 символов.", Toast.LENGTH_LONG).show();
-                            return;
-                        }
-
-                        hotelRoom.description = newDescription;
-                        hotelRoomRepository.updateHotelRoom(hotelRoom);
-                        TextView description = findViewById(R.id.descriptionText);
-                        description.setText(hotelRoom.description);
-                    }
-                })
-                .setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
+        builder.setView(customView)
+                .setTitle("Описание")
+                .setPositiveButton("ОК", null)
+                .setNegativeButton("Отмена", (dialog, which) -> dialog.dismiss());
 
         AlertDialog dialog = builder.create();
+
+        dialog.setOnShowListener(dialogInterface -> {
+            Button buttonOk = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+            buttonOk.setOnClickListener(v -> {
+                String newDescription = editText.getText().toString().trim();
+                editText.setError(null);
+
+                if (newDescription.length() < 20) {
+                    editText.setError("Описание должно содержать минимум 20 символов.");
+                    return;
+                }
+
+                hotelRoom.description = newDescription;
+                hotelRoomRepository.updateHotelRoom(hotelRoom);
+                TextView description = findViewById(R.id.descriptionText);
+                description.setText(hotelRoom.description);
+                dialog.dismiss();
+            });
+        });
+
         dialog.show();
     }
 
@@ -263,32 +264,34 @@ public class BroHotelRoomEdit extends AppCompatActivity {
         View customView = getLayoutInflater().inflate(R.layout.dialog_bro_rename_hotel_room, null);
         EditText editText = customView.findViewById(R.id.nameHotelRoom);
         editText.setText(hotelRoom.name);
-        builder.setView(customView);
-        builder.setTitle("Название номера")
-                .setPositiveButton("ОК", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String newName = editText.getText().toString();
 
-                        if (newName.length() < 20) {
-                            Toast.makeText(view.getContext(), "Название номера должно содержать минимум 20 символов и не превышать 200 символов.", Toast.LENGTH_LONG).show();
-                            return;
-                        }
-
-                        hotelRoom.name = newName;
-                        hotelRoomRepository.updateHotelRoom(hotelRoom);
-                        TextView name = findViewById(R.id.name);
-                        name.setText(hotelRoom.name);
-                    }
-                })
-                .setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
+        builder.setView(customView)
+                .setTitle("Название номера")
+                .setPositiveButton("ОК", null)
+                .setNegativeButton("Отмена", (dialog, which) -> dialog.dismiss());
 
         AlertDialog dialog = builder.create();
+
+        dialog.setOnShowListener(dialogInterface -> {
+            Button buttonOk = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+            buttonOk.setOnClickListener(v -> {
+                String newName = editText.getText().toString().trim();
+
+                editText.setError(null);
+
+                if (newName.length() < 4 || newName.length() > 200) {
+                    editText.setError("Название номера должно содержать минимум 4 символа и не превышать 200 символов.");
+                    return;
+                }
+
+                hotelRoom.name = newName;
+                hotelRoomRepository.updateHotelRoom(hotelRoom);
+                TextView name = findViewById(R.id.name);
+                name.setText(hotelRoom.name);
+                dialog.dismiss();
+            });
+        });
+
         dialog.show();
     }
 
@@ -337,12 +340,12 @@ public class BroHotelRoomEdit extends AppCompatActivity {
 
                         hotelRoom.costWithout = Double.valueOf(editText1.getText().toString().replaceAll("^0+(?!$)", ""));
                         TextView cost1 = findViewById(R.id.cost1);
-                        cost1.setText("Без питания\n" + hotelRoom.costWithout);
+                        cost1.setText("Без питания\n" + hotelRoom.costWithout + " BYN");
 
                         hotelRoom.costWith = Double.valueOf(editText2.getText().toString().replaceAll("^0+(?!$)", ""));
                         hotelRoomRepository.updateHotelRoom(hotelRoom);
                         TextView cost2 = findViewById(R.id.cost2);
-                        cost2.setText("Включён завтрак\n" + hotelRoom.costWith);
+                        cost2.setText("Включён завтрак\n" + hotelRoom.costWith + " BYN");
 
                     }
                 })
@@ -390,4 +393,10 @@ public class BroHotelRoomEdit extends AppCompatActivity {
         }
     }
 
+    public void delite(View view) {
+        hotelRoomRepository.deleteHotelRoom(hotelRoom);
+        Intent intent = new Intent(this, BroChooseHotelRoomForEdit.class);
+        startActivity(intent);
+        finish();
+    }
 }

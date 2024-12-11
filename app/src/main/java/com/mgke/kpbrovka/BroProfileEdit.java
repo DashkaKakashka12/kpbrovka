@@ -17,6 +17,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.InputFilter;
+import android.text.InputType;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -91,7 +92,7 @@ public class BroProfileEdit extends AppCompatActivity {
 
     }
     public void broEditName(View view) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.dialogBlack);
         View customView = getLayoutInflater().inflate(R.layout.dialog_bro_edit_name, null);
         EditText name = customView.findViewById(R.id.name);
         name.setText(Authentication.user.name);
@@ -109,12 +110,12 @@ public class BroProfileEdit extends AppCompatActivity {
                 String newName = name.getText().toString().trim();
 
                 if (newName.isEmpty()) {
-                    name.setError("Имя не может быть пустым.");
+                    name.setError("Имя не может быть пустым");
                     return;
                 }
 
-                if (newName.length() < 5 || newName.length() > 20) {
-                    name.setError("Имя должно содержать от 5 до 20 символов.");
+                if (newName.length() < 5 ) {
+                    name.setError("Имя должно содержать от 5 символов");
                     return;
                 }
 
@@ -130,10 +131,24 @@ public class BroProfileEdit extends AppCompatActivity {
     }
 
     public void broEditPassword(View view) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.dialogBlack);
         View customView = getLayoutInflater().inflate(R.layout.dialog_bro_edit_password, null);
         EditText pass = customView.findViewById(R.id.password1);
         pass.setText(Authentication.user.pass);
+
+        ImageView togglePasswordButton = customView.findViewById(R.id.password_visibility);
+        EditText passwordField = customView.findViewById(R.id.password1);
+
+        togglePasswordButton.setOnClickListener(v -> {
+            if (passwordField.getInputType() == (InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD)) {
+                passwordField.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                togglePasswordButton.setImageResource(R.drawable.icon_not_visible_white);
+            } else {
+                passwordField.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                togglePasswordButton.setImageResource(R.drawable.icon_visible_white);
+            }
+            passwordField.setSelection(passwordField.getText().length());
+        });
 
         builder.setView(customView);
         builder.setTitle("Пароль")
@@ -148,12 +163,12 @@ public class BroProfileEdit extends AppCompatActivity {
                 String newPassword = pass.getText().toString();
 
                 if (newPassword.length() < 5) {
-                    pass.setError("Пароль должен содержать минимум 5 символов.");
+                    pass.setError("Пароль должен содержать не менее 5 символов");
                     return;
                 }
 
                 if (!newPassword.matches(".*[a-zA-Zа-яА-ЯЁё].*") || !newPassword.matches(".*\\d.*")) {
-                    pass.setError("Пароль должен содержать хотя бы одну букву и одну цифру.");
+                    pass.setError("Пароль должен содержать хотя бы одну букву и цифру");
                     return;
                 }
 
@@ -170,7 +185,7 @@ public class BroProfileEdit extends AppCompatActivity {
     }
 
     public void broEditEmail(View view) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.dialogBlack);
         View customView = getLayoutInflater().inflate(R.layout.dialog_bro_edit_email, null);
         EditText email = customView.findViewById(R.id.editEmail1);
         email.setText(Authentication.user.email);
@@ -207,11 +222,11 @@ public class BroProfileEdit extends AppCompatActivity {
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
         if (email.isEmpty()) {
-            return "Email не должен быть пустым.";
+            return "Email не должен быть пустым";
         }
 
         if (!email.matches(emailPattern)) {
-            return "Введите корректный email.";
+            return "Введите корректный email";
         }
 
         return null;

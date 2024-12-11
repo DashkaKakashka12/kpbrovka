@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -22,6 +24,20 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         userRepository = new UserRepository(FirebaseFirestore.getInstance());
+
+        ImageView togglePasswordButton = findViewById(R.id.password_visibility);
+        EditText passwordField = findViewById(R.id.passEdit);
+
+        togglePasswordButton.setOnClickListener(v -> {
+            if (passwordField.getInputType() == (InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD)) {
+                passwordField.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                togglePasswordButton.setImageResource(R.drawable.icon_not_visible_black);
+            } else {
+                passwordField.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                togglePasswordButton.setImageResource(R.drawable.icon_visible_black);
+            }
+            passwordField.setSelection(passwordField.getText().length());
+        });
     }
 
     public void registration(View b){
@@ -65,18 +81,6 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(a);
             finish();
         });
-    }
-
-    public void admin(View b){
-        Intent a = new Intent(this, AdminHotelEdit.class);
-        startActivity(a);
-        finish();
-    }
-
-    public void bronist(View b){
-        Intent a = new Intent(this, BroHotelEdit.class);
-        startActivity(a);
-        finish();
     }
 
 }

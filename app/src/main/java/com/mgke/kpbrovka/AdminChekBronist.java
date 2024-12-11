@@ -7,10 +7,12 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.google.android.material.navigation.NavigationView;
@@ -65,7 +67,7 @@ public class AdminChekBronist extends AppCompatActivity {
     }
 
     public void updateBro(User user, Hotel hotel) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.dialogBlack);
         View customView = getLayoutInflater().inflate(R.layout.dialog_admin_edd_bro, null);
         EditText name = customView.findViewById(R.id.name);
         EditText password = customView.findViewById(R.id.password);
@@ -78,8 +80,28 @@ public class AdminChekBronist extends AppCompatActivity {
         email.setText(user.email);
 
         builder.setView(customView);
-        builder.setTitle("Обновление брониста")
+        builder.setTitle("Редактирование отельера")
                 .setPositiveButton("ОК", null);
+        builder.setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        ImageView togglePasswordButton = customView.findViewById(R.id.password_visibility);
+        EditText passwordField = customView.findViewById(R.id.password);
+
+        togglePasswordButton.setOnClickListener(v -> {
+            if (passwordField.getInputType() == (InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD)) {
+                passwordField.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                togglePasswordButton.setImageResource(R.drawable.icon_not_visible_white);
+            } else {
+                passwordField.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                togglePasswordButton.setImageResource(R.drawable.icon_visible_white);
+            }
+            passwordField.setSelection(passwordField.getText().length());
+        });
 
         AlertDialog dialog = builder.create();
         dialog.setOnShowListener(dialogInterface -> {
@@ -100,6 +122,15 @@ public class AdminChekBronist extends AppCompatActivity {
             });
         });
 
+        dialog.show();
+    }
+
+    public void eddBro(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.dialogBlack);
+        View customView = getLayoutInflater().inflate(R.layout.dialog_admin_edd_bro, null);
+        builder.setView(customView);
+        builder.setTitle("Добавление отельера")
+                .setPositiveButton("ОК", null);
         builder.setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -107,15 +138,19 @@ public class AdminChekBronist extends AppCompatActivity {
             }
         });
 
-        dialog.show();
-    }
+        ImageView togglePasswordButton = customView.findViewById(R.id.password_visibility);
+        EditText passwordField = customView.findViewById(R.id.password);
 
-    public void eddBro(View view) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View customView = getLayoutInflater().inflate(R.layout.dialog_admin_edd_bro, null);
-        builder.setView(customView);
-        builder.setTitle("Добавление брониста")
-                .setPositiveButton("ОК", null);
+        togglePasswordButton.setOnClickListener(v -> {
+            if (passwordField.getInputType() == (InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD)) {
+                passwordField.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                togglePasswordButton.setImageResource(R.drawable.icon_not_visible_white);
+            } else {
+                passwordField.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                togglePasswordButton.setImageResource(R.drawable.icon_visible_white);
+            }
+            passwordField.setSelection(passwordField.getText().length());
+        });
 
         AlertDialog dialog = builder.create();
         dialog.setOnShowListener(dialogInterface -> {
@@ -128,31 +163,30 @@ public class AdminChekBronist extends AppCompatActivity {
                 EditText email = customView.findViewById(R.id.email);
 
                 if (validateInput(name, password, email)) {
-                    user.name = name.getText().toString();
-                    user.pass = password.getText().toString();
-                    user.type = UserType.HOTELIER;
-                    user.email = email.getText().toString();
-                    String userId = userRepository.addUser(user);
+                    userRepository.nameMatchingCheck(name.getText().toString()).thenAccept(b ->{
+                        if (!b){
+                            user.name = name.getText().toString();
+                            user.pass = password.getText().toString();
+                            user.type = UserType.HOTELIER;
+                            user.email = email.getText().toString();
+                            String userId = userRepository.addUser(user);
 
-                    Hotel hotel = new Hotel();
-                    hotel.hotelName = hotelName.getText().toString();
-                    hotel.isActive = false;
-                    hotel.userId = userId;
-                    hotelRepository.addHotel(hotel);
+                            Hotel hotel = new Hotel();
+                            hotel.hotelName = hotelName.getText().toString();
+                            hotel.isActive = false;
+                            hotel.userId = userId;
+                            hotelRepository.addHotel(hotel);
 
-                    user.id = userId;
-                    userList.add(user);
-                    listOfBroAdapter.notifyDataSetChanged();
-                    dialog.dismiss();
+                            user.id = userId;
+                            userList.add(user);
+                            listOfBroAdapter.notifyDataSetChanged();
+                            dialog.dismiss();
+                        } else {
+                            name.setError("Такой пользователь уже существует");
+                        }
+                    });
                 }
             });
-        });
-
-        builder.setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
         });
 
         dialog.show();
@@ -163,15 +197,15 @@ public class AdminChekBronist extends AppCompatActivity {
         String passwordText = password.getText().toString();
         String emailText = email.getText().toString().trim();
 
-        if (nameText.length() < 5 || nameText.length() > 20) {
-            name.setError("Имя должно содержать от 5 до 20 символов.");
+        if (nameText.length() < 5 ) {
+            name.setError("Имя должно содержать не менее 5 символов.");
             return false;
         }
 
         if (passwordText.length() < 5 ||
                 !passwordText.matches(".*[a-zA-Zа-яА-ЯЁё].*") ||
                 !passwordText.matches(".*\\d.*")) {
-            password.setError("Пароль должен содержать минимум 5 символов, одну букву и одну цифру.");
+            password.setError("Пароль должен содержать не менее 5 символов, хотя бы одну букву и цифру.");
             return false;
         }
 

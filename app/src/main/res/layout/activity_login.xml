@@ -8,6 +8,18 @@
     android:background="@color/white">
 
     <TextView
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="DreamStay"
+        android:textColor="@color/black"
+        android:background="@color/white"
+        android:gravity="center"
+        android:textSize="21dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
         android:id="@+id/nametext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -46,7 +58,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/nameEdit" />
 
-
     <EditText
         android:id="@+id/passEdit"
         android:layout_width="250dp"
@@ -61,6 +72,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/passtext" />
+
+    <ImageView
+        android:id="@+id/password_visibility"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_gravity="center"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="8dp"
+        android:src="@drawable/icon_not_visible_black"
+        android:layout_marginEnd="5dp"
+        app:layout_constraintTop_toTopOf="@id/passEdit"
+        app:layout_constraintBottom_toBottomOf="@id/passEdit"
+        app:layout_constraintEnd_toEndOf="@id/passEdit"/>
 
     <Button
         android:id="@+id/logButton"
@@ -86,30 +111,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/logButton" />
-
-    <TextView
-        android:id="@+id/nametext1"
-        android:onClick="admin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="164dp"
-        android:layout_marginTop="60dp"
-        android:padding="10dp"
-        android:text="Админ"
-        android:textSize="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/registrationtext" />
-
-    <TextView
-        android:onClick="bronist"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="164dp"
-        android:layout_marginTop="60dp"
-        android:padding="10dp"
-        android:text="Бронист"
-        android:textSize="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/nametext1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,6 +12,6 @@
         android:hint="Прошлый адрес"
         android:background="@color/white"
         android:textSize="20dp"
-        android:layout_margin="40dp"/>
+        android:padding="15dp"/>
 
 </LinearLayout>

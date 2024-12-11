@@ -3,5 +3,6 @@
     android:id="@+id/facility_text"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:padding="8dp"
+    android:paddingVertical="8dp"
+    android:paddingEnd="8dp"
     android:textSize="16sp" />

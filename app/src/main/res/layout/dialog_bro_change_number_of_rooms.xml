@@ -9,7 +9,8 @@
         android:layout_height="wrap_content"
         android:hint="Количество номеров"
         android:background="@color/white"
-        android:textSize="20dp"
-        android:layout_margin="40dp"/>
+        android:textSize="17sp"
+        android:padding="15dp"
+        android:layout_marginStart="10dp"/>
 
 </LinearLayout>

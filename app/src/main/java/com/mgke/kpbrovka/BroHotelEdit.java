@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.InputFilter;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -115,45 +116,42 @@ public class BroHotelEdit extends AppCompatActivity {
     }
 
 
-
-
     public void broRenameHotel(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View customView = getLayoutInflater().inflate(R.layout.dialog_bro_rename_hotel, null);
         EditText editText = customView.findViewById(R.id.rename);
         editText.setText(hotel.hotelName);
 
-        builder.setView(customView);
-        builder.setTitle("Название")
-                .setPositiveButton("ОК", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String newHotelName = editText.getText().toString();
-
-                        if (newHotelName.isEmpty() || newHotelName.length() < 10) {
-                            Toast.makeText(view.getContext(), "Название не может быть пустым и должно содержать минимум 10 символов.", Toast.LENGTH_LONG).show();
-                            return;
-                        }
-
-
-                        hotel.hotelName = newHotelName;
-                        hotelRepository.updateHotel(hotel);
-                        TextView name = findViewById(R.id.broEditHotelName);
-                        name.setText(hotel.hotelName);
-                        NavigationView navigationView = findViewById(R.id.navigationMenu);
-                        View nav = navigationView.getHeaderView(0);
-                        TextView hotelName = nav.findViewById(R.id.subtitle);
-                        hotelName.setText("Бронист отеля " + hotel.hotelName);
-                    }
-                })
-                .setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
+        builder.setView(customView)
+                .setTitle("Название")
+                .setPositiveButton("ОК", null)
+                .setNegativeButton("Отмена", (dialog, which) -> dialog.dismiss());
 
         AlertDialog dialog = builder.create();
+
+        dialog.setOnShowListener(dialogInterface -> {
+            Button buttonOk = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+            buttonOk.setOnClickListener(v -> {
+                String newHotelName = editText.getText().toString().trim();
+                editText.setError(null);
+
+                if (newHotelName.isEmpty() || newHotelName.length() < 4) {
+                    editText.setError("Название не может быть пустым и должно содержать минимум 4 символа.");
+                    return;
+                }
+
+                hotel.hotelName = newHotelName;
+                hotelRepository.updateHotel(hotel);
+                TextView name = findViewById(R.id.broEditHotelName);
+                name.setText(hotel.hotelName);
+                NavigationView navigationView = findViewById(R.id.navigationMenu);
+                View nav = navigationView.getHeaderView(0);
+                TextView hotelName = nav.findViewById(R.id.subtitle);
+                hotelName.setText("Отельер отеля " + hotel.hotelName);
+                dialog.dismiss();
+            });
+        });
+
         dialog.show();
     }
 
@@ -164,33 +162,33 @@ public class BroHotelEdit extends AppCompatActivity {
         EditText editText = customView.findViewById(R.id.rename);
         editText.setText(hotel.adress);
 
-        builder.setView(customView);
-        builder.setTitle("Адрес")
-                .setPositiveButton("ОК", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String newAddress = editText.getText().toString();
-
-                        if (newAddress.isEmpty() || newAddress.length() < 5) {
-                            Toast.makeText(view.getContext(), "Адрес не может быть пустым и должен содержать минимум 5 символов.", Toast.LENGTH_LONG).show();
-                            return;
-                        }
-
-
-                        hotel.adress = newAddress;
-                        hotelRepository.updateHotel(hotel);
-                        TextView adress = findViewById(R.id.broEditAdress);
-                        adress.setText(hotel.adress);
-                    }
-                })
-                .setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
+        builder.setView(customView)
+                .setTitle("Адрес")
+                .setPositiveButton("ОК", null)
+                .setNegativeButton("Отмена", (dialog, which) -> dialog.dismiss());
 
         AlertDialog dialog = builder.create();
+
+        dialog.setOnShowListener(dialogInterface -> {
+            Button buttonOk = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+            buttonOk.setOnClickListener(v -> {
+                String newAddress = editText.getText().toString().trim();
+                editText.setError(null);
+
+                if (newAddress.isEmpty() || newAddress.length() < 5) {
+                    editText.setError("Адрес не может быть пустым и должен содержать минимум 5 символов.");
+                    return;
+                }
+
+                hotel.adress = newAddress;
+                hotel.isActive = true;
+                hotelRepository.updateHotel(hotel);
+                TextView adress = findViewById(R.id.broEditAdress);
+                adress.setText(hotel.adress);
+                dialog.dismiss();
+            });
+        });
+
         dialog.show();
     }
 
@@ -209,6 +207,7 @@ public class BroHotelEdit extends AppCompatActivity {
         };
 
         String[] facilities = {"Сейф", "Кондиционер", "Оплата картой", "Тренажёрный зал", "Парковка", "Wifi", "Бассейн"};
+
 
         for (int i = 0; i < facilities.length; i++) {
             checkBoxes[i].setChecked(hotel.facilities.contains(facilities[i]));
@@ -243,11 +242,6 @@ public class BroHotelEdit extends AppCompatActivity {
         b.openDrawer(GravityCompat.START);
     }
 
-    public void editReviews (View b){
-        Intent a = new Intent(this, BroReviewsEdit.class);
-        startActivity(a);
-        finish();
-    }
 
     public void checkReviews (View b){
         Intent a = new Intent(this, BroCheckReviews.class);
@@ -255,6 +249,7 @@ public class BroHotelEdit extends AppCompatActivity {
         startActivity(a);
         finish();
     }
+
 
     public void setUpValue (){
         TextView name = findViewById(R.id.broEditHotelName);
@@ -381,7 +376,4 @@ public class BroHotelEdit extends AppCompatActivity {
             openGallery();
         }
     }
-
-
-
 }

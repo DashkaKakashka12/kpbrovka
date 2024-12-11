@@ -9,12 +9,22 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.mgke.kpbrovka.auth.Authentication;
+import com.mgke.kpbrovka.model.User;
+import com.mgke.kpbrovka.model.UserType;
+import com.mgke.kpbrovka.repository.UserRepository;
+
 public class RegistrationActivity extends AppCompatActivity {
+
+    UserRepository userRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
+
+        userRepository = new UserRepository(FirebaseFirestore.getInstance());
     }
 
     public void registrationUser(View view) {
@@ -41,7 +51,23 @@ public class RegistrationActivity extends AppCompatActivity {
             return;
         }
 
-        Toast.makeText(this, "Регистрация успешна!", Toast.LENGTH_SHORT).show();
+        userRepository.nameMatchingCheck(name).thenAccept(b -> {
+           if (!b){
+               User user = new User();
+               user.name = name;
+               user.pass = password;
+               user.type = UserType.USER;
+               userRepository.addUser(user);
+
+               Authentication.user = user;
+
+               Intent intent = new Intent(this, MainUserActivity.class);
+               startActivity(intent);
+               finish();
+           } else {
+               nameEdit.setError("Такой пользователь уже существует");
+           }
+        });
     }
 
     private boolean isValidPassword(String password) {
@@ -51,5 +77,10 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     public void loginUser(View view) {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
+
+
 }

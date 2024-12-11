@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".BroProfileEdit"
-    android:background="#191919">
+    android:background="#FFFFFF">
 
     <LinearLayout
         android:id="@+id/toolbar"
@@ -18,28 +18,21 @@
         <ImageView
             android:onClick="back"
             android:id="@+id/leftArrow"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_gravity="center"
             android:layout_marginStart="7dp"
-            app:srcCompat="@drawable/white_left_arrow" />
+            app:srcCompat="@drawable/arrow_left_icon" />
         <TextView
             android:id="@+id/facilities"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="60dp"
             android:text="Профиль"
-            android:layout_marginEnd="10dp"
+            android:layout_marginEnd="50dp"
             android:gravity="center"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="21sp" />
-        <ImageView
-            android:id="@+id/checkMark"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
-            android:layout_marginEnd="10dp"
-            app:srcCompat="@drawable/check_mark_white" />
     </LinearLayout>
 
     <LinearLayout
@@ -47,41 +40,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:background="#191919"
+        android:background="#FFFFFF"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         <ImageView
+            android:onClick="onClickOpenGallery"
             android:id="@+id/photo"
             android:layout_width="170dp"
             android:layout_height="170dp"
             android:layout_gravity="center"
             android:src="@drawable/bro_profile_icon" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_marginStart="45dp"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:text="Фото профиля" />
 
-        <ImageView
-            android:onClick="onClickOpenGallery"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_gravity="center"
-            android:layout_marginEnd="20dp"
-            android:src="@drawable/bro_edit_photo_profile" />
-
-    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -97,11 +68,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Имя"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="18sp" />
 
         <TextView
             android:id="@+id/name"
+            android:onClick="broEditName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Бла бла бла"
@@ -116,7 +88,7 @@
             android:layout_height="25dp"
             android:layout_gravity="center"
             android:layout_marginEnd="15dp"
-            android:src="@drawable/grey_pensil_icon"
+            android:src="@drawable/pencil"
             android:onClick="broEditName"/>
     </LinearLayout>
 
@@ -124,7 +96,7 @@
             android:layout_width="wrap_content"
             android:layout_height="2dp"
             android:layout_marginTop="15dp"
-            android:layout_marginEnd="15dp"
+            android:layout_marginEnd="55dp"
             android:layout_marginStart="15dp"
             android:background="#818181"/>
 
@@ -143,33 +115,34 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Пароль"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/password"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Бла бла бла"
-                    android:textColor="#9F9E9E"
-                    android:textSize="15sp"
-                    android:layout_marginTop="5dp"/>
-
+                    <TextView
+                        android:id="@+id/password"
+                        android:onClick="broEditPassword"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Бла бла бла"
+                        android:textColor="#9F9E9E"
+                        android:textSize="15sp"
+                        android:layout_marginTop="5dp"/>
             </LinearLayout>
 
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_gravity="center"
                 android:layout_marginEnd="15dp"
-                android:src="@drawable/grey_pensil_icon"
+                android:src="@drawable/pencil"
                 android:onClick="broEditPassword"/>
         </LinearLayout>
 
         <View
             android:layout_width="wrap_content"
             android:layout_height="2dp"
-            android:layout_margin="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="55dp"
+            android:layout_marginStart="15dp"
             android:background="#818181"/>
 
 
@@ -188,11 +161,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Email"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/email"
+                    android:src="@drawable/pencil"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Бла бла бла"
@@ -203,18 +177,20 @@
             </LinearLayout>
 
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_gravity="center"
                 android:layout_marginEnd="15dp"
-                android:src="@drawable/grey_pensil_icon"
+                android:src="@drawable/pencil"
                 android:onClick="broEditEmail"/>
         </LinearLayout>
 
         <View
             android:layout_width="wrap_content"
             android:layout_height="2dp"
-            android:layout_margin="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="55dp"
+            android:layout_marginStart="15dp"
             android:background="#818181"/>
 
         <TextView

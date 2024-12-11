@@ -2,15 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/black">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Имя"
             android:textSize="22dp"
-            android:layout_marginStart="15dp"
+            android:textColor="@color/white"
+            android:layout_marginStart="25dp"
             android:layout_marginTop="20dp"/>
 
         <EditText
@@ -18,59 +19,88 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Имя Фамилия"
-            android:background="@color/white"
-            android:textSize="20dp"
+            android:textColorHint="#E2838383"
+            android:textColor="#E2838383"
+            android:background="@color/black"
+            android:textSize="18dp"
             android:inputType="text"
-            android:layout_margin="40dp"
-            android:maxLength="35"/>
+            android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginBottom="40dp" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Пароль"
+            android:textColor="@color/white"
             android:textSize="22dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="20dp"/>
-        <EditText
-            android:id="@+id/password"
+            android:layout_marginStart="25dp" />
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginBottom="35dp">
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:hint="Пароль"
-            android:background="@color/white"
-            android:textSize="20dp"
-            android:layout_margin="40dp"
+            android:textColorHint="#E2838383"
+            android:textColor="#E2838383"
+            android:background="@color/black"
+            android:textSize="18dp"
             android:inputType="textPassword"/>
+        <ImageView
+            android:id="@+id/password_visibility"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/icon_not_visible_white"
+            android:padding="8dp"
+            android:clickable="true"
+            android:focusable="true" />
+        </LinearLayout>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Эл. почта"
-            android:textSize="22dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="20dp"/>
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:layout_marginStart="25dp" />
         <EditText
             android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Почта"
-            android:background="@color/white"
-            android:textSize="20dp"
-            android:layout_margin="40dp"
+            android:textColorHint="#E2838383"
+            android:textColor="#E2838383"
+            android:background="@color/black"
+            android:textSize="18sp"
+            android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginBottom="40dp"
             android:inputType="textEmailAddress"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Отель"
+            android:textColor="@color/white"
             android:textSize="22dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginStart="25dp"/>
         <EditText
             android:id="@+id/hotel_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Название отеля"
-            android:background="@color/white"
-            android:textSize="20dp"
+            android:textColorHint="#E2838383"
+            android:textColor="#E2838383"
+            android:background="@color/black"
+            android:textSize="18sp"
             android:inputType="text"
-            android:layout_margin="40dp"
-            android:maxLength="35"/>
+            android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginBottom="40dp" />
 
 </LinearLayout>

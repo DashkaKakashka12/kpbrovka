@@ -10,7 +10,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="10dp">
 
 
     <TextView
@@ -40,8 +41,8 @@
         <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="20dp"
         android:scrollbars="none"
+        android:layout_marginTop="20dp"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintBottom_toBottomOf="parent">
 
@@ -53,7 +54,6 @@
             android:background="@drawable/rounded_corners"
             android:orientation="vertical"
             android:padding="15dp"
-            android:layout_marginBottom="40dp"
             app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
 
@@ -167,8 +167,8 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
                     android:src="@drawable/geo" />
 
                 <TextView
@@ -176,8 +176,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_marginStart="5dp"
                     android:text="Минск, проспект Дзержинского, 1Е"
-                    android:textSize="10sp" />
+                    android:textSize="13sp" />
 
             </LinearLayout>
 
@@ -219,12 +220,6 @@
                     android:layout_weight="1"
                     android:text="Отзывы" />
 
-                <ImageView
-                    android:id="@+id/broEditReviews"
-                    android:layout_width="21dp"
-                    android:layout_height="21dp"
-                    android:src="@drawable/pencil"
-                    android:onClick="editReviews"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -481,10 +476,11 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Читать все отзывы"
+                android:text="Редактировать все отзывы"
                 android:layout_gravity="center"
                 android:backgroundTint="#EBEAEA"
                 android:textColor="@color/black"
+                android:layout_marginBottom="40dp"
                 android:onClick="checkReviews"/>
 
         </LinearLayout>

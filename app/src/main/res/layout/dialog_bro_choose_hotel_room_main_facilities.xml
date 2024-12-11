@@ -21,15 +21,15 @@
         <ImageView
             android:layout_width="23dp"
             android:layout_height="23dp"
-            app:srcCompat="@drawable/iron_icon" />
+            app:srcCompat="@drawable/iron_icon"
+            android:layout_marginEnd="5dp" />
         <TextView
             android:id="@+id/textIron"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="Утюг"
-            android:textSize="18sp"
-            android:layout_marginStart="5dp" />
+            android:textSize="18sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -46,15 +46,15 @@
         <ImageView
             android:layout_width="23dp"
             android:layout_height="23dp"
-            app:srcCompat="@drawable/table_icon"/>
+            app:srcCompat="@drawable/table_icon"
+            android:layout_marginEnd="5dp"/>
         <TextView
             android:id="@+id/textWorkspace"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="Рабочее место"
-            android:textSize="18sp"
-            android:layout_marginStart="5dp"/>
+            android:textSize="18sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -71,15 +71,15 @@
         <ImageView
             android:layout_width="23dp"
             android:layout_height="23dp"
-            app:srcCompat="@drawable/bar_icon" />
+            app:srcCompat="@drawable/bar_icon"
+            android:layout_marginEnd="5dp"/>
         <TextView
             android:id="@+id/textMiniBar"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="Мини-бар"
-            android:textSize="18sp"
-            android:layout_marginStart="5dp"/>
+            android:textSize="18sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -96,15 +96,15 @@
         <ImageView
             android:layout_width="23dp"
             android:layout_height="23dp"
-            app:srcCompat="@drawable/safe_icon"/>
+            app:srcCompat="@drawable/safe_icon"
+            android:layout_marginEnd="5dp"/>
         <TextView
             android:id="@+id/textSafe"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="Сейф"
-            android:textSize="18sp"
-            android:layout_marginStart="5dp"/>
+            android:textSize="18sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -121,15 +121,15 @@
         <ImageView
             android:layout_width="23dp"
             android:layout_height="23dp"
-            app:srcCompat="@drawable/hair_dryer_icon"/>
+            app:srcCompat="@drawable/hair_dryer_icon"
+            android:layout_marginEnd="5dp"/>
         <TextView
             android:id="@+id/textHairDryer"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="Фен"
-            android:textSize="18sp"
-            android:layout_marginStart="5dp"/>
+            android:textSize="18sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -146,15 +146,15 @@
         <ImageView
             android:layout_width="23dp"
             android:layout_height="23dp"
-            app:srcCompat="@drawable/fridge_icon" />
+            app:srcCompat="@drawable/fridge_icon"
+            android:layout_marginEnd="5dp"/>
         <TextView
             android:id="@+id/textFridge"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="Холодильник"
-            android:textSize="18sp"
-            android:layout_marginStart="5dp"/>
+            android:textSize="18sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -171,15 +171,15 @@
         <ImageView
             android:layout_width="23dp"
             android:layout_height="23dp"
-            app:srcCompat="@drawable/towel_icon"/>
+            app:srcCompat="@drawable/towel_icon"
+            android:layout_marginEnd="5dp"/>
         <TextView
             android:id="@+id/textTowels"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="Полотенца"
-            android:textSize="18sp"
-            android:layout_marginStart="5dp"/>
+            android:textSize="18sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -195,15 +195,15 @@
         <ImageView
             android:layout_width="23dp"
             android:layout_height="23dp"
-            app:srcCompat="@drawable/coffee_icon"/>
+            app:srcCompat="@drawable/coffee_icon"
+            android:layout_marginEnd="5dp"/>
         <TextView
             android:id="@+id/textCoffee"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="Кофеварка"
-            android:textSize="18sp"
-            android:layout_marginStart="5dp"/>
+            android:textSize="18sp" />
     </LinearLayout>
 
 </LinearLayout>

@@ -60,15 +60,19 @@
                 android:id="@+id/eddbro"
                 android:layout_width="0dp"
                 android:layout_weight="1"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:layout_height="wrap_content"
                 android:text="Добавить отельера"
-                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:textSize="19sp"
                 android:gravity="center"
                 android:layout_gravity="center"/>
             <ImageView
                 android:id="@+id/plus"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="10dp"
                 app:srcCompat="@drawable/plus"
                 android:layout_gravity="center"/>
 
@@ -79,15 +83,17 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:background="@drawable/rounded_corners"
-            android:layout_marginTop="20dp"
-            android:padding="10dp"
+            android:layout_marginTop="15dp"
+            android:padding="7dp"
             android:layout_gravity="center">
             <EditText
                 android:id="@+id/find"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
-                android:text="Поиск"
+                android:hint="Поиск"
+                android:textColorHint="@color/black"
+                android:textColor="@color/black"
                 android:textSize="15sp"
                 android:gravity="left"
                 android:layout_marginStart="15dp"

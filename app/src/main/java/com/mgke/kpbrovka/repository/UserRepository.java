@@ -122,9 +122,35 @@ public class UserRepository {
         return future;
     }
 
+    public CompletableFuture<Boolean> nameMatchingCheck (String name) {
+        final CompletableFuture<Boolean> future = new CompletableFuture<>();
+
+
+        db.collection("users").whereEqualTo("name", name)
+                .get()
+                .addOnCompleteListener(task -> {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            if (document.exists()) {
+                                future.complete(true);
+                            }
+                        }
+                        future.complete(false);
+                });
+
+        return future;
+    }
+
     public void deleteUser(User user) {
-        db.collection("users").document(user.id)
-                .delete();
+        db.collection("users").document(user.id).delete().addOnCompleteListener(task -> {
+                    db.collection("hotels").whereEqualTo("userId", user.id).get().addOnCompleteListener(hotelTask -> {
+                        for (QueryDocumentSnapshot document : hotelTask.getResult()) {
+                            if (document.exists()) {
+                                Hotel hotel = document.toObject(Hotel.class);
+                                db.collection("hotels").document(hotel.id).delete();
+                            }
+                        }
+                    });
+                });
     }
 
     public void updateUser(User user) {
