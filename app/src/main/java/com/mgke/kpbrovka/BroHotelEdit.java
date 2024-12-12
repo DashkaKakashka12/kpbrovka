@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -117,7 +119,7 @@ public class BroHotelEdit extends AppCompatActivity {
 
 
     public void broRenameHotel(View view) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.dialogBlack);
         View customView = getLayoutInflater().inflate(R.layout.dialog_bro_rename_hotel, null);
         EditText editText = customView.findViewById(R.id.rename);
         editText.setText(hotel.hotelName);
@@ -157,7 +159,7 @@ public class BroHotelEdit extends AppCompatActivity {
 
 
     public void broRenameAddress(View view) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.dialogBlack);
         View customView = getLayoutInflater().inflate(R.layout.dialog_bro_rename_address, null);
         EditText editText = customView.findViewById(R.id.rename);
         editText.setText(hotel.adress);
@@ -195,6 +197,7 @@ public class BroHotelEdit extends AppCompatActivity {
     public void broEditFacilities(View b) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View customView = getLayoutInflater().inflate(R.layout.dialog_bro_choose_main_facilities, null);
+
 
         CheckBox[] checkBoxes = new CheckBox[]{
                 customView.findViewById(R.id.checkBoxSafe),

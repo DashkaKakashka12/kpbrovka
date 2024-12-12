@@ -224,7 +224,7 @@ public class BroHotelRoomEdit extends AppCompatActivity {
 
 
     public void broEditHotelRoomDescription(View b) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.dialogBlack);
         View customView = getLayoutInflater().inflate(R.layout.dialog_bro_edit_hotel_room_description, null);
         EditText editText = customView.findViewById(R.id.description);
         editText.setText(hotelRoom.description);
@@ -260,7 +260,7 @@ public class BroHotelRoomEdit extends AppCompatActivity {
 
 
     public void broRenameHotelRoom(View view) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.dialogBlack);
         View customView = getLayoutInflater().inflate(R.layout.dialog_bro_rename_hotel_room, null);
         EditText editText = customView.findViewById(R.id.nameHotelRoom);
         editText.setText(hotelRoom.name);
@@ -296,7 +296,7 @@ public class BroHotelRoomEdit extends AppCompatActivity {
     }
 
     public void broChangeCountOfRooms (View view) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.dialogBlack);
         View customView = getLayoutInflater().inflate(R.layout.dialog_bro_change_number_of_rooms, null);
         EditText editText = customView.findViewById(R.id.countOfHotelRooms);
         editText.setText(String.valueOf(hotelRoom.count));
@@ -325,7 +325,7 @@ public class BroHotelRoomEdit extends AppCompatActivity {
     }
 
     public void broChangeCost (View view) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.dialogBlack);
         View customView = getLayoutInflater().inflate(R.layout.dialog_bro_change_cost_of_room, null);
         EditText editText1 = customView.findViewById(R.id.cost1);
         editText1.setText(String.valueOf(hotelRoom.costWithout));

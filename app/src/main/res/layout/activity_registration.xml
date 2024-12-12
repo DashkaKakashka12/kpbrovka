@@ -7,6 +7,18 @@
     tools:context=".RegistrationActivity"
     android:background="@color/white">
 
+    <TextView
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="DreamStay"
+        android:textColor="@color/black"
+        android:background="@color/white"
+        android:gravity="center"
+        android:textSize="21dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
 
     <TextView
         android:id="@+id/NameTextReg"
@@ -17,7 +29,7 @@
         android:textSize="15dp"
         android:text="Имя"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/toolbar" />
 
     <EditText
         android:id="@+id/NameEditReg"
@@ -49,7 +61,7 @@
 
 
     <EditText
-        android:id="@+id/PassEditReg"
+        android:id="@+id/passEditReg"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -63,6 +75,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/PassTextReg" />
 
+    <ImageView
+        android:id="@+id/password_visibility"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_gravity="center"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="8dp"
+        android:src="@drawable/icon_not_visible_black"
+        android:layout_marginEnd="5dp"
+        app:layout_constraintTop_toTopOf="@id/passEditReg"
+        app:layout_constraintBottom_toBottomOf="@id/passEditReg"
+        app:layout_constraintEnd_toEndOf="@id/passEditReg"/>
+
     <TextView
         android:id="@+id/PassTextReg2"
         android:layout_width="wrap_content"
@@ -72,10 +98,10 @@
         android:text="Повторите пароль"
         android:textSize="15dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/PassEditReg" />
+        app:layout_constraintTop_toBottomOf="@id/passEditReg" />
 
     <EditText
-        android:id="@+id/PassEditReg2"
+        android:id="@+id/passEditReg2"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -89,18 +115,32 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/PassTextReg2" />
 
+    <ImageView
+        android:id="@+id/password_visibility2"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_gravity="center"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="8dp"
+        android:src="@drawable/icon_not_visible_black"
+        android:layout_marginEnd="5dp"
+        app:layout_constraintTop_toTopOf="@id/passEditReg2"
+        app:layout_constraintBottom_toBottomOf="@id/passEditReg2"
+        app:layout_constraintEnd_toEndOf="@id/passEditReg2"/>
+
     <Button
         android:id="@+id/RegButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:backgroundTint="#DD9BB2"
+        android:backgroundTint="@color/black"
         android:text="Зарегистрироваться"
         android:onClick="registrationUser"
-        android:textColor="#000000"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/PassEditReg2" />
+        app:layout_constraintTop_toBottomOf="@id/passEditReg2" />
 
     <TextView
         android:id="@+id/logText"

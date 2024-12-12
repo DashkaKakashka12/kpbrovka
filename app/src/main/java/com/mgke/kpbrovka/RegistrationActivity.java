@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -25,24 +26,44 @@ public class RegistrationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_registration);
 
         userRepository = new UserRepository(FirebaseFirestore.getInstance());
+
+        setupPasswordVisibilityToggle(R.id.password_visibility, R.id.passEditReg);
+        setupPasswordVisibilityToggle(R.id.password_visibility2, R.id.passEditReg2);
+    }
+
+
+    private void setupPasswordVisibilityToggle(int toggleButtonId, int passwordFieldId) {
+        ImageView togglePasswordButton = findViewById(toggleButtonId);
+        EditText passwordField = findViewById(passwordFieldId);
+
+        togglePasswordButton.setOnClickListener(v -> {
+            if (passwordField.getInputType() == (InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD)) {
+                passwordField.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                togglePasswordButton.setImageResource(R.drawable.icon_not_visible_black);
+            } else {
+                passwordField.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                togglePasswordButton.setImageResource(R.drawable.icon_visible_black);
+            }
+            passwordField.setSelection(passwordField.getText().length());
+        });
     }
 
     public void registrationUser(View view) {
         EditText nameEdit = findViewById(R.id.NameEditReg);
-        EditText passEdit = findViewById(R.id.PassEditReg);
-        EditText passEdit2 = findViewById(R.id.PassEditReg2);
+        EditText passEdit = findViewById(R.id.passEditReg);
+        EditText passEdit2 = findViewById(R.id.passEditReg2);
 
         String name = nameEdit.getText().toString().trim();
         String password = passEdit.getText().toString();
         String passwordConfirm = passEdit2.getText().toString();
 
-        if (name.length() < 5 || name.length() > 20) {
-            nameEdit.setError("Имя должно содержать от 5 до 20 символов.");
+        if (name.length() < 5 ) {
+            nameEdit.setError("Имя должно содержать не менее 5 символов.");
             return;
         }
 
         if (!isValidPassword(password)) {
-            passEdit.setError("Пароль должен содержать минимум 5 символов, одну букву и одну цифру.");
+            passEdit.setError("Пароль должен содержать не менее 5 символов, хотя бы одну букву и цифру.");
             return;
         }
 
