@@ -9,43 +9,37 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
-import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.text.InputFilter;
 import android.text.InputType;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.mgke.kpbrovka.auth.Authentication;
-import com.mgke.kpbrovka.model.User;
 import com.mgke.kpbrovka.repository.UserRepository;
 
-public class BroProfileEdit extends AppCompatActivity {
+public class AdminProfileEdit extends AppCompatActivity {
 
+    private Context context;
     private ActivityResultLauncher<Intent> imagePickerLauncher;
     public UserRepository userRepository;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bro_profile_edit);
+        setContentView(R.layout.activity_admin_profile_edit);
 
         setValue();
         userRepository = new UserRepository(FirebaseFirestore.getInstance());
@@ -82,11 +76,13 @@ public class BroProfileEdit extends AppCompatActivity {
                 });
     }
 
+
     private void setValue (){
         ImageView photo = findViewById(R.id.photo);
         TextView name = findViewById(R.id.name);
         TextView pass = findViewById(R.id.password);
         TextView email = findViewById(R.id.email);
+
 
         if (Authentication.user.photo != null) {
             Glide.with(this)
@@ -104,7 +100,8 @@ public class BroProfileEdit extends AppCompatActivity {
         email.setText(Authentication.user.email);
 
     }
-    public void broEditName(View view) {
+
+    public void adminEditName(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.dialogBlack);
         View customView = getLayoutInflater().inflate(R.layout.dialog_bro_edit_name, null);
         EditText name = customView.findViewById(R.id.name);
@@ -143,7 +140,8 @@ public class BroProfileEdit extends AppCompatActivity {
         dialog.show();
     }
 
-    public void broEditPassword(View view) {
+
+    public void adminEditPassword(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.dialogBlack);
         View customView = getLayoutInflater().inflate(R.layout.dialog_bro_edit_password, null);
         EditText pass = customView.findViewById(R.id.password1);
@@ -197,7 +195,8 @@ public class BroProfileEdit extends AppCompatActivity {
         dialog.show();
     }
 
-    public void broEditEmail(View view) {
+
+    public void adminEditEmail(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.dialogBlack);
         View customView = getLayoutInflater().inflate(R.layout.dialog_bro_edit_email, null);
         EditText email = customView.findViewById(R.id.editEmail1);
@@ -251,8 +250,9 @@ public class BroProfileEdit extends AppCompatActivity {
         finish();
     }
 
+
     public void back (View b){
-        Intent a = new Intent(this, BroHotelEdit.class);
+        Intent a = new Intent(this, AdminHotelEdit.class);
         startActivity(a);
         finish();
     }
@@ -288,5 +288,6 @@ public class BroProfileEdit extends AppCompatActivity {
             openGallery();
         }
     }
-}
 
+
+}

@@ -77,10 +77,9 @@
 
             <ImageView
                 android:id="@+id/photo"
-                android:scaleType="fitXY"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                app:srcCompat="@drawable/photo1" />
+                app:srcCompat="@drawable/add_photo_room" />
 
             <LinearLayout
                 android:layout_width="match_parent"

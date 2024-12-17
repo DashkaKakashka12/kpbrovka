@@ -31,7 +31,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -82,10 +84,23 @@ public class BroHotelEdit extends AppCompatActivity {
         hotelRepository = new HotelRepository(FirebaseFirestore.getInstance());
         reviewRepository = new ReviewRepository(FirebaseFirestore.getInstance());
         userRepository = new UserRepository(FirebaseFirestore.getInstance());
-        hotelRepository.getHotelByUserId(Authentication.user.id).thenAccept(hotel -> {
-            this.hotel = hotel;
-            setUpValue ();
-        });
+
+        String id = getIntent().getStringExtra("HOTEL");
+        if(id == null){
+            hotelRepository.getHotelByUserId(Authentication.user.id).thenAccept(hotel -> {
+                this.hotel = hotel;
+                setUpValue ();
+                findViewById(R.id.back).setVisibility(View.GONE);
+            });
+        } else {
+            hotelRepository.getHotelById(id).thenAccept(hotel -> {
+                this.hotel = hotel;
+                setUpValue ();
+                findViewById(R.id.menu).setVisibility(View.GONE);
+
+            });
+        }
+
 
 
         imagePickerLauncher = registerForActivityResult(
@@ -97,6 +112,11 @@ public class BroHotelEdit extends AppCompatActivity {
                             ImageView photo = findViewById(R.id.photo);
                             Glide.with(this)
                                     .load(imageUri)
+                                    .apply(new RequestOptions()
+                                            .override(Target.SIZE_ORIGINAL)
+                                            .centerCrop()
+                                            .transform(new RoundedCorners(16))
+                                    )
                                     .into(photo);
 
                             String hotelId = hotel.id;
@@ -161,8 +181,10 @@ public class BroHotelEdit extends AppCompatActivity {
     public void broRenameAddress(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.dialogBlack);
         View customView = getLayoutInflater().inflate(R.layout.dialog_bro_rename_address, null);
-        EditText editText = customView.findViewById(R.id.rename);
+        EditText editText = customView.findViewById(R.id.renameAdress);
+        EditText editCity = customView.findViewById(R.id.renameCity);
         editText.setText(hotel.adress);
+        editCity.setText(hotel.city);
 
         builder.setView(customView)
                 .setTitle("Адрес")
@@ -175,18 +197,27 @@ public class BroHotelEdit extends AppCompatActivity {
             Button buttonOk = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
             buttonOk.setOnClickListener(v -> {
                 String newAddress = editText.getText().toString().trim();
+                String newCity = editCity.getText().toString().trim();
                 editText.setError(null);
+                editCity.setError(null);
 
                 if (newAddress.isEmpty() || newAddress.length() < 5) {
                     editText.setError("Адрес не может быть пустым и должен содержать минимум 5 символов.");
                     return;
                 }
+                if (newCity.isEmpty() ) {
+                    editText.setError("Город не может быть пустым");
+                    return;
+                }
 
                 hotel.adress = newAddress;
+                hotel.city = newCity;
                 hotel.isActive = true;
                 hotelRepository.updateHotel(hotel);
                 TextView adress = findViewById(R.id.broEditAdress);
+                TextView city = findViewById(R.id.broEditCity);
                 adress.setText(hotel.adress);
+                city.setText(hotel.city);
                 dialog.dismiss();
             });
         });
@@ -258,6 +289,7 @@ public class BroHotelEdit extends AppCompatActivity {
         TextView name = findViewById(R.id.broEditHotelName);
         RecyclerView facilities = findViewById(R.id.broEditFacilities);
         TextView adress = findViewById(R.id.broEditAdress);
+        TextView city = findViewById(R.id.broEditCity);
         ImageView photo = findViewById(R.id.photo);
         AndRatingBar stars = findViewById(R.id.stars);
         AndRatingBar stars2 = findViewById(R.id.stars2);
@@ -280,13 +312,28 @@ public class BroHotelEdit extends AppCompatActivity {
 
         name.setText(hotel.hotelName);
         adress.setText(hotel.adress);
-        Glide.with(this).load(hotel.photos).into(photo);
+        city.setText(hotel.city);
+
+        if (hotel.photos != null) {
+            Glide.with(this)
+                    .load(hotel.photos)
+                    .apply(new RequestOptions()
+                            .override(Target.SIZE_ORIGINAL)
+                            .centerCrop()
+                            .transform(new RoundedCorners(16))
+                    )
+                    .into(photo);
+        }
 
         adapter = new FacilitiesAdapter(hotel.facilities);
         facilities.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         facilities.setAdapter(adapter);
 
         reviewRepository.getReviewsByHotelId(hotel.id).thenAccept(list -> {
+            if (list.size() >= 2){
+                findViewById(R.id.review1).setVisibility(View.VISIBLE);
+                findViewById(R.id.review2).setVisibility(View.VISIBLE);
+            }
           Review review1 = list.get(0);
           Review review2 = list.get(1);
 
@@ -295,6 +342,7 @@ public class BroHotelEdit extends AppCompatActivity {
 
           textOfReview.setText(review1.text);
           textOfReview2.setText(review2.text);
+
 
           userRepository.getUserById(review1.userId).thenAccept(user -> {
               if (user.photo != null){
@@ -324,6 +372,7 @@ public class BroHotelEdit extends AppCompatActivity {
               mass[3] += list.get(i).staff;
               mass[4] += list.get(i).facilities;
           }
+
 
           int1.setText(String.valueOf((double) mass[0] / list.size()));
           int2.setText(String.valueOf((double) mass[1] / list.size()));
@@ -378,5 +427,11 @@ public class BroHotelEdit extends AppCompatActivity {
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             openGallery();
         }
+    }
+
+    public void back (View view){
+        Intent intent = new Intent(this, AdminHotelEdit.class);
+        startActivity(intent);
+        finish();
     }
 }

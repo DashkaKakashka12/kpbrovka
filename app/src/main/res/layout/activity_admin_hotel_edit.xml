@@ -35,6 +35,57 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/menu_burger_icon" />
 
+        <ListView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:dividerHeight="15dp"
+            android:divider="@null"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/find"
+            android:layout_marginHorizontal="13dp"
+            android:layout_marginTop="30dp" />
+
+        <LinearLayout
+            android:id="@+id/find"
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/rounded_corners"
+            android:layout_marginTop="20dp"
+            android:padding="7dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/list"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+            <EditText
+                android:id="@+id/findText"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:hint="Поиск"
+                android:textColorHint="@color/black"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:gravity="left"
+                android:layout_marginStart="15dp"
+                android:background="@color/white"
+                android:layout_gravity="center"/>
+            <ImageView
+                android:id="@+id/magnifier"
+                android:layout_width="21dp"
+                android:layout_height="21dp"
+                app:srcCompat="@drawable/magnifier"
+                android:layout_gravity="center"/>
+
+        </LinearLayout>
+
+
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

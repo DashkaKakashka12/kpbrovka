@@ -88,7 +88,7 @@
                 android:id="@+id/int1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="8,0" />
+                android:text="0,0" />
 
             <TextView
                 android:layout_width="0dp"
@@ -100,7 +100,7 @@
                 android:id="@+id/int2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="9,2" />
+                android:text="0,0" />
         </LinearLayout>
 
         <LinearLayout
@@ -111,7 +111,7 @@
                 android:id="@+id/progressBar1"
                 android:layout_width="0dp"
                 android:layout_height="2dp"
-                android:progress="10"
+                android:progress="0"
                 android:max="10"
                 android:layout_weight="1"
                 style="?android:attr/progressBarStyleHorizontal"/>
@@ -119,7 +119,7 @@
                 android:id="@+id/progressBar2"
                 android:layout_width="0dp"
                 android:layout_height="2dp"
-                android:progress="10"
+                android:progress="0"
                 android:max="10"
                 android:layout_marginStart="40dp"
                 android:layout_weight="1"
@@ -141,7 +141,7 @@
                 android:id="@+id/int3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="9,8" />
+                android:text="0,0" />
 
             <TextView
                 android:layout_width="0dp"
@@ -153,7 +153,7 @@
                 android:id="@+id/int4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="9,1" />
+                android:text="0,0" />
         </LinearLayout>
 
         <LinearLayout
@@ -164,7 +164,7 @@
                 android:id="@+id/progressBar3"
                 android:layout_width="0dp"
                 android:layout_height="2dp"
-                android:progress="10"
+                android:progress="0"
                 android:max="10"
                 android:layout_weight="1"
                 style="?android:attr/progressBarStyleHorizontal"/>
@@ -172,7 +172,7 @@
                 android:id="@+id/progressBar4"
                 android:layout_width="0dp"
                 android:layout_height="2dp"
-                android:progress="10"
+                android:progress="0"
                 android:max="10"
                 android:layout_marginStart="40dp"
                 android:layout_weight="1"
@@ -186,24 +186,50 @@
             android:layout_marginTop="10dp"
             android:orientation="horizontal">
             <TextView
-                android:layout_width="121dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="Удобства" />
             <TextView
                 android:id="@+id/int5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="9,1"
-                android:layout_marginEnd="170dp"/>
+                android:text="0,0" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="40dp"
+                android:text="" />
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
-        <ProgressBar
-            android:id="@+id/progressBar5"
-            android:layout_width="130dp"
-            android:layout_height="2dp"
-            android:progress="10"
-            android:max="10"
-            style="?android:attr/progressBarStyleHorizontal"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ProgressBar
+                android:id="@+id/progressBar5"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:progress="0"
+                android:max="10"
+                android:layout_weight="1"
+                style="?android:attr/progressBarStyleHorizontal"/>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:progress="0"
+                android:max="10"
+                android:background="@color/white"
+                android:layout_marginStart="40dp"
+                android:layout_weight="1"
+                style="?android:attr/progressBarStyleHorizontal"/>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="140dp"

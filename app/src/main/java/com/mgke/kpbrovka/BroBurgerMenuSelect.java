@@ -12,7 +12,9 @@ import android.widget.TextView;
 
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.mgke.kpbrovka.auth.Authentication;
@@ -35,13 +37,22 @@ public class BroBurgerMenuSelect implements NavigationView.OnNavigationItemSelec
         TextView name = view.findViewById(R.id.title);
         name.setText(Authentication.user.name);
         ImageView photo = view.findViewById(R.id.icon);
-        Glide.with(context).load(Authentication.user.photo).apply(new RequestOptions()
-                .centerCrop()
-                .circleCrop()).into(photo);
+
+        if (Authentication.user.photo != null) {
+            Glide.with(context)
+                    .load(Authentication.user.photo)
+                    .apply(new RequestOptions()
+                            .override(Target.SIZE_ORIGINAL)
+                            .centerCrop()
+                            .transform(new RoundedCorners(16))
+                    )
+                    .into(photo);
+        }
+
         HotelRepository hotelRepository = new HotelRepository(FirebaseFirestore.getInstance());
         hotelRepository.getHotelByUserId(Authentication.user.id).thenAccept(hotel -> {
             TextView hotelName = view.findViewById(R.id.subtitle);
-            hotelName.setText("Бронист отеля " + hotel.hotelName);
+            hotelName.setText("Бронист " + hotel.hotelName);
         });
 
 
@@ -74,8 +85,6 @@ public class BroBurgerMenuSelect implements NavigationView.OnNavigationItemSelec
         } else if (menuItem.getItemId() == R.id.dates) {
             intent = new Intent(context, BroReservationEdit.class);
         } else if (menuItem.getItemId() == R.id.bookings) {
-            intent = new Intent(context, BroReservationEdit.class);
-        } else if (menuItem.getItemId() == R.id.visitor_registration) {
             intent = new Intent(context, BroReservationEdit.class);
         }
 

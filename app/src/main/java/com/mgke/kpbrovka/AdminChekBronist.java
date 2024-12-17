@@ -7,7 +7,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -25,12 +27,14 @@ import com.mgke.kpbrovka.repository.HotelRepository;
 import com.mgke.kpbrovka.repository.UserRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class AdminChekBronist extends AppCompatActivity {
     private UserRepository userRepository;
     private HotelRepository hotelRepository;
     private ListOfBroAdapter listOfBroAdapter;
     private List<User> userList;
+    private List<User> firstUserList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +53,7 @@ public class AdminChekBronist extends AppCompatActivity {
         userRepository.getUsersByUserType(UserType.HOTELIER)
                 .thenAccept(list -> {
                     userList = list;
+                    firstUserList = list;
                     listOfBroAdapter = new ListOfBroAdapter(this, list);
                     listView.setAdapter(listOfBroAdapter);
                     listOfBroAdapter.notifyDataSetChanged();
@@ -64,6 +69,25 @@ public class AdminChekBronist extends AppCompatActivity {
                         });
             }
         });
+
+        EditText editText = findViewById(R.id.find);
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                userList = firstUserList.stream().filter(user -> user.name.contains(s)).collect(Collectors.toList());
+                listOfBroAdapter = new ListOfBroAdapter(AdminChekBronist.this, userList);
+                listView.setAdapter(listOfBroAdapter);
+                listOfBroAdapter.notifyDataSetChanged();
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     public void updateBro(User user, Hotel hotel) {
@@ -73,11 +97,13 @@ public class AdminChekBronist extends AppCompatActivity {
         EditText password = customView.findViewById(R.id.password);
         EditText hotelName = customView.findViewById(R.id.hotel_name);
         EditText email = customView.findViewById(R.id.email);
+        EditText city = customView.findViewById(R.id.hotel_city);
 
         name.setText(user.name);
         password.setText(user.pass);
         hotelName.setText(hotel.hotelName);
         email.setText(user.email);
+        city.setText(hotel.city);
 
         builder.setView(customView);
         builder.setTitle("Редактирование отельера")
@@ -114,6 +140,7 @@ public class AdminChekBronist extends AppCompatActivity {
                     userRepository.updateUser(user);
 
                     hotel.hotelName = hotelName.getText().toString();
+                    hotel.city = city.getText().toString();
                     hotelRepository.updateHotel(hotel);
 
                     listOfBroAdapter.notifyDataSetChanged();
@@ -161,6 +188,7 @@ public class AdminChekBronist extends AppCompatActivity {
                 EditText password = customView.findViewById(R.id.password);
                 EditText hotelName = customView.findViewById(R.id.hotel_name);
                 EditText email = customView.findViewById(R.id.email);
+                EditText city = customView.findViewById(R.id.hotel_city);
 
                 if (validateInput(name, password, email)) {
                     userRepository.nameMatchingCheck(name.getText().toString()).thenAccept(b ->{
@@ -173,6 +201,7 @@ public class AdminChekBronist extends AppCompatActivity {
 
                             Hotel hotel = new Hotel();
                             hotel.hotelName = hotelName.getText().toString();
+                            hotel.city = city.getText().toString();
                             hotel.isActive = false;
                             hotel.userId = userId;
                             hotelRepository.addHotel(hotel);

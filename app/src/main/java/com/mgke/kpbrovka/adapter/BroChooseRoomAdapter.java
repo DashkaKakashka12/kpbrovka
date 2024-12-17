@@ -13,6 +13,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.mgke.kpbrovka.BroHotelRoomEdit;
 import com.mgke.kpbrovka.R;
 import com.mgke.kpbrovka.model.HotelRoom;
@@ -40,7 +43,16 @@ public class BroChooseRoomAdapter extends ArrayAdapter<HotelRoom> {
         ImageView pensil = convertView.findViewById(R.id.pensil);
 
         name.setText(hotelRoom.name);
-        Glide.with(convertView).load(hotelRoom.photos).into(photo);
+        if (hotelRoom.photos != null) {
+            Glide.with(convertView)
+                    .load(hotelRoom.photos)
+                    .apply(new RequestOptions()
+                            .override(Target.SIZE_ORIGINAL)
+                            .centerCrop()
+                            .transform(new RoundedCorners(16))
+                    )
+                    .into(photo);
+        }
 
         pensil.setOnClickListener(new View.OnClickListener() {
             @Override

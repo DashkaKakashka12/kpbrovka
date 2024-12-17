@@ -31,6 +31,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -68,9 +71,14 @@ public class BroHotelRoomEdit extends AppCompatActivity {
                         Uri imageUri = result.getData().getData();
                         if (imageUri != null) {
                             ImageView photo = findViewById(R.id.photo);
-                            Glide.with(this)
-                                    .load(imageUri)
-                                    .into(photo);
+                                Glide.with(this)
+                                        .load(hotelRoom.photos)
+                                        .apply(new RequestOptions()
+                                                .override(Target.SIZE_ORIGINAL)
+                                                .centerCrop()
+                                                .transform(new RoundedCorners(16))
+                                        )
+                                        .into(photo);
 
                             String hotelRoomId = hotelRoom.id;
                             CloudinaryUploader uploader = new CloudinaryUploader(this);
@@ -99,7 +107,17 @@ public class BroHotelRoomEdit extends AppCompatActivity {
         TextView description = findViewById(R.id.descriptionText);
         TextView type = findViewById(R.id.type);
 
-        Glide.with(this).load(hotelRoom.photos).into(photo);
+        if (hotelRoom.photos != null) {
+            Glide.with(this)
+                    .load(hotelRoom.photos)
+                    .apply(new RequestOptions()
+                            .override(Target.SIZE_ORIGINAL)
+                            .centerCrop()
+                            .transform(new RoundedCorners(16))
+                    )
+                    .into(photo);
+        }
+
         name.setText(hotelRoom.name);
         type.setText(hotelRoom.typeOfBed);
         cost1.setText("Без питания\n" + hotelRoom.costWithout + " BYN");

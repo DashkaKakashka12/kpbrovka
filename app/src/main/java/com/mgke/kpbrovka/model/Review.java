@@ -17,6 +17,10 @@ public class Review {
 
     public String text;
 
+    public int getStars() {
+        return stars;
+    }
+
     public Review() {
     }
 

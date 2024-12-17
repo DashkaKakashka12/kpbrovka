@@ -34,9 +34,8 @@
 
         <ImageView
             android:id="@+id/photo"
-            android:scaleType="fitXY"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:src="@drawable/photo1" />
+            android:src="@drawable/add_photo_room" />
 
 </LinearLayout>

@@ -49,6 +49,10 @@ public class BroCheckReviews extends AppCompatActivity {
             recyclerView.setAdapter(adapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+            if (list.size() == 0){
+                return;
+            }
+
             int[] mass = new int[5];
             for (int i = 0; i < list.size(); i++){
                 mass[0] += list.get(i).valueForMoney;
@@ -57,6 +61,7 @@ public class BroCheckReviews extends AppCompatActivity {
                 mass[3] += list.get(i).staff;
                 mass[4] += list.get(i).facilities;
             }
+
 
             int1.setText(String.valueOf((double) mass[0] / list.size()));
             int2.setText(String.valueOf((double) mass[1] / list.size()));

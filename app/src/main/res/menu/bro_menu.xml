@@ -33,11 +33,5 @@
         android:icon="@drawable/checkmark_icon"/>
 
 
-    <item
-        android:id="@+id/visitor_registration"
-        android:orderInCategory="6"
-        android:title="Регистрация посетителя"
-        android:icon="@drawable/man_icon"/>
-
 
 </menu>

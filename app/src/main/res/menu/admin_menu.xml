@@ -11,37 +11,25 @@
     <item
         android:id="@+id/hotel"
         android:orderInCategory="2"
-        android:title="Отель"
+        android:title="Отели"
         android:icon="@drawable/hotel_icon"/>
 
     <item
-        android:id="@+id/rooms"
-        android:orderInCategory="3"
-        android:title="Номера"
-        android:icon="@drawable/hotel_room_icon"/>
-
-    <item
         android:id="@+id/dates"
-        android:orderInCategory="4"
+        android:orderInCategory="3"
         android:title="Даты"
         android:icon="@drawable/calendar_icon"/>
 
     <item
         android:id="@+id/bookings"
-        android:orderInCategory="5"
+        android:orderInCategory="4"
         android:title="Бронирования"
         android:icon="@drawable/checkmark_icon"/>
 
     <item
     android:id="@+id/hoteliers"
-    android:orderInCategory="6"
+    android:orderInCategory="5"
     android:title="Отельеры"
     android:icon="@drawable/hotelier_icon"/>
 
-
-    <item
-        android:id="@+id/visitor_registration"
-        android:orderInCategory="7"
-        android:title="Регистрация посетителя"
-        android:icon="@drawable/man_icon"/>
 </menu>

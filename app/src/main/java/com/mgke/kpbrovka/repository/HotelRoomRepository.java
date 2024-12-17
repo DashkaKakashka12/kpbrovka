@@ -107,4 +107,30 @@ public class HotelRoomRepository {
         db.collection("hotelRooms").document(hotelRoom.id)
                 .set(hotelRoom);
     }
+
+    public CompletableFuture <Double> getMinCostByHotelId(String id) {
+        final CompletableFuture<Double> future = new CompletableFuture<>();
+
+        db.collection("hotelRooms")
+                .whereEqualTo("hotelId", id)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            double min = 0;
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                HotelRoom hotelRoom = document.toObject(HotelRoom.class);
+                                if (hotelRoom.costWithout < min || min == 0){
+                                    min = hotelRoom.costWithout;
+                                }
+                            }
+                            future.complete(min);
+                        }
+                    }
+                });
+
+        return future;
+    }
+
 }
