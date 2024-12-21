@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginEnd="20dp">
+
+    <ImageView
+        android:id="@+id/miniPhotoOfHotel"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/add_home"
+        android:scaleType="fitXY"
+        android:background="@drawable/rounded_corners"
+        android:clipToOutline="true"/>
+
+    <TextView
+        android:id="@+id/miniTextOfPhoto"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:layout_marginTop="5dp"/>
+
+</LinearLayout>

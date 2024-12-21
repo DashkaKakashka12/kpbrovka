@@ -39,7 +39,7 @@ public class AdminBurgerMenuSelect implements NavigationView.OnNavigationItemSel
                     .apply(new RequestOptions()
                             .override(Target.SIZE_ORIGINAL)
                             .centerCrop()
-                            .transform(new RoundedCorners(16))
+                            .circleCrop()
                     )
                     .into(photo);
         }

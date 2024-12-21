@@ -16,55 +16,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginBottom="70dp"
-        android:background="@android:color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="65dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:orientation="horizontal">
-        <TextView
-            android:drawableTop="@drawable/magnifier"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:text="Найти"
-            android:textColor="@color/black"
-            android:gravity="center"
-            android:onClick="findClick"/>
-        <TextView
-            android:drawableTop="@drawable/heart"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:text="Сохраненное"
-            android:textColor="@color/black"
-            android:gravity="center"
-            android:onClick="savedClick"/>
-        <TextView
-            android:drawableTop="@drawable/bag"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:text="Бронирования"
-            android:textColor="@color/black"
-            android:gravity="center" />
-        <TextView
-            android:drawableTop="@drawable/profileuser"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:text="Пофиль"
-            android:textColor="@color/black"
-            android:gravity="center"
-            android:onClick="profileUserClick"/>
-    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -19,6 +19,12 @@
         android:theme="@style/Theme.kpbrovka"
         tools:targetApi="31">
         <activity
+            android:name=".UserShowHotels"
+            android:exported="false" />
+        <activity
+            android:name=".UserProfileEdit"
+            android:exported="false" />
+        <activity
             android:name=".AdminProfileEdit"
             android:exported="false" />
         <activity

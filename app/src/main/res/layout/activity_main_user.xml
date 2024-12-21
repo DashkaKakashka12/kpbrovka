@@ -8,11 +8,9 @@
     android:background="@color/white"
     android:id="@+id/main_user">
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
 
         <TextView
             android:id="@+id/toolbar"
@@ -26,7 +24,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 
-
         <ImageView
             android:onClick="onBurger"
             android:id="@+id/menu"
@@ -38,11 +35,333 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/menu_burger_icon" />
 
+        <ScrollView
+            android:id="@+id/scrollView2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="20dp">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="5dp"
+                    android:onClick="onShowHotel"
+                    android:tag="1">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:background="@drawable/rounded_corners"
+                        android:clipToOutline="true"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/hotels_with_pool" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|bottom"
+                        android:layout_marginBottom="45dp"
+                        android:gravity="center"
+                        android:text="Подборка отелей"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/textOfPhoto1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|bottom"
+                        android:layout_marginBottom="17dp"
+                        android:gravity="center"
+                        android:text="Синие Оазисы"
+                        android:textColor="@color/white"
+                        android:textSize="21sp" />
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="35dp"
+                    android:layout_marginBottom="25dp"
+                    android:onClick="onShowHotelByCity"
+                    android:orientation="horizontal"
+                    android:tag="1">
+
+                    <TextView
+                        android:id="@+id/firstCityText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Отели в Москве"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:gravity="right"
+                        android:text="Все >"
+                        android:textColor="#807F7F"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/listOfHotels1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="35dp" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="5dp"
+                    android:onClick="onShowHotel"
+                    android:tag="2">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:background="@drawable/rounded_corners"
+                        android:clipToOutline="true"
+                        android:scaleType="fitXY"
+                        app:srcCompat="@drawable/hotels_with_sport" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|bottom"
+                        android:layout_marginBottom="45dp"
+                        android:gravity="center"
+                        android:text="Подборка отелей"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/textOfPhoto2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|bottom"
+                        android:layout_marginBottom="17dp"
+                        android:gravity="center"
+                        android:text="Здоровье и комфорт"
+                        android:textColor="@color/white"
+                        android:textSize="21sp" />
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="35dp"
+                    android:layout_marginBottom="25dp"
+                    android:onClick="onShowHotelByCity"
+                    android:orientation="horizontal"
+                    android:tag="2">
+
+                    <TextView
+                        android:id="@+id/secondCityText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Отели в Москве"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/secondCityText2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:gravity="right"
+                        android:text="Все >"
+                        android:textColor="#807F7F"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/listOfHotels2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="25dp" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="5dp"
+                    android:onClick="onShowHotel"
+                    android:tag="3">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:background="@drawable/rounded_corners"
+                        android:clipToOutline="true"
+                        android:scaleType="fitXY"
+                        app:srcCompat="@drawable/hotels_with_spa" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|bottom"
+                        android:layout_marginBottom="45dp"
+                        android:gravity="center"
+                        android:text="Подборка отелей"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/textOfPhoto3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|bottom"
+                        android:layout_marginBottom="17dp"
+                        android:gravity="center"
+                        android:text="Секреты спокойствия"
+                        android:textColor="@color/white"
+                        android:textSize="21sp" />
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="35dp"
+                    android:layout_marginBottom="25dp"
+                    android:onClick="onShowHotelByCity"
+                    android:orientation="horizontal"
+                    android:tag="3">
+
+                    <TextView
+                        android:id="@+id/thirdCityText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Отели в Москве"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/thirdCityText2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:gravity="right"
+                        android:text="Все >"
+                        android:textColor="#807F7F"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/listOfHotels3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="25dp" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="5dp"
+                    android:onClick="onShowHotel"
+                    android:tag="4">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:background="@drawable/rounded_corners"
+                        android:clipToOutline="true"
+                        android:scaleType="fitXY"
+                        app:srcCompat="@drawable/hotels_with_restauran" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|bottom"
+                        android:layout_marginBottom="45dp"
+                        android:gravity="center"
+                        android:text="Подборка отелей"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/textOfPhoto4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|bottom"
+                        android:layout_marginBottom="17dp"
+                        android:gravity="center"
+                        android:text="Вкусовая симфония"
+                        android:textColor="@color/white"
+                        android:textSize="21sp" />
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    android:gravity="center"
+                    android:textColor="@color/white" />
+
+            </LinearLayout>
+        </ScrollView>
+
+        <View
+            android:id="@+id/dim_view"
+            android:layout_width="0dp"
+            android:layout_height="170dp"
+            android:background="@drawable/gradient_dim"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <LinearLayout
+            android:id="@+id/find"
+            android:layout_width="350dp"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:background="@drawable/rounded_corners"
+            android:layout_marginTop="600dp"
+            android:padding="7dp"
+            android:layout_marginBottom="40dp"
+            android:layout_gravity="center"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="invisible">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                app:srcCompat="@drawable/magnifier"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:id="@+id/findText"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="19sp"
+                android:gravity="left"
+                android:layout_marginStart="10dp"
+                android:background="@color/white"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
+
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView
-
         android:id="@+id/navigationMenuUser"
         app:headerLayout="@layout/user_nav_menu_item_custom"
         android:layout_width="match_parent"

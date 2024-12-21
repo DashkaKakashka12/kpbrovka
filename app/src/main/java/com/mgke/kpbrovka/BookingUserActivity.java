@@ -14,21 +14,4 @@ public class BookingUserActivity extends AppCompatActivity {
         setContentView(R.layout.activity_booking_user);
     }
 
-    public void findClick(View view) {
-        Intent intent = new Intent(this, SavedUserActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
-    public void savedClick(View view) {
-        Intent intent = new Intent(this, SavedUserActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
-    public void profileUserClick(View view) {
-        Intent intent = new Intent(this, ProfileUserActivity.class);
-        startActivity(intent);
-        finish();
-    }
 }

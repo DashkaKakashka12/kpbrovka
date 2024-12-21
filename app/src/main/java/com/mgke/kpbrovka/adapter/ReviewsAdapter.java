@@ -33,7 +33,6 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewVi
         this.reviews = reviews;
         this.userRepository = new UserRepository(FirebaseFirestore.getInstance());
         this.reviewRepository = new ReviewRepository(FirebaseFirestore.getInstance());
-
     }
 
     @NonNull

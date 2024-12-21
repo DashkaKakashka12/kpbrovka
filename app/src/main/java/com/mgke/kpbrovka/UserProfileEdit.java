@@ -31,7 +31,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.mgke.kpbrovka.auth.Authentication;
 import com.mgke.kpbrovka.repository.UserRepository;
 
-public class AdminProfileEdit extends AppCompatActivity {
+public class UserProfileEdit extends AppCompatActivity {
 
     private Context context;
     private ActivityResultLauncher<Intent> imagePickerLauncher;
@@ -39,7 +39,7 @@ public class AdminProfileEdit extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin_profile_edit);
+        setContentView(R.layout.activity_user_profile_edit);
 
         setValue();
         userRepository = new UserRepository(FirebaseFirestore.getInstance());
@@ -101,7 +101,7 @@ public class AdminProfileEdit extends AppCompatActivity {
 
     }
 
-    public void adminEditName(View view) {
+    public void userEditName(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.dialogBlack);
         View customView = getLayoutInflater().inflate(R.layout.dialog_bro_edit_name, null);
         EditText name = customView.findViewById(R.id.name);
@@ -141,7 +141,7 @@ public class AdminProfileEdit extends AppCompatActivity {
     }
 
 
-    public void adminEditPassword(View view) {
+    public void userEditPassword(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.dialogBlack);
         View customView = getLayoutInflater().inflate(R.layout.dialog_bro_edit_password, null);
         EditText pass = customView.findViewById(R.id.password1);
@@ -195,8 +195,7 @@ public class AdminProfileEdit extends AppCompatActivity {
         dialog.show();
     }
 
-
-    public void adminEditEmail(View view) {
+    public void userEditEmail(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.dialogBlack);
         View customView = getLayoutInflater().inflate(R.layout.dialog_bro_edit_email, null);
         EditText email = customView.findViewById(R.id.editEmail1);
@@ -252,11 +251,10 @@ public class AdminProfileEdit extends AppCompatActivity {
 
 
     public void back (View b){
-        Intent a = new Intent(this, AdminHotelEdit.class);
+        Intent a = new Intent(this, MainUserActivity.class);
         startActivity(a);
         finish();
     }
-
 
     public void onClickOpenGallery(View view) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

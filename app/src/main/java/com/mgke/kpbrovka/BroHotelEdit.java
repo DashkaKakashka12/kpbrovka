@@ -231,16 +231,16 @@ public class BroHotelEdit extends AppCompatActivity {
 
 
         CheckBox[] checkBoxes = new CheckBox[]{
-                customView.findViewById(R.id.checkBoxSafe),
+                customView.findViewById(R.id.checkBoxRestauran),
                 customView.findViewById(R.id.checkBoxConditioning),
                 customView.findViewById(R.id.checkBoxCard),
                 customView.findViewById(R.id.checkBoxSport),
-                customView.findViewById(R.id.checkBoxParking),
+                customView.findViewById(R.id.checkBoxSpa),
                 customView.findViewById(R.id.checkBoxWifi),
                 customView.findViewById(R.id.checkBoxPool)
         };
 
-        String[] facilities = {"Сейф", "Кондиционер", "Оплата картой", "Тренажёрный зал", "Парковка", "Wifi", "Бассейн"};
+        String[] facilities = {"Ресторан", "Кондиционер", "Оплата картой", "Тренажёрный зал", "Спа-центр", "Wifi", "Бассейн"};
 
 
         for (int i = 0; i < facilities.length; i++) {

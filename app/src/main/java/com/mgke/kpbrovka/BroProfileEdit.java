@@ -62,7 +62,7 @@ public class BroProfileEdit extends AppCompatActivity {
                                     .apply(new RequestOptions()
                                             .override(Target.SIZE_ORIGINAL)
                                             .centerCrop()
-                                            .transform(new RoundedCorners(16))
+                                            .circleCrop()
                                     )
                                     .into(photo);
 
@@ -94,7 +94,7 @@ public class BroProfileEdit extends AppCompatActivity {
                     .apply(new RequestOptions()
                             .override(Target.SIZE_ORIGINAL)
                             .centerCrop()
-                            .transform(new RoundedCorners(16))
+                            .circleCrop()
                     )
                     .into(photo);
         }

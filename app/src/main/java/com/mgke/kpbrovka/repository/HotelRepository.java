@@ -15,8 +15,11 @@ import com.mgke.kpbrovka.model.User;
 import com.mgke.kpbrovka.model.UserType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 public class HotelRepository {
 
@@ -103,5 +106,79 @@ public class HotelRepository {
     public void updateHotel(Hotel hotel) {
         db.collection("hotels").document(hotel.id)
                 .set(hotel);
+    }
+
+    public CompletableFuture<List<List<Hotel>>> getThreeHotelsByCity() {
+        final CompletableFuture<List<List<Hotel>>> future = new CompletableFuture<>();
+        Map<String, List<Hotel>> cityHotelMap = new HashMap<>();
+
+        db.collection("hotels")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Hotel hotel = document.toObject(Hotel.class);
+                                String city = hotel.city;
+
+                                cityHotelMap.putIfAbsent(city, new ArrayList<>());
+                                cityHotelMap.get(city).add(hotel);
+                            }
+
+                            List<Map.Entry<String, List<Hotel>>> sortedCities = new ArrayList<>(cityHotelMap.entrySet());
+                            sortedCities.sort((entry1, entry2) -> Integer.compare(entry2.getValue().size(), entry1.getValue().size()));
+
+                            List<List<Hotel>> result = new ArrayList<>();
+                            for (int i = 0; i < Math.min(3, sortedCities.size()); i++) {
+                                result.add(sortedCities.get(i).getValue());
+                            }
+
+                            future.complete(result);
+                        } else {
+                            future.completeExceptionally(task.getException());
+                        }
+                    }
+                });
+
+        return future;
+    }
+
+    public CompletableFuture<List<Hotel>> getHotelsByParametr(String parametr, String value) {
+        final CompletableFuture<List<Hotel>> future = new CompletableFuture<>();
+        List<Hotel> hotelList = new ArrayList<>();
+
+        db.collection("hotels")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Hotel hotel = document.toObject(Hotel.class);
+                                hotelList.add(hotel);
+                            }
+
+                            List<Hotel> filteredList = hotelList.stream().filter(hotel -> {
+                                switch (parametr) {
+                                    case "city":
+                                        return hotel.city.equals(value);
+                                    case "facility":
+                                        return hotel.facilities.contains(value);
+                                    case "nameAndCity":
+                                        return hotel.hotelName.contains(value) || hotel.city.contains(value);
+                                    default:
+                                        return false;
+                                }
+                            }).collect(Collectors.toList());
+
+                            future.complete(filteredList);
+                        } else {
+                            future.completeExceptionally(task.getException());
+                        }
+                    }
+                });
+
+        return future;
     }
 }

@@ -51,7 +51,7 @@ public class HotelAdapter extends ArrayAdapter<Hotel> {
         TextView cost = convertView.findViewById(R.id.cost);
 
         name.setText(hotel.hotelName);
-        city.setText(hotel.city);
+        city.setText(hotel.city + ", " + hotel.adress );
         if (hotel.photos != null) {
             Glide.with(convertView)
                     .load(hotel.photos)

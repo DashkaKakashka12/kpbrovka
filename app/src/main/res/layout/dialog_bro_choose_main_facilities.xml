@@ -64,20 +64,20 @@
         android:layout_marginTop="3dp"
         android:layout_marginBottom="15dp">
         <CheckBox
-            android:id="@+id/checkBoxParking"
+            android:id="@+id/checkBoxSpa"
             android:layout_width="23dp"
             android:layout_height="23dp"
             android:layout_marginEnd="30dp"/>
         <ImageView
             android:layout_width="23dp"
             android:layout_height="23dp"
-            app:srcCompat="@drawable/parking_icon" />
+            app:srcCompat="@drawable/icon_spa" />
         <TextView
-            android:id="@+id/parking"
+            android:id="@+id/spa"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Парковка"
+            android:text="Спа-центр"
             android:textSize="18sp"
             android:layout_marginStart="5dp"/>
     </LinearLayout>
@@ -163,20 +163,20 @@
         android:orientation="horizontal"
         android:layout_marginTop="3dp">
         <CheckBox
-            android:id="@+id/checkBoxSafe"
+            android:id="@+id/checkBoxRestauran"
             android:layout_width="23dp"
             android:layout_height="23dp"
             android:layout_marginEnd="30dp"/>
         <ImageView
             android:layout_width="23dp"
             android:layout_height="23dp"
-            app:srcCompat="@drawable/safe_icon"/>
+            app:srcCompat="@drawable/restauran_icon"/>
         <TextView
-            android:id="@+id/safe"
+            android:id="@+id/restauran"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Сейф"
+            android:text="Ресторан"
             android:textSize="18sp"
             android:layout_marginStart="5dp"/>
     </LinearLayout>
