@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "com.mgke.kpbrovka"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -54,5 +54,6 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore")
+    implementation ("com.yandex.android:maps.mobile:4.10.0-lite")
 
 }

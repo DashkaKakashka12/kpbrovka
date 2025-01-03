@@ -5,8 +5,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/rounded_corners_grey"
     android:orientation="vertical"
-    android:padding="10dp"
-    android:layout_margin="13dp">
+    android:padding="15dp"
+    android:layout_margin="8dp"
+    android:backgroundTint="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -44,14 +45,13 @@
         android:layout_height="15dp"
         android:rating="5"
         app:scaleFactor="0.9"
-        android:stepSize="1"
-        android:layout_marginStart="13dp"/>
+        android:stepSize="1" />
 
 
     <TextView
         android:id="@+id/text"
         android:layout_width="wrap_content"
-        android:layout_marginStart="15dp"
+
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:textSize="10sp"

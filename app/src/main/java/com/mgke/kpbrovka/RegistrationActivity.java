@@ -50,15 +50,23 @@ public class RegistrationActivity extends AppCompatActivity {
 
     public void registrationUser(View view) {
         EditText nameEdit = findViewById(R.id.NameEditReg);
+        EditText userEmail = findViewById(R.id.userEmail);
         EditText passEdit = findViewById(R.id.passEditReg);
         EditText passEdit2 = findViewById(R.id.passEditReg2);
 
         String name = nameEdit.getText().toString().trim();
+        String email = userEmail.getText().toString().trim();
         String password = passEdit.getText().toString();
         String passwordConfirm = passEdit2.getText().toString();
 
-        if (name.length() < 5 ) {
+
+        if (name.length() < 5) {
             nameEdit.setError("Имя должно содержать не менее 5 символов.");
+            return;
+        }
+
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            userEmail.setError("Введите корректный адрес электронной почты.");
             return;
         }
 
@@ -72,22 +80,29 @@ public class RegistrationActivity extends AppCompatActivity {
             return;
         }
 
+        if (email.isEmpty()) {
+            userEmail.setError("Введите адрес электронной почты.");
+            return;
+        }
+
+
         userRepository.nameMatchingCheck(name).thenAccept(b -> {
-           if (!b){
-               User user = new User();
-               user.name = name;
-               user.pass = password;
-               user.type = UserType.USER;
-               userRepository.addUser(user);
+            if (!b) {
+                User user = new User();
+                user.name = name;
+                user.email = email;
+                user.pass = password;
+                user.type = UserType.USER;
+                userRepository.addUser(user);
 
-               Authentication.user = user;
+                Authentication.user = user;
 
-               Intent intent = new Intent(this, MainUserActivity.class);
-               startActivity(intent);
-               finish();
-           } else {
-               nameEdit.setError("Такой пользователь уже существует");
-           }
+                Intent intent = new Intent(this, MainUserActivity.class);
+                startActivity(intent);
+                finish();
+            } else {
+                nameEdit.setError("Такой пользователь уже существует");
+            }
         });
     }
 

@@ -1,11 +1,14 @@
 package com.mgke.kpbrovka.model;
 
 public class Coordinates {
-    public int x;
-    public int y;
+    public double x;
+    public double y;
 
-    public Coordinates(int x, int y) {
+    public Coordinates(double x, double y) {
         this.x = x;
         this.y = y;
+    }
+
+    public Coordinates() {
     }
 }

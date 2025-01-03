@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -23,6 +24,7 @@ public class UserShowHotels extends AppCompatActivity {
     String param, value;
     int peopleCount;
     List<Hotel> firstHotelList = new ArrayList<>();
+    List<Hotel> list = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +47,20 @@ public class UserShowHotels extends AppCompatActivity {
             ListView listView = findViewById(R.id.list);
             HotelAdapter adapter = new HotelAdapter(this, list);
             listView.setAdapter(adapter);
+
         });
+
+        ListView listView = findViewById(R.id.list);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(UserShowHotels.this, UserHotel.class);
+                intent.putExtra("HOTELID", list.get(position).id);
+                startActivity(intent);
+                finish();
+            }
+        });
+
     }
 
     public void back(View view) {
@@ -59,7 +74,7 @@ public class UserShowHotels extends AppCompatActivity {
             ListView listView = findViewById(R.id.list);
             TextView text = findViewById(R.id.notFind);
             text.setVisibility(View.GONE);
-            List<Hotel> list = firstHotelList.stream().filter(x -> {
+            list = firstHotelList.stream().filter(x -> {
                 switch (param){
                     case "city":
                         return x.hotelName.toLowerCase().contains(findStr.toLowerCase());

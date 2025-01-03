@@ -442,4 +442,11 @@ public class BroHotelEdit extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
+    public void map(View view) {
+        Intent intent = new Intent(this, Maps.class);
+        intent.putExtra("HOTELID", hotel.id);
+        startActivity(intent);
+        finish();
+    }
 }
