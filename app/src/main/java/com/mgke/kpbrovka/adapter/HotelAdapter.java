@@ -51,7 +51,11 @@ public class HotelAdapter extends ArrayAdapter<Hotel> {
         TextView cost = convertView.findViewById(R.id.cost);
 
         name.setText(hotel.hotelName);
-        city.setText(hotel.city + ", " + hotel.adress );
+        if (hotel.adress == null) {
+            city.setText(hotel.city);
+        } else {
+            city.setText(hotel.city + ", " + hotel.adress );
+        }
         if (hotel.photos != null) {
             Glide.with(convertView)
                     .load(hotel.photos)
@@ -61,7 +65,7 @@ public class HotelAdapter extends ArrayAdapter<Hotel> {
                             .transform(new RoundedCorners(16))
                     )
                     .into(photo);
-        }
+        } else photo.setImageResource(R.drawable.add_home);
         ReviewRepository reviewRepository = new ReviewRepository(FirebaseFirestore.getInstance());
         reviewRepository.getReviewsByHotelId(hotel.id).thenAccept(list -> {
             countOfReviews.setText(list.size() + " отзывов");

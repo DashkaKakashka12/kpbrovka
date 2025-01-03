@@ -29,15 +29,28 @@ public class BroChooseHotelRoomForEdit extends AppCompatActivity {
         hotelRoomRepository = new HotelRoomRepository(FirebaseFirestore.getInstance());
         hotelRepository = new HotelRepository(FirebaseFirestore.getInstance());
 
-        hotelRepository.getHotelByUserId(Authentication.user.id).thenAccept(userHotel -> {
-            hotel = userHotel;
-
-            hotelRoomRepository.getHotelRoomByHotelId(hotel.id).thenAccept(hotelRooms -> {
-                ListView listView = findViewById(R.id.listOfRooms);
-                BroChooseRoomAdapter adapter = new BroChooseRoomAdapter(this, hotelRooms);
-                listView.setAdapter(adapter);
+        String id = getIntent().getStringExtra("HOTELID");
+        if (id == null){
+            hotelRepository.getHotelByUserId(Authentication.user.id).thenAccept(userHotel -> {
+                hotel = userHotel;
+                findViewById(R.id.back).setVisibility(View.GONE);
+                hotelRoomRepository.getHotelRoomByHotelId(hotel.id).thenAccept(hotelRooms -> {
+                    ListView listView = findViewById(R.id.listOfRooms);
+                    BroChooseRoomAdapter adapter = new BroChooseRoomAdapter(this, hotelRooms);
+                    listView.setAdapter(adapter);
+                });
             });
-        });
+        } else {
+            hotelRepository.getHotelById(id).thenAccept(userHotel -> {
+                hotel = userHotel;
+                findViewById(R.id.menu).setVisibility(View.GONE);
+                hotelRoomRepository.getHotelRoomByHotelId(hotel.id).thenAccept(hotelRooms -> {
+                    ListView listView = findViewById(R.id.listOfRooms);
+                    BroChooseRoomAdapter adapter = new BroChooseRoomAdapter(this, hotelRooms);
+                    listView.setAdapter(adapter);
+                });
+            });
+        }
 
         NavigationView navigationView = findViewById(R.id.navigationMenu);
         BroBurgerMenuSelect navigationListener = new BroBurgerMenuSelect(this, navigationView);
@@ -60,5 +73,12 @@ public class BroChooseHotelRoomForEdit extends AppCompatActivity {
     public void burger(View view) {
         DrawerLayout b = findViewById(R.id.bro_choose_hotel_room_from_edit);
         b.openDrawer(GravityCompat.START);
+    }
+
+    public void back(View view) {
+        Intent a = new Intent(this, BroHotelEdit.class);
+        a.putExtra("HOTEL", hotel.id);
+        startActivity(a);
+        finish();
     }
 }

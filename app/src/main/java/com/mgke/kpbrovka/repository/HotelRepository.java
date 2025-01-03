@@ -162,11 +162,11 @@ public class HotelRepository {
                             List<Hotel> filteredList = hotelList.stream().filter(hotel -> {
                                 switch (parametr) {
                                     case "city":
-                                        return hotel.city.equals(value);
+                                        return hotel.city.equalsIgnoreCase(value);
                                     case "facility":
                                         return hotel.facilities.contains(value);
                                     case "nameAndCity":
-                                        return hotel.hotelName.contains(value) || hotel.city.contains(value);
+                                        return hotel.hotelName.toLowerCase().contains(value.toLowerCase()) || hotel.city.toLowerCase().contains(value.toLowerCase());
                                     default:
                                         return false;
                                 }

@@ -39,7 +39,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.mgke.kpbrovka.adapter.FacilitiesAdapter;
+import com.mgke.kpbrovka.auth.Authentication;
 import com.mgke.kpbrovka.model.HotelRoom;
+import com.mgke.kpbrovka.model.UserType;
 import com.mgke.kpbrovka.repository.HotelRoomRepository;
 
 import java.util.ArrayList;
@@ -132,6 +134,8 @@ public class BroHotelRoomEdit extends AppCompatActivity {
 
     public void backToBroChooseHotelRoom (View b){
         Intent a = new Intent(this, BroChooseHotelRoomForEdit.class);
+        if (Authentication.user.type == UserType.ADMINISTRATOR)
+            a.putExtra("HOTELID", hotelRoom.hotelId);
         startActivity(a);
         finish();
     }

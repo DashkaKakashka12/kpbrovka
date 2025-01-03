@@ -176,7 +176,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:onClick="broRenameAddress"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -527,14 +526,25 @@
             </LinearLayout>
 
             <Button
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:text="Все отзывы"
+                android:layout_gravity="center"
+                android:backgroundTint="#EBEAEA"
+                android:textColor="@color/black"
+                android:layout_marginBottom="10dp"
+                android:onClick="checkReviews"/>
+
+            <Button
+                android:id="@+id/roomsButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Редактировать все отзывы"
+                android:text="Редактировать номера"
                 android:layout_gravity="center"
                 android:backgroundTint="#EBEAEA"
                 android:textColor="@color/black"
                 android:layout_marginBottom="30dp"
-                android:onClick="checkReviews"/>
+                android:onClick="checkRooms"/>
 
         </LinearLayout>
     </ScrollView>

@@ -87,6 +87,7 @@ public class BroHotelEdit extends AppCompatActivity {
 
         String id = getIntent().getStringExtra("HOTEL");
         if(id == null){
+            findViewById(R.id.roomsButton).setVisibility(View.INVISIBLE);
             hotelRepository.getHotelByUserId(Authentication.user.id).thenAccept(hotel -> {
                 this.hotel = hotel;
                 setUpValue ();
@@ -431,6 +432,13 @@ public class BroHotelEdit extends AppCompatActivity {
 
     public void back (View view){
         Intent intent = new Intent(this, AdminHotelEdit.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void checkRooms(View view) {
+        Intent intent = new Intent(this, BroChooseHotelRoomForEdit.class);
+        intent.putExtra("HOTELID", hotel.id);
         startActivity(intent);
         finish();
     }

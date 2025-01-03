@@ -1,34 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/nameOfCategory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Малые города России"
         android:layout_margin="20dp"
         android:textSize="20dp" />
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginHorizontal="20dp">
-
         <LinearLayout
+            android:id="@+id/date"
             android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="10dp"
             android:background="@drawable/rounded_corners_grey">
-
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:background="@drawable/calendar_icon"/>
-
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -36,10 +34,7 @@
                 android:layout_marginStart="5dp"
                 android:text="Заезд - выезд"
                 android:textColor="#919191"/>
-
         </LinearLayout>
-
-
         <LinearLayout
             android:layout_width="180dp"
             android:layout_height="wrap_content"
@@ -47,34 +42,35 @@
             android:padding="10dp"
             android:layout_marginStart="15dp"
             android:background="@drawable/rounded_corners_grey">
-
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:background="@drawable/icon_count_of_people"/>
-
-            <TextView
+            <EditText
+                android:id="@+id/countOfPeople"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginStart="5dp"
-                android:text="2"
+                android:hint="Количество"
+                android:textSize="14dp"
+                android:background="@null"
                 android:textColor="#919191"/>
-
         </LinearLayout>
     </LinearLayout>
-
-    <TextView
+    <EditText
+        android:id="@+id/findByHotelOrCity"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:text="Город или отель"
+        android:hint="Город или отель"
         android:textColor="#919191"
         android:padding="10dp"
+        android:textSize="14sp"
         android:layout_marginHorizontal="40dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/rounded_corners_grey"/>
-
     <TextView
+        android:id="@+id/find"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:text="Выбрать даты"
@@ -85,5 +81,4 @@
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/rounded_corners_yellow"/>
-
 </LinearLayout>
