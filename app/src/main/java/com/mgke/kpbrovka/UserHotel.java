@@ -146,7 +146,7 @@ public class UserHotel extends AppCompatActivity {
 
         name.setText(currentHotel.hotelName);
         adress.setText(currentHotel.adress);
-        city.setText(currentHotel.city + " , ");
+        city.setText(currentHotel.city + ", ");
 
         ReviewRepository reviewRepository = new ReviewRepository(FirebaseFirestore.getInstance());
         reviewRepository.getReviewsByHotelId(currentHotel.id).thenAccept(list -> {

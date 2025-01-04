@@ -48,6 +48,14 @@ import com.mgke.kpbrovka.model.Review;
 import com.mgke.kpbrovka.repository.HotelRepository;
 import com.mgke.kpbrovka.repository.ReviewRepository;
 import com.mgke.kpbrovka.repository.UserRepository;
+import com.yandex.mapkit.MapKitFactory;
+import com.yandex.mapkit.geometry.Point;
+import com.yandex.mapkit.map.CameraPosition;
+import com.yandex.mapkit.map.InputListener;
+import com.yandex.mapkit.map.Map;
+import com.yandex.mapkit.map.PlacemarkMapObject;
+import com.yandex.mapkit.mapview.MapView;
+import com.yandex.runtime.image.ImageProvider;
 
 import android.Manifest;
 import android.widget.Toast;
@@ -64,17 +72,26 @@ public class BroHotelEdit extends AppCompatActivity {
 
     private HotelRepository hotelRepository;
     private Hotel hotel;
+    private InputListener inputListener;
     private FacilitiesAdapter adapter;
     private ActivityResultLauncher<Intent> imagePickerLauncher;
 
     private ReviewRepository reviewRepository;
 
     private UserRepository userRepository;
+    private MapView mapView;
+    private PlacemarkMapObject placeMark = null;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (!Maps.isMapInitialized){
+            MapKitFactory.setApiKey("7a8bcddd-0717-4d1a-a0cb-62cf7170e1b6");
+            MapKitFactory.initialize(this);
+            Maps.isMapInitialized = true;
+        }
         setContentView(R.layout.activity_bro_hotel_edit);
 
         NavigationView navigationView = findViewById(R.id.navigationMenu);
@@ -84,6 +101,7 @@ public class BroHotelEdit extends AppCompatActivity {
         hotelRepository = new HotelRepository(FirebaseFirestore.getInstance());
         reviewRepository = new ReviewRepository(FirebaseFirestore.getInstance());
         userRepository = new UserRepository(FirebaseFirestore.getInstance());
+        mapView = findViewById(R.id.mapsphoto);
 
         String id = getIntent().getStringExtra("HOTEL");
         if(id == null){
@@ -91,6 +109,7 @@ public class BroHotelEdit extends AppCompatActivity {
             hotelRepository.getHotelByUserId(Authentication.user.id).thenAccept(hotel -> {
                 this.hotel = hotel;
                 setUpValue ();
+                setMap();
                 findViewById(R.id.back).setVisibility(View.GONE);
             });
         } else {
@@ -136,6 +155,48 @@ public class BroHotelEdit extends AppCompatActivity {
                     }
                 });
 
+    }
+
+    private void setMap() {
+        Map map = mapView.getMap();
+
+        map.setRotateGesturesEnabled(false);
+        map.setZoomGesturesEnabled(false);
+        map.setScrollGesturesEnabled(false);
+        map.setTiltGesturesEnabled(false);
+
+        Point point = new Point(hotel.coordinates.x, hotel.coordinates.y);
+        map.move(new CameraPosition(point, 15.0f, 0.0f, 0.0f));
+
+        ImageProvider imageProvider = ImageProvider.fromResource(this, R.drawable.geo4);
+        placeMark = map.getMapObjects().addPlacemark(point, imageProvider);
+        inputListener = new InputListener() {
+            @Override
+            public void onMapTap(@NonNull Map map, @NonNull Point point) {
+                map();
+            }
+
+            @Override
+            public void onMapLongTap(@NonNull Map map, @NonNull Point point) {
+                map();
+            }
+        };
+        map.addInputListener(inputListener);
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        MapKitFactory.getInstance().onStart();
+        mapView.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        mapView.onStop();
+        MapKitFactory.getInstance().onStop();
+        super.onStop();
     }
 
 
@@ -443,7 +504,7 @@ public class BroHotelEdit extends AppCompatActivity {
         finish();
     }
 
-    public void map(View view) {
+    public void map() {
         Intent intent = new Intent(this, Maps.class);
         intent.putExtra("HOTELID", hotel.id);
         startActivity(intent);
