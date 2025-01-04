@@ -99,7 +99,7 @@
             <TextView
                 android:id="@+id/countOfReviews"
                 android:layout_marginStart="10dp"
-                android:text="16242 отзывов"
+                android:text="0 отзывов"
                 android:textSize="15sp"
                 android:layout_gravity="center"
                 android:textColor="#6E6E6E"

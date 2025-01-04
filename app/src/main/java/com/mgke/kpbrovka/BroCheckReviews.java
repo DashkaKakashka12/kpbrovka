@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.mgke.kpbrovka.adapter.ReviewsAdapter;
+import com.mgke.kpbrovka.model.Review;
 import com.mgke.kpbrovka.repository.HotelRepository;
 import com.mgke.kpbrovka.repository.ReviewRepository;
 
@@ -41,6 +42,8 @@ public class BroCheckReviews extends AppCompatActivity {
         TextView int3 = findViewById(R.id.int3);
         TextView int4 = findViewById(R.id.int4);
         TextView int5 = findViewById(R.id.int5);
+        TextView countOfReviews = findViewById(R.id.countOfReviews);
+        TextView mark = findViewById(R.id.mark);
 
 
         RecyclerView recyclerView = findViewById(R.id.listOfReviews);
@@ -80,7 +83,15 @@ public class BroCheckReviews extends AppCompatActivity {
 
         hotelRepository.getHotelById(id).thenAccept(hotel ->{
            hotelName.setText(hotel.hotelName);
+            ReviewRepository reviewRepository = new ReviewRepository(FirebaseFirestore.getInstance());
+            reviewRepository.getReviewsByHotelId(hotel.id).thenAccept(list -> {
+                countOfReviews.setText(list.size() + " отзывов");
+                double averageStars = list.stream().mapToDouble(Review::getStars).average().orElse(0.0);
+                String formattedAverage = String.format("%.1f", averageStars);
+                mark.setText(formattedAverage);
+            });
         });
+
 
     }
 

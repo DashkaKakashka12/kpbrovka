@@ -2,10 +2,13 @@ package com.mgke.kpbrovka;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import com.yandex.mapkit.geometry.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -23,8 +26,16 @@ import com.mgke.kpbrovka.adapter.FacilitiesAdapter;
 import com.mgke.kpbrovka.model.Hotel;
 import com.mgke.kpbrovka.model.Review;
 import com.mgke.kpbrovka.repository.HotelRepository;
+import com.mgke.kpbrovka.repository.HotelRoomRepository;
 import com.mgke.kpbrovka.repository.ReviewRepository;
 import com.mgke.kpbrovka.repository.UserRepository;
+import com.yandex.mapkit.MapKitFactory;
+import com.yandex.mapkit.map.CameraPosition;
+import com.yandex.mapkit.map.InputListener;
+import com.yandex.mapkit.map.Map;
+import com.yandex.mapkit.map.PlacemarkMapObject;
+import com.yandex.mapkit.mapview.MapView;
+import com.yandex.runtime.image.ImageProvider;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -34,23 +45,75 @@ import per.wsj.library.AndRatingBar;
 public class UserHotel extends AppCompatActivity {
 
     private Hotel currentHotel;
-    private ReviewRepository reviewRepository;
+    private InputListener inputListener;
     private UserRepository userRepository;
+    private MapView mapView;
+    private PlacemarkMapObject placeMark = null;
 
-    private ActivityResultLauncher<Intent> imagePickerLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (!Maps.isMapInitialized){
+            MapKitFactory.setApiKey("7a8bcddd-0717-4d1a-a0cb-62cf7170e1b6");
+            MapKitFactory.initialize(this);
+            Maps.isMapInitialized = true;
+        }
+
         setContentView(R.layout.activity_user_hotel);
-        reviewRepository = new ReviewRepository(FirebaseFirestore.getInstance());
+
+        userRepository = new UserRepository(FirebaseFirestore.getInstance());
+        mapView = findViewById(R.id.mapsphoto);
 
         String id = getIntent().getStringExtra("HOTELID");
         HotelRepository hotelRepository = new HotelRepository(FirebaseFirestore.getInstance());
         hotelRepository.getHotelById(id).thenAccept(hotel -> {
             currentHotel = hotel;
             setValue();
+            setMap();
         });
+    }
+
+    private void setMap() {
+        Map map = mapView.getMap();
+
+        map.setRotateGesturesEnabled(false);
+        map.setZoomGesturesEnabled(false);
+        map.setScrollGesturesEnabled(false);
+        map.setTiltGesturesEnabled(false);
+
+        Point point = new Point(currentHotel.coordinates.x, currentHotel.coordinates.y);
+        map.move(new CameraPosition(point, 15.0f, 0.0f, 0.0f));
+
+        ImageProvider imageProvider = ImageProvider.fromResource(this, R.drawable.geo4);
+        placeMark = map.getMapObjects().addPlacemark(point, imageProvider);
+        inputListener = new InputListener() {
+            @Override
+            public void onMapTap(@NonNull Map map, @NonNull Point point) {
+                maps();
+            }
+
+            @Override
+            public void onMapLongTap(@NonNull Map map, @NonNull Point point) {
+                maps();
+            }
+        };
+        map.addInputListener(inputListener);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        MapKitFactory.getInstance().onStart();
+        mapView.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        mapView.onStop();
+        MapKitFactory.getInstance().onStop();
+        super.onStop();
     }
 
     private void setValue() {
@@ -60,6 +123,7 @@ public class UserHotel extends AppCompatActivity {
         TextView adress = findViewById(R.id.adress);
         TextView countOfReviews = findViewById(R.id.countOfReviews);
         TextView mark = findViewById(R.id.mark);
+        TextView cost = findViewById(R.id.find);
 
         AndRatingBar stars = findViewById(R.id.stars);
         AndRatingBar stars2 = findViewById(R.id.stars2);
@@ -82,7 +146,24 @@ public class UserHotel extends AppCompatActivity {
 
         name.setText(currentHotel.hotelName);
         adress.setText(currentHotel.adress);
-        city.setText(currentHotel.city);
+        city.setText(currentHotel.city + " , ");
+
+        ReviewRepository reviewRepository = new ReviewRepository(FirebaseFirestore.getInstance());
+        reviewRepository.getReviewsByHotelId(currentHotel.id).thenAccept(list -> {
+            countOfReviews.setText(list.size() + " отзывов");
+            double averageStars = list.stream().mapToDouble(Review::getStars).average().orElse(0.0);
+            String formattedAverage = String.format("%.1f", averageStars);
+            mark.setText(formattedAverage);
+        });
+        HotelRoomRepository hotelRoomRepository = new HotelRoomRepository(FirebaseFirestore.getInstance());
+        hotelRoomRepository.getMinCostByHotelId(currentHotel.id).thenAccept(costValue -> {
+            cost.setText("Выбрать номера от " + costValue + " BYN");
+        });
+
+        FacilitiesAdapter adapter = new FacilitiesAdapter(currentHotel.facilities);
+        RecyclerView facilities = findViewById(R.id.facilities);
+        facilities.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        facilities.setAdapter(adapter);
 
         reviewRepository.getReviewsByHotelId(currentHotel.id).thenAccept(list -> {
             if (list.size() >= 2){
@@ -166,8 +247,20 @@ public class UserHotel extends AppCompatActivity {
     }
 
     public void back (View view){
-        Intent intent = new Intent(this, UserShowHotels.class);
-        startActivity(intent);
         finish();
+    }
+
+    public void maps() {
+        String uri = "yandexmaps://maps.yandex.ru/?pt=" + currentHotel.coordinates.y  + "," + currentHotel.coordinates.x + ",pm2rdm";
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+        intent.setPackage("ru.yandex.yandexmaps");
+
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        } else {
+            String browserUri = "https://yandex.ru/maps/?pt=" + currentHotel.coordinates.y  + "," + currentHotel.coordinates.x + "&z=12&l=map";
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(browserUri));
+            startActivity(browserIntent);
+        }
     }
 }

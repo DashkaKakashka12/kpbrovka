@@ -44,6 +44,7 @@ public class UserShowHotels extends AppCompatActivity {
         HotelRepository hotelRepository = new HotelRepository(FirebaseFirestore.getInstance());
         hotelRepository.getHotelsByParametr(param, value).thenAccept(list -> {
             firstHotelList.addAll(list);
+            this.list.addAll(list);
             ListView listView = findViewById(R.id.list);
             HotelAdapter adapter = new HotelAdapter(this, list);
             listView.setAdapter(adapter);
@@ -57,7 +58,6 @@ public class UserShowHotels extends AppCompatActivity {
                 Intent intent = new Intent(UserShowHotels.this, UserHotel.class);
                 intent.putExtra("HOTELID", list.get(position).id);
                 startActivity(intent);
-                finish();
             }
         });
 

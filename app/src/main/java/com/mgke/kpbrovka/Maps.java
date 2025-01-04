@@ -12,8 +12,10 @@ import android.os.Bundle;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.mgke.kpbrovka.auth.Authentication;
 import com.mgke.kpbrovka.model.Coordinates;
 import com.mgke.kpbrovka.model.Hotel;
+import com.mgke.kpbrovka.model.UserType;
 import com.mgke.kpbrovka.repository.HotelRepository;
 import com.mgke.kpbrovka.repository.HotelRoomRepository;
 import com.yandex.mapkit.MapKitFactory;
@@ -32,6 +34,7 @@ import android.widget.Toast;
 public class Maps extends AppCompatActivity {
 
     private FusedLocationProviderClient fusedLocationClient;
+    public static boolean isMapInitialized = false;
     private Map map;
     private MapView mapView;
     private InputListener inputListener;
@@ -41,8 +44,11 @@ public class Maps extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MapKitFactory.setApiKey("7a8bcddd-0717-4d1a-a0cb-62cf7170e1b6");
-        MapKitFactory.initialize(this);
+        if (!isMapInitialized){
+            MapKitFactory.setApiKey("7a8bcddd-0717-4d1a-a0cb-62cf7170e1b6");
+            MapKitFactory.initialize(this);
+            isMapInitialized = true;
+        }
         setContentView(R.layout.activity_maps);
 
         String id = getIntent().getStringExtra("HOTELID");
@@ -136,7 +142,8 @@ public class Maps extends AppCompatActivity {
     }
 
     public void backFromMaps(View view) {
-        Intent intent = new Intent(this, AdminHotelEdit.class);
+        Intent intent = new Intent(this, BroHotelEdit.class);
+        if (Authentication.user.type == UserType.ADMINISTRATOR) intent.putExtra("HOTEL", currentHotel.id);
         startActivity(intent);
         finish();
     }
