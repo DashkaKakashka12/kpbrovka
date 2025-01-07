@@ -21,6 +21,9 @@
         android:theme="@style/Theme.kpbrovka"
         tools:targetApi="31">
         <activity
+            android:name=".UserChooseHotelRoom"
+            android:exported="false" />
+        <activity
             android:name=".UserHotel"
             android:exported="false" />
         <activity

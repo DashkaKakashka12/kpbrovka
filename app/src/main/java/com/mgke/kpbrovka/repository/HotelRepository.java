@@ -144,9 +144,11 @@ public class HotelRepository {
         return future;
     }
 
-    public CompletableFuture<List<Hotel>> getHotelsByParametr(String parametr, String value) {
+    public CompletableFuture<List<Hotel>> getHotelsByParametr(String parametr, String value, int count) {
         final CompletableFuture<List<Hotel>> future = new CompletableFuture<>();
         List<Hotel> hotelList = new ArrayList<>();
+        HotelRoomRepository hotelRoomRepository = new HotelRoomRepository(FirebaseFirestore.getInstance());
+        List<CompletableFuture<Void>> futures = new ArrayList<>();
 
         db.collection("hotels")
                 .get()
@@ -156,23 +158,33 @@ public class HotelRepository {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Hotel hotel = document.toObject(Hotel.class);
-                                hotelList.add(hotel);
+                                CompletableFuture<Void> hotelFuture = hotelRoomRepository.getAllHotelRoomsByParametrs(hotel.id, count)
+                                        .thenAccept(hotelRooms -> {
+                                            if (!hotelRooms.isEmpty()) {
+                                                switch (parametr) {
+                                                    case "city":
+                                                        if (hotel.city.equalsIgnoreCase(value))
+                                                            hotelList.add(hotel);
+                                                        break;
+                                                    case "facility":
+                                                        if (hotel.facilities.contains(value))
+                                                            hotelList.add(hotel);
+                                                        break;
+                                                    case "nameAndCity":
+                                                        if (hotel.hotelName.toLowerCase().contains(value.toLowerCase()) || hotel.city.toLowerCase().contains(value.toLowerCase()))
+                                                            hotelList.add(hotel);
+                                                        break;
+                                                }
+                                            }
+                                        });
+                                futures.add(hotelFuture);
                             }
 
-                            List<Hotel> filteredList = hotelList.stream().filter(hotel -> {
-                                switch (parametr) {
-                                    case "city":
-                                        return hotel.city.equalsIgnoreCase(value);
-                                    case "facility":
-                                        return hotel.facilities.contains(value);
-                                    case "nameAndCity":
-                                        return hotel.hotelName.toLowerCase().contains(value.toLowerCase()) || hotel.city.toLowerCase().contains(value.toLowerCase());
-                                    default:
-                                        return false;
-                                }
-                            }).collect(Collectors.toList());
-
-                            future.complete(filteredList);
+                            CompletableFuture<Void> allFutures = CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));
+                            allFutures.thenRun(() -> future.complete(hotelList)).exceptionally(ex -> {
+                                future.completeExceptionally(ex);
+                                return null;
+                            });
                         } else {
                             future.completeExceptionally(task.getException());
                         }

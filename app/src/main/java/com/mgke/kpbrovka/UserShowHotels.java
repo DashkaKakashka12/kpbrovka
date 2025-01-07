@@ -23,7 +23,6 @@ import java.util.stream.Collectors;
 public class UserShowHotels extends AppCompatActivity {
     String param, value;
     int peopleCount;
-    List<Hotel> firstHotelList = new ArrayList<>();
     List<Hotel> list = new ArrayList<>();
 
     @Override
@@ -42,8 +41,7 @@ public class UserShowHotels extends AppCompatActivity {
         countOfPeople.setText(String.valueOf(peopleCount));
 
         HotelRepository hotelRepository = new HotelRepository(FirebaseFirestore.getInstance());
-        hotelRepository.getHotelsByParametr(param, value).thenAccept(list -> {
-            firstHotelList.addAll(list);
+        hotelRepository.getHotelsByParametr(param, value, peopleCount).thenAccept(list -> {
             this.list.addAll(list);
             ListView listView = findViewById(R.id.list);
             HotelAdapter adapter = new HotelAdapter(this, list);
@@ -57,6 +55,7 @@ public class UserShowHotels extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(UserShowHotels.this, UserHotel.class);
                 intent.putExtra("HOTELID", list.get(position).id);
+                intent.putExtra("countOfPeople", peopleCount);
                 startActivity(intent);
             }
         });
@@ -70,30 +69,36 @@ public class UserShowHotels extends AppCompatActivity {
     }
 
     public void openFindDialog(View view) {
-        MyBottomSheetDialog myBottomSheetDialog = new MyBottomSheetDialog(this, param, value, (findStr, count) -> {
+        MyBottomSheetDialog myBottomSheetDialog = new MyBottomSheetDialog(this, param, value, peopleCount, (findStr, count) -> {
             ListView listView = findViewById(R.id.list);
             TextView text = findViewById(R.id.notFind);
             text.setVisibility(View.GONE);
-            list = firstHotelList.stream().filter(x -> {
-                switch (param){
-                    case "city":
-                        return x.hotelName.toLowerCase().contains(findStr.toLowerCase());
-                    case "facility":
-                        return x.hotelName.toLowerCase().contains(findStr.toLowerCase()) || x.city.toLowerCase().contains(findStr.toLowerCase());
-                    default: return false;
-                }
-            }).collect(Collectors.toList());
-            if (list.size() == 0){
-                text.setVisibility(View.VISIBLE);
-            }
-            HotelAdapter adapter = new HotelAdapter(this, list);
-            listView.setAdapter(adapter);
-
-
+            peopleCount = count;
             TextView nameOfCategory = findViewById(R.id.nameOfCategory);
             if (!findStr.equals("")) nameOfCategory.setText(findStr);
             TextView countOfPeople = findViewById(R.id.count);
             countOfPeople.setText(String.valueOf(count));
+
+            HotelRepository hotelRepository = new HotelRepository(FirebaseFirestore.getInstance());
+            hotelRepository.getHotelsByParametr(param, value, peopleCount).thenAccept(hotelList -> {
+                list = hotelList.stream().filter(x -> {
+                    switch (param){
+                        case "city":
+                            return x.hotelName.toLowerCase().contains(findStr.toLowerCase());
+                        case "facility":
+                        case "nameAndCity":
+                            return x.hotelName.toLowerCase().contains(findStr.toLowerCase()) || x.city.toLowerCase().contains(findStr.toLowerCase());
+                        default: return false;
+                    }
+                }).collect(Collectors.toList());
+                if (list.size() == 0){
+                    text.setVisibility(View.VISIBLE);
+                }
+                HotelAdapter adapter = new HotelAdapter(this, list);
+                listView.setAdapter(adapter);
+
+            });
+
         });
         myBottomSheetDialog.show();
     }

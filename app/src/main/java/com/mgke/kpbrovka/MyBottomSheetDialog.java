@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 public class MyBottomSheetDialog extends BottomSheetDialog {
-    public MyBottomSheetDialog(@NonNull Context context, String param, String category, OnClickFind clickFind) {
+    public MyBottomSheetDialog(@NonNull Context context, String param, String category, int count, OnClickFind clickFind) {
         super(context);
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_search_hotel, null);
         setContentView(view);
@@ -22,6 +22,8 @@ public class MyBottomSheetDialog extends BottomSheetDialog {
         EditText countOfPeople = view.findViewById(R.id.countOfPeople);
         EditText findByHotelOrCity = view.findViewById(R.id.findByHotelOrCity);
         TextView find = view.findViewById(R.id.find);
+
+        countOfPeople.setText(String.valueOf(count));
 
         if (param.equals("city")) {
             nameOfCategory.setText("Отели в городе " + category);

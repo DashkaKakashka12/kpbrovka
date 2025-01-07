@@ -6,15 +6,17 @@
     android:layout_marginHorizontal="13dp"
     android:layout_marginTop="20dp"
     android:padding="15dp"
-    android:background="@drawable/rounded_corners">
+    android:background="@drawable/rounded_corners"
+    android:layout_marginBottom="20dp">
 
     <ImageView
         android:id="@+id/photo"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:src="@drawable/add_home"
+        android:src="@drawable/hotel_first_photo"
         android:background="@drawable/rounded_corners"
-        android:clipToOutline="true"/>
+        android:clipToOutline="true"
+        android:scaleType="fitXY"/>
 
     <TextView
         android:id="@+id/editName"

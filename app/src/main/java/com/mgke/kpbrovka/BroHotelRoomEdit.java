@@ -108,6 +108,8 @@ public class BroHotelRoomEdit extends AppCompatActivity {
         TextView countOfRooms = findViewById(R.id.countOfRooms);
         TextView description = findViewById(R.id.descriptionText);
         TextView type = findViewById(R.id.type);
+        TextView countOfPeople = findViewById(R.id.countOfPeople);
+
 
         if (hotelRoom.photos != null) {
             Glide.with(this)
@@ -121,6 +123,7 @@ public class BroHotelRoomEdit extends AppCompatActivity {
         }
 
         name.setText(hotelRoom.name);
+        countOfPeople.setText(String.valueOf(hotelRoom.countOfPeople));
         type.setText(hotelRoom.typeOfBed);
         cost1.setText("Без питания\n" + hotelRoom.costWithout + " BYN");
         cost2.setText("Включён завтрак\n" + hotelRoom.costWith + " BYN");
@@ -420,5 +423,34 @@ public class BroHotelRoomEdit extends AppCompatActivity {
         Intent intent = new Intent(this, BroChooseHotelRoomForEdit.class);
         startActivity(intent);
         finish();
+    }
+
+    public void broChangeCountOfPeople(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.dialogBlack);
+        View customView = getLayoutInflater().inflate(R.layout.dialog_bro_change_count_of_people, null);
+        EditText editText = customView.findViewById(R.id.countOfPeople);
+        editText.setText(String.valueOf(hotelRoom.countOfPeople));
+        editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+        editText.setFilters(new InputFilter[] { new InputFilter.LengthFilter(5) });
+        builder.setView(customView);
+        builder.setTitle("Количество человек в номере")
+                .setPositiveButton("ОК", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        hotelRoom.countOfPeople = Integer.valueOf(editText.getText().toString());
+                        hotelRoomRepository.updateHotelRoom(hotelRoom);
+                        TextView countOfRooms = findViewById(R.id.countOfPeople);
+                        countOfRooms.setText(String.valueOf(hotelRoom.countOfPeople));
+                    }
+                })
+                .setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

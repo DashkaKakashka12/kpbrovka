@@ -133,4 +133,31 @@ public class HotelRoomRepository {
         return future;
     }
 
+
+
+    public CompletableFuture<List<HotelRoom>> getAllHotelRoomsByParametrs(String id, int countOfPeople) {
+        final CompletableFuture<List<HotelRoom>> future = new CompletableFuture<>();
+        List<HotelRoom> hotelRoomList = new ArrayList<>();
+
+        db.collection("hotelRooms")
+                .whereEqualTo("hotelId", id)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                HotelRoom hotelRoom = document.toObject(HotelRoom.class);
+                                if (hotelRoom.countOfPeople >= countOfPeople){
+                                    hotelRoomList.add(hotelRoom);
+                                }
+                            }
+                            future.complete(hotelRoomList);
+                        }
+                    }
+                });
+
+        return future;
+    }
+
 }

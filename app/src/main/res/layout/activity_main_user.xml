@@ -99,7 +99,7 @@
 
                     <TextView
                         android:id="@+id/firstCityText"
-                        android:layout_width="wrap_content"
+                        android:layout_width="260dp"
                         android:layout_height="wrap_content"
                         android:text="Отели в Москве"
                         android:textColor="@color/black"
@@ -170,7 +170,7 @@
 
                     <TextView
                         android:id="@+id/secondCityText"
-                        android:layout_width="wrap_content"
+                        android:layout_width="260dp"
                         android:layout_height="wrap_content"
                         android:text="Отели в Москве"
                         android:textColor="@color/black"
@@ -242,7 +242,7 @@
 
                     <TextView
                         android:id="@+id/thirdCityText"
-                        android:layout_width="wrap_content"
+                        android:layout_width="260dp"
                         android:layout_height="wrap_content"
                         android:text="Отели в Москве"
                         android:textColor="@color/black"
@@ -253,8 +253,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="10dp"
-                        android:gravity="right"
                         android:text="Все >"
+                        android:gravity="right"
                         android:textColor="#807F7F"
                         android:textSize="16sp" />
 

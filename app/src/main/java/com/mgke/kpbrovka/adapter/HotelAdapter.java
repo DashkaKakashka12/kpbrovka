@@ -65,7 +65,7 @@ public class HotelAdapter extends ArrayAdapter<Hotel> {
                             .transform(new RoundedCorners(16))
                     )
                     .into(photo);
-        } else photo.setImageResource(R.drawable.add_home);
+        } else photo.setImageResource(R.drawable.hotel_first_photo);
         ReviewRepository reviewRepository = new ReviewRepository(FirebaseFirestore.getInstance());
         reviewRepository.getReviewsByHotelId(hotel.id).thenAccept(list -> {
             countOfReviews.setText(list.size() + " отзывов");

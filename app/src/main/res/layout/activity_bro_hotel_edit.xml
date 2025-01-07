@@ -97,9 +97,10 @@
                 android:id="@+id/photo"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                app:srcCompat="@drawable/add_home"
+                android:src="@drawable/hotel_first_photo"
                 android:background="@drawable/rounded_corners"
-                android:clipToOutline="true"/>
+                android:clipToOutline="true"
+                android:scaleType="fitXY"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

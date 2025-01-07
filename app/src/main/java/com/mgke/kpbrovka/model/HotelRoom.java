@@ -19,14 +19,13 @@ public class HotelRoom {
     public double costWithout;
     public double costWith;
     public int count;
-
-
+    public int countOfPeople;
 
 
     public HotelRoom() {
     }
 
-    public HotelRoom(String id, String hotelId, String photos, String name, String description, String typeOfBed, List<String> facilities, double costWithout, double costWith, int count) {
+    public HotelRoom(String id, String hotelId, String photos, String name, String description, String typeOfBed, List<String> facilities, double costWithout, double costWith, int count, int countOfPeople) {
         this.id = id;
         this.hotelId = hotelId;
         this.photos = photos;
@@ -37,5 +36,6 @@ public class HotelRoom {
         this.costWithout = costWithout;
         this.costWith = costWith;
         this.count = count;
+        this.countOfPeople = countOfPeople;
     }
 }

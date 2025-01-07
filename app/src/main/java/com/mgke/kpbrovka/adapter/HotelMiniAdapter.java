@@ -1,9 +1,11 @@
 package com.mgke.kpbrovka.adapter;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,6 +15,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.mgke.kpbrovka.R;
+import com.mgke.kpbrovka.UserHotel;
 import com.mgke.kpbrovka.model.Hotel;
 
 import java.util.List;
@@ -47,11 +50,13 @@ public class HotelMiniAdapter extends RecyclerView.Adapter<HotelMiniAdapter.Hote
     static class HotelMiniViewHolder extends RecyclerView.ViewHolder {
         private TextView textView;
         private ImageView imageView;
+        private LinearLayout linearLayout;
         private Context context;
 
         public HotelMiniViewHolder(View itemView, Context context) {
             super(itemView);
             this.context = context;
+            linearLayout = itemView.findViewById(R.id.mini);
             textView = itemView.findViewById(R.id.miniTextOfPhoto);
             imageView = itemView.findViewById(R.id.miniPhotoOfHotel);
         }
@@ -68,6 +73,14 @@ public class HotelMiniAdapter extends RecyclerView.Adapter<HotelMiniAdapter.Hote
                     )
                     .into(imageView);
             }
+            linearLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, UserHotel.class);
+                    intent.putExtra("HOTELID", hotel.id);
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 }

@@ -12,6 +12,7 @@ import com.yandex.mapkit.geometry.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -48,6 +49,7 @@ public class UserHotel extends AppCompatActivity {
     private InputListener inputListener;
     private UserRepository userRepository;
     private MapView mapView;
+    private int countOfPeople;
     private PlacemarkMapObject placeMark = null;
 
 
@@ -67,6 +69,7 @@ public class UserHotel extends AppCompatActivity {
         mapView = findViewById(R.id.mapsphoto);
 
         String id = getIntent().getStringExtra("HOTELID");
+        countOfPeople = getIntent().getIntExtra("countOfPeople", 2);
         HotelRepository hotelRepository = new HotelRepository(FirebaseFirestore.getInstance());
         hotelRepository.getHotelById(id).thenAccept(hotel -> {
             currentHotel = hotel;
@@ -124,6 +127,7 @@ public class UserHotel extends AppCompatActivity {
         TextView countOfReviews = findViewById(R.id.countOfReviews);
         TextView mark = findViewById(R.id.mark);
         TextView cost = findViewById(R.id.find);
+        EditText countOfPeopleText = findViewById(R.id.countOfPeople);
 
         AndRatingBar stars = findViewById(R.id.stars);
         AndRatingBar stars2 = findViewById(R.id.stars2);
@@ -147,6 +151,8 @@ public class UserHotel extends AppCompatActivity {
         name.setText(currentHotel.hotelName);
         adress.setText(currentHotel.adress);
         city.setText(currentHotel.city + ", ");
+        countOfPeopleText.setText(String.valueOf(countOfPeople));
+
 
         ReviewRepository reviewRepository = new ReviewRepository(FirebaseFirestore.getInstance());
         reviewRepository.getReviewsByHotelId(currentHotel.id).thenAccept(list -> {
@@ -262,5 +268,14 @@ public class UserHotel extends AppCompatActivity {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(browserUri));
             startActivity(browserIntent);
         }
+    }
+
+
+    public void findRoom(View view) {
+        EditText countOfPeople = findViewById(R.id.countOfPeople);
+        Intent intent = new Intent(this, UserChooseHotelRoom.class);
+        intent.putExtra("countOfPeople", Integer.valueOf(countOfPeople.getText().toString()));
+        intent.putExtra("id", currentHotel.id);
+        startActivity(intent);
     }
 }

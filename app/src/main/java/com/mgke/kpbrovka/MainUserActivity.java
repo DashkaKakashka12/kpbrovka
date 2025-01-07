@@ -82,7 +82,7 @@ public class MainUserActivity extends AppCompatActivity {
         myLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MyBottomSheetDialog dialog = new MyBottomSheetDialog(MainUserActivity.this, "nameAndCity", "Найти...", (str, count) ->{
+                MyBottomSheetDialog dialog = new MyBottomSheetDialog(MainUserActivity.this, "nameAndCity", "Найти...", 2, (str, count) ->{
                     Intent intent = new Intent(MainUserActivity.this, UserShowHotels.class);
                     intent.putExtra("PARAMETR", "nameAndCity");
                     intent.putExtra("VALUE", str);

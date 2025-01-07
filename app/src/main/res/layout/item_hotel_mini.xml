@@ -3,13 +3,14 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_marginEnd="20dp">
+    android:layout_marginEnd="20dp"
+    android:id="@+id/mini">
 
     <ImageView
         android:id="@+id/miniPhotoOfHotel"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/add_home"
+        android:src="@drawable/hotel_first_photo"
         android:scaleType="fitXY"
         android:background="@drawable/rounded_corners"
         android:clipToOutline="true"/>
