@@ -41,7 +41,7 @@ public class MyBottomSheetDialog extends BottomSheetDialog {
                 } catch (NumberFormatException e){
                     x = 2;
                 }
-                clickFind.onClick(findByHotelOrCity.getText().toString(), x);
+                clickFind.onClick(findByHotelOrCity.getText().toString().trim(), x);
                 dismiss();
             }
         });

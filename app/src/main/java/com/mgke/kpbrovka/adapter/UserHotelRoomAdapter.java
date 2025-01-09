@@ -1,5 +1,6 @@
 package com.mgke.kpbrovka.adapter;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +16,14 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.mgke.kpbrovka.R;
+import com.mgke.kpbrovka.UserBooking;
 import com.mgke.kpbrovka.model.HotelRoom;
 
 import java.util.List;
 
 public class UserHotelRoomAdapter extends RecyclerView.Adapter<UserHotelRoomAdapter.UserHotelRoomViewHolder> {
     private List<HotelRoom> hotelRoom;
+    private  Context context;
 
     public UserHotelRoomAdapter(List<HotelRoom> hotelRoom) {
         this.hotelRoom = hotelRoom;
@@ -53,8 +56,8 @@ public class UserHotelRoomAdapter extends RecyclerView.Adapter<UserHotelRoomAdap
         RecyclerView facilities;
         TextView descriptionText;
         TextView costWithout;
-        TextView costWith;
         LinearLayout description;
+        LinearLayout choose;
 
 
         public UserHotelRoomViewHolder(View itemView) {
@@ -67,8 +70,8 @@ public class UserHotelRoomAdapter extends RecyclerView.Adapter<UserHotelRoomAdap
             facilities = itemView.findViewById(R.id.listFacilities);
             descriptionText = itemView.findViewById(R.id.descriptionText);
             costWithout = itemView.findViewById(R.id.costWithout);
-            costWith = itemView.findViewById(R.id.costWith);
             description = itemView.findViewById(R.id.description);
+            choose = itemView.findViewById(R.id.choose);
         }
 
         public void bind(HotelRoom hotelRoom) {
@@ -77,7 +80,6 @@ public class UserHotelRoomAdapter extends RecyclerView.Adapter<UserHotelRoomAdap
             countOfPeople.setText(hotelRoom.countOfPeople + " основных места");
             descriptionText.setText(hotelRoom.description);
             costWithout.setText(hotelRoom.costWithout + " BYN");
-            costWith.setText(hotelRoom.costWith+ " BYN");
 
             if (hotelRoom.photos != null) {
                 Glide.with(itemView.getContext())
@@ -104,6 +106,15 @@ public class UserHotelRoomAdapter extends RecyclerView.Adapter<UserHotelRoomAdap
                     } else {
                         descriptionText.setVisibility(View.GONE);
                     }
+                }
+            });
+
+            choose.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(itemView.getContext(), UserBooking.class);
+                    intent.putExtra("ROOMID", hotelRoom.id);
+                    itemView.getContext().startActivity(intent);
                 }
             });
         }

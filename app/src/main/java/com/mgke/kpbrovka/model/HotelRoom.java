@@ -17,7 +17,7 @@ public class HotelRoom {
 
     public List<String> facilities = new ArrayList<>();
     public double costWithout;
-    public double costWith;
+
     public int count;
     public int countOfPeople;
 
@@ -25,7 +25,7 @@ public class HotelRoom {
     public HotelRoom() {
     }
 
-    public HotelRoom(String id, String hotelId, String photos, String name, String description, String typeOfBed, List<String> facilities, double costWithout, double costWith, int count, int countOfPeople) {
+    public HotelRoom(String id, String hotelId, String photos, String name, String description, String typeOfBed, List<String> facilities, double costWithout,int count, int countOfPeople) {
         this.id = id;
         this.hotelId = hotelId;
         this.photos = photos;
@@ -34,7 +34,6 @@ public class HotelRoom {
         this.typeOfBed = typeOfBed;
         this.facilities = facilities;
         this.costWithout = costWithout;
-        this.costWith = costWith;
         this.count = count;
         this.countOfPeople = countOfPeople;
     }

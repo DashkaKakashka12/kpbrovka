@@ -103,8 +103,7 @@ public class BroHotelRoomEdit extends AppCompatActivity {
         ImageView photo = findViewById(R.id.photo);
         TextView name = findViewById(R.id.name);
         RecyclerView facilities = findViewById(R.id.listFacilities);
-        TextView cost1 = findViewById(R.id.cost1);
-        TextView cost2 = findViewById(R.id.cost2);
+        TextView cost = findViewById(R.id.cost1);
         TextView countOfRooms = findViewById(R.id.countOfRooms);
         TextView description = findViewById(R.id.descriptionText);
         TextView type = findViewById(R.id.type);
@@ -125,8 +124,7 @@ public class BroHotelRoomEdit extends AppCompatActivity {
         name.setText(hotelRoom.name);
         countOfPeople.setText(String.valueOf(hotelRoom.countOfPeople));
         type.setText(hotelRoom.typeOfBed);
-        cost1.setText("Без питания\n" + hotelRoom.costWithout + " BYN");
-        cost2.setText("Включён завтрак\n" + hotelRoom.costWith + " BYN");
+        cost.setText(hotelRoom.costWithout + " BYN");
         countOfRooms.setText(String.valueOf(hotelRoom.count));
         description.setText(hotelRoom.description);
 
@@ -354,8 +352,6 @@ public class BroHotelRoomEdit extends AppCompatActivity {
         View customView = getLayoutInflater().inflate(R.layout.dialog_bro_change_cost_of_room, null);
         EditText editText1 = customView.findViewById(R.id.cost1);
         editText1.setText(String.valueOf(hotelRoom.costWithout));
-        EditText editText2 = customView.findViewById(R.id.cost2);
-        editText2.setText(String.valueOf(hotelRoom.costWith));
 
         builder.setView(customView);
         builder.setTitle("Стоимость номера")
@@ -366,11 +362,7 @@ public class BroHotelRoomEdit extends AppCompatActivity {
                         hotelRoom.costWithout = Double.valueOf(editText1.getText().toString().replaceAll("^0+(?!$)", ""));
                         TextView cost1 = findViewById(R.id.cost1);
                         cost1.setText("Без питания\n" + hotelRoom.costWithout + " BYN");
-
-                        hotelRoom.costWith = Double.valueOf(editText2.getText().toString().replaceAll("^0+(?!$)", ""));
                         hotelRoomRepository.updateHotelRoom(hotelRoom);
-                        TextView cost2 = findViewById(R.id.cost2);
-                        cost2.setText("Включён завтрак\n" + hotelRoom.costWith + " BYN");
 
                     }
                 })

@@ -14,7 +14,11 @@ import android.widget.TextView;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.mgke.kpbrovka.adapter.ReviewsAdapter;
+import com.mgke.kpbrovka.auth.Authentication;
+import com.mgke.kpbrovka.model.Hotel;
+import com.mgke.kpbrovka.model.HotelRoom;
 import com.mgke.kpbrovka.model.Review;
+import com.mgke.kpbrovka.model.UserType;
 import com.mgke.kpbrovka.repository.HotelRepository;
 import com.mgke.kpbrovka.repository.ReviewRepository;
 
@@ -23,6 +27,7 @@ public class BroCheckReviews extends AppCompatActivity {
     private ReviewRepository reviewRepository;
 
     private HotelRepository hotelRepository;
+    private String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +35,7 @@ public class BroCheckReviews extends AppCompatActivity {
         setContentView(R.layout.activity_bro_check_reviews);
         reviewRepository = new ReviewRepository(FirebaseFirestore.getInstance());
         hotelRepository = new HotelRepository(FirebaseFirestore.getInstance());
-        String id = getIntent().getStringExtra("id");
+        id = getIntent().getStringExtra("id");
 
         ProgressBar progressBar1 = findViewById(R.id.progressBar1);
         ProgressBar progressBar2 = findViewById(R.id.progressBar2);
@@ -97,6 +102,9 @@ public class BroCheckReviews extends AppCompatActivity {
 
     public void hotelEdit (View b){
         Intent a = new Intent(this, BroHotelEdit.class);
+        if (Authentication.user.type == UserType.ADMINISTRATOR){
+            a.putExtra("HOTEL", id);
+        }
         startActivity(a);
         finish();
     }

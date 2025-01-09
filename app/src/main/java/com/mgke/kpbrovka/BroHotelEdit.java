@@ -116,6 +116,7 @@ public class BroHotelEdit extends AppCompatActivity {
             hotelRepository.getHotelById(id).thenAccept(hotel -> {
                 this.hotel = hotel;
                 setUpValue ();
+                setMap();
                 findViewById(R.id.menu).setVisibility(View.GONE);
 
             });

@@ -213,39 +213,13 @@
                     android:onClick="broChangeCost"/>
             </LinearLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="1 ночь" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
-
                 <TextView
                     android:id="@+id/cost1"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Без питания\n510BYN" />
+                    android:layout_marginTop="5dp"
+                    android:text="510BYN" />
 
-                <TextView
-                    android:id="@+id/cost2"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Включён завтрак\n695BYN" />
-
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="*каждая ночь по той же цене вне зависимости от их количества" />
 
             <LinearLayout
                 android:layout_width="match_parent"

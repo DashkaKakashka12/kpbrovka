@@ -81,6 +81,7 @@
                             <ImageView
                                 android:layout_width="17dp"
                                 android:layout_height="17dp"
+                                android:layout_gravity="center"
                                 android:src="@drawable/geo" />
 
                             <TextView
