@@ -13,7 +13,7 @@ import com.google.android.material.navigation.NavigationView;
 
 public class BroReservationEdit extends AppCompatActivity {
 
-    private View indicator1, indicator2, indicator3;
+    private View indicator1, indicator3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,36 +25,24 @@ public class BroReservationEdit extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(navigationListener);
 
         indicator1 = findViewById(R.id.indecator1);
-        indicator2 = findViewById(R.id.indecator2);
         indicator3 = findViewById(R.id.indecator3);
 
         indicator1.setVisibility(View.VISIBLE);
-        indicator2.setVisibility(View.INVISIBLE);
         indicator3.setVisibility(View.INVISIBLE);
 
         findViewById(R.id.text1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 indicator1.setVisibility(View.VISIBLE);
-                indicator2.setVisibility(View.INVISIBLE);
                 indicator3.setVisibility(View.INVISIBLE);
             }
         });
 
-        findViewById(R.id.text2).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                indicator2.setVisibility(View.VISIBLE);
-                indicator1.setVisibility(View.INVISIBLE);
-                indicator3.setVisibility(View.INVISIBLE);
-            }
-        });
 
         findViewById(R.id.text3).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 indicator3.setVisibility(View.VISIBLE);
-                indicator2.setVisibility(View.INVISIBLE);
                 indicator1.setVisibility(View.INVISIBLE);
             }
         });

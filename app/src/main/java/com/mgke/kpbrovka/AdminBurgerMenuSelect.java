@@ -69,8 +69,6 @@ public class AdminBurgerMenuSelect implements NavigationView.OnNavigationItemSel
             a = new Intent(context, AdminProfileEdit.class);
         } else if (menuItem.getItemId() == R.id.hotel) {
             a = new Intent(context, AdminHotelEdit.class);
-        } else if (menuItem.getItemId() == R.id.dates) {
-            a = new Intent(context, AdminHotelEdit.class);
         }else if (menuItem.getItemId() == R.id.bookings) {
             a = new Intent(context, AdminHotelEdit.class);
         }else if (menuItem.getItemId() == R.id.hoteliers) {

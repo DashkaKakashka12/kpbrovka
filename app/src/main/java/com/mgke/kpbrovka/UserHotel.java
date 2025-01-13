@@ -38,7 +38,9 @@ import com.yandex.mapkit.map.PlacemarkMapObject;
 import com.yandex.mapkit.mapview.MapView;
 import com.yandex.runtime.image.ImageProvider;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import per.wsj.library.AndRatingBar;
@@ -46,6 +48,7 @@ import per.wsj.library.AndRatingBar;
 public class UserHotel extends AppCompatActivity {
 
     private Hotel currentHotel;
+    private Date start, end;
     private InputListener inputListener;
     private UserRepository userRepository;
     private MapView mapView;
@@ -70,6 +73,27 @@ public class UserHotel extends AppCompatActivity {
 
         String id = getIntent().getStringExtra("HOTELID");
         countOfPeople = getIntent().getIntExtra("countOfPeople", 2);
+
+        Serializable startSerializable = getIntent().getSerializableExtra("START");
+        Serializable endSerializable = getIntent().getSerializableExtra("END");
+
+        if (startSerializable instanceof Date && endSerializable instanceof Date) {
+            start = (Date) startSerializable;
+            end = (Date) endSerializable;
+
+            TextView dates = findViewById(R.id.dates);
+            Calendar calendarStart = Calendar.getInstance();
+            Calendar calendarEnd = Calendar.getInstance();
+            calendarStart.setTime(start);
+            calendarEnd.setTime(end);
+
+            String startDate = String.format("%02d.%02d", calendarStart.get(Calendar.DAY_OF_MONTH), calendarStart.get(Calendar.MONTH) + 1);
+
+            String endDate = String.format("%02d.%02d", calendarEnd.get(Calendar.DAY_OF_MONTH), calendarEnd.get(Calendar.MONTH) + 1);
+
+            dates.setText(startDate + " - " + endDate);
+        }
+
         HotelRepository hotelRepository = new HotelRepository(FirebaseFirestore.getInstance());
         hotelRepository.getHotelById(id).thenAccept(hotel -> {
             currentHotel = hotel;
@@ -276,6 +300,8 @@ public class UserHotel extends AppCompatActivity {
         Intent intent = new Intent(this, UserChooseHotelRoom.class);
         intent.putExtra("countOfPeople", Integer.valueOf(countOfPeople.getText().toString()));
         intent.putExtra("id", currentHotel.id);
+        intent.putExtra("START", start);
+        intent.putExtra("END", end);
         startActivity(intent);
     }
 }

@@ -35,7 +35,30 @@ public class ReservationRepository {
         final CompletableFuture<List<Reservation>> future = new CompletableFuture<>();
         List<Reservation> reservationList = new ArrayList<>();
 
-        db.collection("reservations")
+        db.collection("Reservations")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Reservation reservation = document.toObject(Reservation.class);
+                                reservationList.add(reservation);
+                            }
+                            future.complete(reservationList);
+                        }
+                    }
+                });
+
+        return future;
+    }
+
+    public CompletableFuture<List<Reservation>> getAllReservationsByHotelRoomId(String id) {
+        final CompletableFuture<List<Reservation>> future = new CompletableFuture<>();
+        List<Reservation> reservationList = new ArrayList<>();
+
+        db.collection("Reservations")
+                .whereEqualTo("hotelRoomId", id)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -56,7 +79,7 @@ public class ReservationRepository {
     public CompletableFuture<Reservation> getReservationById(String reservationId) {
         final CompletableFuture<Reservation> future = new CompletableFuture<>();
 
-        db.collection("reservations").document(reservationId)
+        db.collection("Reservations").document(reservationId)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -75,12 +98,12 @@ public class ReservationRepository {
     }
 
     public void deleteReservation(Reservation reservation) {
-        db.collection("reservations").document(reservation.id)
+        db.collection("Reservations").document(reservation.id)
                 .delete();
     }
 
     public void updateReservation(Reservation reservation) {
-        db.collection("reservations").document(reservation.id)
+        db.collection("Reservations").document(reservation.id)
                 .set(reservation);
     }
 }

@@ -15,6 +15,7 @@ import com.mgke.kpbrovka.model.User;
 import com.mgke.kpbrovka.model.UserType;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -144,7 +145,7 @@ public class HotelRepository {
         return future;
     }
 
-    public CompletableFuture<List<Hotel>> getHotelsByParametr(String parametr, String value, int count) {
+    public CompletableFuture<List<Hotel>> getHotelsByParametr(String parametr, String value, int count, Date start, Date end) {
         final CompletableFuture<List<Hotel>> future = new CompletableFuture<>();
         List<Hotel> hotelList = new ArrayList<>();
         HotelRoomRepository hotelRoomRepository = new HotelRoomRepository(FirebaseFirestore.getInstance());
@@ -158,7 +159,7 @@ public class HotelRepository {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Hotel hotel = document.toObject(Hotel.class);
-                                CompletableFuture<Void> hotelFuture = hotelRoomRepository.getAllHotelRoomsByParametrs(hotel.id, count)
+                                CompletableFuture<Void> hotelFuture = hotelRoomRepository.getAllHotelRoomsByParametrs(hotel.id, count, start, end)
                                         .thenAccept(hotelRooms -> {
                                             if (!hotelRooms.isEmpty()) {
                                                 switch (parametr) {

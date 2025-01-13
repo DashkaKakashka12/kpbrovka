@@ -15,13 +15,17 @@ import com.mgke.kpbrovka.adapter.HotelAdapter;
 import com.mgke.kpbrovka.model.Hotel;
 import com.mgke.kpbrovka.repository.HotelRepository;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class UserShowHotels extends AppCompatActivity {
     String param, value;
+    Date start, end;
     int peopleCount;
     List<Hotel> list = new ArrayList<>();
 
@@ -32,6 +36,26 @@ public class UserShowHotels extends AppCompatActivity {
 
         param = getIntent().getStringExtra("PARAMETR");
         value = getIntent().getStringExtra("VALUE");
+        Serializable startSerializable = getIntent().getSerializableExtra("START");
+        Serializable endSerializable = getIntent().getSerializableExtra("END");
+
+        if (startSerializable instanceof Date && endSerializable instanceof Date) {
+            start = (Date) startSerializable;
+            end = (Date) endSerializable;
+
+            TextView dates = findViewById(R.id.dates);
+            Calendar calendarStart = Calendar.getInstance();
+            Calendar calendarEnd = Calendar.getInstance();
+            calendarStart.setTime(start);
+            calendarEnd.setTime(end);
+
+            String startDate = String.format("%02d.%02d", calendarStart.get(Calendar.DAY_OF_MONTH), calendarStart.get(Calendar.MONTH) + 1);
+
+            String endDate = String.format("%02d.%02d", calendarEnd.get(Calendar.DAY_OF_MONTH), calendarEnd.get(Calendar.MONTH) + 1);
+
+            dates.setText(startDate + " - " + endDate);
+        }
+
         peopleCount = getIntent().getIntExtra("COUNT", 2);
 
         TextView nameOfCategory = findViewById(R.id.nameOfCategory);
@@ -41,7 +65,7 @@ public class UserShowHotels extends AppCompatActivity {
         countOfPeople.setText(String.valueOf(peopleCount));
 
         HotelRepository hotelRepository = new HotelRepository(FirebaseFirestore.getInstance());
-        hotelRepository.getHotelsByParametr(param, value, peopleCount).thenAccept(list -> {
+        hotelRepository.getHotelsByParametr(param, value, peopleCount, start, end).thenAccept(list -> {
             this.list.addAll(list);
             ListView listView = findViewById(R.id.list);
             HotelAdapter adapter = new HotelAdapter(this, list);
@@ -56,6 +80,8 @@ public class UserShowHotels extends AppCompatActivity {
                 Intent intent = new Intent(UserShowHotels.this, UserHotel.class);
                 intent.putExtra("HOTELID", list.get(position).id);
                 intent.putExtra("countOfPeople", peopleCount);
+                intent.putExtra("START", start);
+                intent.putExtra("END", end);
                 startActivity(intent);
             }
         });
@@ -69,18 +95,32 @@ public class UserShowHotels extends AppCompatActivity {
     }
 
     public void openFindDialog(View view) {
-        MyBottomSheetDialog myBottomSheetDialog = new MyBottomSheetDialog(this, param, value, peopleCount, (findStr, count) -> {
+        MyBottomSheetDialog myBottomSheetDialog = new MyBottomSheetDialog(this, param, value, peopleCount, (findStr, count, startDate, endDate) -> {
             ListView listView = findViewById(R.id.list);
             TextView text = findViewById(R.id.notFind);
             text.setVisibility(View.GONE);
             peopleCount = count;
+            start = startDate;
+            end = endDate;
             TextView nameOfCategory = findViewById(R.id.nameOfCategory);
             if (!findStr.equals("")) nameOfCategory.setText(findStr);
             TextView countOfPeople = findViewById(R.id.count);
             countOfPeople.setText(String.valueOf(count));
 
+            TextView dates = findViewById(R.id.dates);
+            Calendar calendarStart = Calendar.getInstance();
+            Calendar calendarEnd = Calendar.getInstance();
+            calendarStart.setTime(start);
+            calendarEnd.setTime(end);
+
+            String startDates = String.format("%02d.%02d", calendarStart.get(Calendar.DAY_OF_MONTH), calendarStart.get(Calendar.MONTH) + 1);
+
+            String endDates = String.format("%02d.%02d", calendarEnd.get(Calendar.DAY_OF_MONTH), calendarEnd.get(Calendar.MONTH) + 1);
+
+            dates.setText(startDates + " - " + endDates);
+
             HotelRepository hotelRepository = new HotelRepository(FirebaseFirestore.getInstance());
-            hotelRepository.getHotelsByParametr(param, value, peopleCount).thenAccept(hotelList -> {
+            hotelRepository.getHotelsByParametr(param, value, peopleCount, start, end).thenAccept(hotelList -> {
                 list = hotelList.stream().filter(x -> {
                     switch (param){
                         case "city":

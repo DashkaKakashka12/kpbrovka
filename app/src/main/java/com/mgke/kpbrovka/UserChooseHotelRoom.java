@@ -13,7 +13,11 @@ import com.mgke.kpbrovka.adapter.UserHotelRoomAdapter;
 import com.mgke.kpbrovka.repository.HotelRepository;
 import com.mgke.kpbrovka.repository.HotelRoomRepository;
 
+import java.util.Calendar;
+import java.util.Date;
+
 public class UserChooseHotelRoom extends AppCompatActivity {
+    private Date start, end;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,9 +25,24 @@ public class UserChooseHotelRoom extends AppCompatActivity {
         setContentView(R.layout.activity_user_choose_hotel_room);
         int countOfPeople = getIntent().getIntExtra("countOfPeople", -1);
         String id = getIntent().getStringExtra("id");
+        start = (Date) getIntent().getSerializableExtra("START");
+        end = (Date) getIntent().getSerializableExtra("END");
+        TextView dates = findViewById(R.id.dates);
+
+        Calendar calendarStart = Calendar.getInstance();
+        Calendar calendarEnd = Calendar.getInstance();
+        calendarStart.setTime(start);
+        calendarEnd.setTime(end);
+
+        String startDate = String.format("%02d.%02d", calendarStart.get(Calendar.DAY_OF_MONTH), calendarStart.get(Calendar.MONTH) + 1);
+
+        String endDate = String.format("%02d.%02d", calendarEnd.get(Calendar.DAY_OF_MONTH), calendarEnd.get(Calendar.MONTH) + 1);
+
+        dates.setText(startDate + " - " + endDate);
+
         HotelRoomRepository hotelRoomRepository = new HotelRoomRepository(FirebaseFirestore.getInstance());
-        hotelRoomRepository.getAllHotelRoomsByParametrs(id, countOfPeople).thenAccept(list ->{
-            UserHotelRoomAdapter userHotelRoomAdapter = new UserHotelRoomAdapter(list);
+        hotelRoomRepository.getAllHotelRoomsByParametrs(id, countOfPeople, start, end).thenAccept(list ->{
+            UserHotelRoomAdapter userHotelRoomAdapter = new UserHotelRoomAdapter(list, countOfPeople, start, end);
             RecyclerView recyclerView = findViewById(R.id.list);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             recyclerView.setAdapter(userHotelRoomAdapter);

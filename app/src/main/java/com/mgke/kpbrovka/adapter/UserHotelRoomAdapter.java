@@ -19,14 +19,18 @@ import com.mgke.kpbrovka.R;
 import com.mgke.kpbrovka.UserBooking;
 import com.mgke.kpbrovka.model.HotelRoom;
 
+import java.util.Date;
 import java.util.List;
 
 public class UserHotelRoomAdapter extends RecyclerView.Adapter<UserHotelRoomAdapter.UserHotelRoomViewHolder> {
     private List<HotelRoom> hotelRoom;
-    private  Context context;
-
-    public UserHotelRoomAdapter(List<HotelRoom> hotelRoom) {
+    private  int count;
+    private  Date start, end;
+    public UserHotelRoomAdapter(List<HotelRoom> hotelRoom, int count, Date start, Date end) {
         this.hotelRoom = hotelRoom;
+        this.count = count;
+        this.start = start;
+        this.end = end;
     }
 
     @NonNull
@@ -34,7 +38,7 @@ public class UserHotelRoomAdapter extends RecyclerView.Adapter<UserHotelRoomAdap
     public UserHotelRoomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_list_user_rooms, parent, false);
-        return new UserHotelRoomViewHolder(view);
+        return new UserHotelRoomViewHolder(view, count, start, end);
     }
 
     @Override
@@ -58,9 +62,11 @@ public class UserHotelRoomAdapter extends RecyclerView.Adapter<UserHotelRoomAdap
         TextView costWithout;
         LinearLayout description;
         LinearLayout choose;
+        private  int count;
+        private  Date start, end;
 
 
-        public UserHotelRoomViewHolder(View itemView) {
+        public UserHotelRoomViewHolder(View itemView, int count, Date start, Date end) {
             super(itemView);
 
             photo = itemView.findViewById(R.id.photo);
@@ -72,6 +78,9 @@ public class UserHotelRoomAdapter extends RecyclerView.Adapter<UserHotelRoomAdap
             costWithout = itemView.findViewById(R.id.costWithout);
             description = itemView.findViewById(R.id.description);
             choose = itemView.findViewById(R.id.choose);
+            this.count = count;
+            this.start = start;
+            this.end = end;
         }
 
         public void bind(HotelRoom hotelRoom) {
@@ -114,6 +123,9 @@ public class UserHotelRoomAdapter extends RecyclerView.Adapter<UserHotelRoomAdap
                 public void onClick(View v) {
                     Intent intent = new Intent(itemView.getContext(), UserBooking.class);
                     intent.putExtra("ROOMID", hotelRoom.id);
+                    intent.putExtra("COUNT", count);
+                    intent.putExtra("START", start);
+                    intent.putExtra("END", end);
                     itemView.getContext().startActivity(intent);
                 }
             });

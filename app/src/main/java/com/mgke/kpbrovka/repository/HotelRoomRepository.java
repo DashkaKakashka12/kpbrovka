@@ -11,10 +11,12 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.mgke.kpbrovka.model.Hotel;
 import com.mgke.kpbrovka.model.HotelRoom;
+import com.mgke.kpbrovka.model.Reservation;
 import com.mgke.kpbrovka.model.User;
 import com.mgke.kpbrovka.model.UserType;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -135,9 +137,10 @@ public class HotelRoomRepository {
 
 
 
-    public CompletableFuture<List<HotelRoom>> getAllHotelRoomsByParametrs(String id, int countOfPeople) {
-        final CompletableFuture<List<HotelRoom>> future = new CompletableFuture<>();
+    public CompletableFuture<List<HotelRoom>> getAllHotelRoomsByParametrs(String id, int countOfPeople, Date start, Date end) {
+        CompletableFuture<List<HotelRoom>> future = new CompletableFuture<>();
         List<HotelRoom> hotelRoomList = new ArrayList<>();
+        ReservationRepository reservationRepository = new ReservationRepository(FirebaseFirestore.getInstance());
 
         db.collection("hotelRooms")
                 .whereEqualTo("hotelId", id)
@@ -146,13 +149,34 @@ public class HotelRoomRepository {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
+                            List<CompletableFuture<Void>> futures = new ArrayList<>();
+
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 HotelRoom hotelRoom = document.toObject(HotelRoom.class);
-                                if (hotelRoom.countOfPeople >= countOfPeople){
-                                    hotelRoomList.add(hotelRoom);
+                                if (hotelRoom.countOfPeople >= countOfPeople) {
+                                    if (start != null && end != null){
+                                        CompletableFuture<Void> reservationFuture = reservationRepository.getAllReservationsByHotelRoomId(hotelRoom.id)
+                                                .thenAccept(reservations -> {
+                                                    boolean isAvailable = true;
+                                                    for (Reservation reservation : reservations) {
+                                                        if (start.before(reservation.end) && end.after(reservation.start)) {
+                                                            isAvailable = false;
+                                                            break;
+                                                        }
+                                                    }
+                                                    if (isAvailable) {
+                                                        hotelRoomList.add(hotelRoom);
+                                                    }
+                                                });
+                                        futures.add(reservationFuture);
+                                    } else hotelRoomList.add(hotelRoom);
                                 }
                             }
-                            future.complete(hotelRoomList);
+
+                            CompletableFuture<Void> allOf = CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));
+                            allOf.thenRun(() -> future.complete(hotelRoomList));
+                        } else {
+                            future.completeExceptionally(task.getException());
                         }
                     }
                 });

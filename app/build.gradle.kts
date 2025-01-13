@@ -56,4 +56,6 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore")
     implementation ("com.yandex.android:maps.mobile:4.10.0-lite")
 
+    implementation("io.github.architshah248.calendar:awesome-calendar:2.0.0")
+
 }

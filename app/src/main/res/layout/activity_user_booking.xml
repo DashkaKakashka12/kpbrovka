@@ -210,6 +210,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginStart="10dp">
                     <CheckBox
+                        android:tag="Завтрак"
                         android:id="@+id/checkBox1"
                         android:layout_width="16dp"
                         android:layout_height="16dp"
@@ -231,6 +232,7 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginStart="10dp">
                     <CheckBox
+                        android:tag="Обед"
                         android:id="@+id/checkBox2"
                         android:layout_width="16dp"
                         android:layout_height="16dp"
@@ -252,6 +254,7 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginStart="10dp">
                     <CheckBox
+                        android:tag="Ужин"
                         android:id="@+id/checkBox3"
                         android:layout_width="16dp"
                         android:layout_height="16dp"
@@ -350,7 +353,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Имя"
-                    android:paddingTop="0dp"/>
+                    android:paddingTop="0dp"
+                    android:inputType="textCapSentences"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -366,7 +370,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Фамилия"
-                    android:paddingTop="0dp"/>
+                    android:paddingTop="0dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -399,6 +403,14 @@
                     android:layout_height="wrap_content"
                     android:hint="Телефон"
                     android:paddingTop="0dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="* Поля, обязательные для заполнения"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="5dp"
+                    android:textColor="#606060"/>
             </LinearLayout>
 
             <LinearLayout
@@ -427,7 +439,7 @@
                     android:textSize="15sp" />
 
                 <EditText
-                    android:id="@+id/wishies"
+                    android:id="@+id/wishes"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:padding="10dp"
@@ -725,7 +737,7 @@
 
                 <TextView
                     android:id="@+id/pay"
-                    android:onClick="findRoom"
+                    android:onClick="pay"
                     android:layout_width="350dp"
                     android:layout_height="wrap_content"
                     android:text="Оплатить"
