@@ -1,6 +1,7 @@
 package com.mgke.kpbrovka;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -67,25 +68,19 @@ public class UserShowHotels extends AppCompatActivity {
         HotelRepository hotelRepository = new HotelRepository(FirebaseFirestore.getInstance());
         hotelRepository.getHotelsByParametr(param, value, peopleCount, start, end).thenAccept(list -> {
             this.list.addAll(list);
-            ListView listView = findViewById(R.id.list);
-            HotelAdapter adapter = new HotelAdapter(this, list);
+            RecyclerView listView = findViewById(R.id.list);
+            listView.setLayoutManager(new LinearLayoutManager(this));
+            HotelAdapter adapter = new HotelAdapter(list, this, peopleCount, start, end);
             listView.setAdapter(adapter);
-
-        });
-
-        ListView listView = findViewById(R.id.list);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(UserShowHotels.this, UserHotel.class);
-                intent.putExtra("HOTELID", list.get(position).id);
-                intent.putExtra("countOfPeople", peopleCount);
-                intent.putExtra("START", start);
-                intent.putExtra("END", end);
-                startActivity(intent);
+            TextView text = findViewById(R.id.notFind);
+            if (list.isEmpty()) {
+                text.setVisibility(View.VISIBLE); // Показываем текст, если список пуст
+                listView.setVisibility(View.GONE); // Скрываем ListView
+            } else {
+                text.setVisibility(View.GONE); // Скрываем текст, если список не пуст
+                listView.setVisibility(View.VISIBLE); // Показываем ListView
             }
         });
-
     }
 
     public void back(View view) {
@@ -96,7 +91,8 @@ public class UserShowHotels extends AppCompatActivity {
 
     public void openFindDialog(View view) {
         MyBottomSheetDialog myBottomSheetDialog = new MyBottomSheetDialog(this, param, value, peopleCount, (findStr, count, startDate, endDate) -> {
-            ListView listView = findViewById(R.id.list);
+            RecyclerView listView = findViewById(R.id.list);
+            listView.setLayoutManager(new LinearLayoutManager(this));
             TextView text = findViewById(R.id.notFind);
             text.setVisibility(View.GONE);
             peopleCount = count;
@@ -131,11 +127,16 @@ public class UserShowHotels extends AppCompatActivity {
                         default: return false;
                     }
                 }).collect(Collectors.toList());
-                if (list.size() == 0){
-                    text.setVisibility(View.VISIBLE);
+
+                if (list.isEmpty()) {
+                    text.setVisibility(View.VISIBLE); // Показываем текст, если список пуст
+                    listView.setVisibility(View.GONE); // Скрываем ListView
+                } else {
+                    text.setVisibility(View.GONE); // Скрываем текст, если список не пуст
+                    listView.setVisibility(View.VISIBLE); // Показываем ListView
+                    HotelAdapter adapter = new HotelAdapter(list, this, peopleCount, start, end);
+                    listView.setAdapter(adapter);
                 }
-                HotelAdapter adapter = new HotelAdapter(this, list);
-                listView.setAdapter(adapter);
 
             });
 

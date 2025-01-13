@@ -7,15 +7,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
 import android.content.Intent;
+
+import com.archit.calendardaterangepicker.customviews.CalendarListener;
+import com.archit.calendardaterangepicker.customviews.DateRangeCalendarView;
 import com.yandex.mapkit.geometry.Point;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
@@ -54,6 +61,7 @@ public class UserHotel extends AppCompatActivity {
     private MapView mapView;
     private int countOfPeople;
     private PlacemarkMapObject placeMark = null;
+    private TextView dates;
 
 
     @Override
@@ -81,7 +89,7 @@ public class UserHotel extends AppCompatActivity {
             start = (Date) startSerializable;
             end = (Date) endSerializable;
 
-            TextView dates = findViewById(R.id.dates);
+            dates = findViewById(R.id.dates);
             Calendar calendarStart = Calendar.getInstance();
             Calendar calendarEnd = Calendar.getInstance();
             calendarStart.setTime(start);
@@ -99,6 +107,66 @@ public class UserHotel extends AppCompatActivity {
             currentHotel = hotel;
             setValue();
             setMap();
+        });
+
+        LinearLayout date = findViewById(R.id.date);
+        date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Dialog dialog = new Dialog(UserHotel.this);
+                dialog.setContentView(R.layout.dialog_date);
+
+                ((DateRangeCalendarView)dialog.findViewById(R.id.calendar)).setCalendarListener(new CalendarListener() {
+                    @Override
+                    public void onFirstDateSelected(@NonNull Calendar calendar) {
+
+                    }
+
+                    @Override
+                    public void onDateRangeSelected(@NonNull Calendar calendar, @NonNull Calendar calendar1) {
+
+                        Date selectedStart = calendar.getTime();
+                        Date selectedEnd = calendar1.getTime();
+                        dates = findViewById(R.id.dates);
+
+                        if (selectedStart.equals(selectedEnd)) {
+                            return;
+                        }
+
+                        Calendar currentCalendar = Calendar.getInstance();
+                        currentCalendar.set(Calendar.HOUR_OF_DAY, 0);
+                        currentCalendar.set(Calendar.MINUTE, 0);
+                        currentCalendar.set(Calendar.SECOND, 0);
+                        currentCalendar.set(Calendar.MILLISECOND, 0);
+
+                        if (selectedStart.before(currentCalendar.getTime()) || selectedEnd.before(currentCalendar.getTime())) {
+                            Toast.makeText(UserHotel.this, "Выбор даты должен быть не раньше текущей", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        start = selectedStart;
+                        end = selectedEnd;
+
+                        new Handler().postDelayed(() -> {
+                            dialog.dismiss();
+
+                            Calendar calendarStart = Calendar.getInstance();
+                            Calendar calendarEnd = Calendar.getInstance();
+                            calendarStart.setTime(start);
+                            calendarEnd.setTime(end);
+
+                            String startDate = String.format("%02d.%02d", calendarStart.get(Calendar.DAY_OF_MONTH), calendarStart.get(Calendar.MONTH) + 1);
+                            String endDate = String.format("%02d.%02d", calendarEnd.get(Calendar.DAY_OF_MONTH), calendarEnd.get(Calendar.MONTH) + 1);
+
+                            dates.setText(startDate + " - " + endDate);
+                        }, 500);
+                    }
+                });
+
+                dialog.getWindow().setLayout(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                dialog.show();
+            }
         });
     }
 
@@ -297,6 +365,26 @@ public class UserHotel extends AppCompatActivity {
 
     public void findRoom(View view) {
         EditText countOfPeople = findViewById(R.id.countOfPeople);
+
+        if (start == null || end == null) {
+            Toast.makeText(this, "Пожалуйста, выберите даты.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (start.equals(end)) {
+            return;
+        }
+
+        Calendar currentCalendar = Calendar.getInstance();
+        currentCalendar.set(Calendar.HOUR_OF_DAY, 0);
+        currentCalendar.set(Calendar.MINUTE, 0);
+        currentCalendar.set(Calendar.SECOND, 0);
+        currentCalendar.set(Calendar.MILLISECOND, 0);
+
+        if (start.before(currentCalendar.getTime())) {
+            return;
+        }
+
         Intent intent = new Intent(this, UserChooseHotelRoom.class);
         intent.putExtra("countOfPeople", Integer.valueOf(countOfPeople.getText().toString()));
         intent.putExtra("id", currentHotel.id);

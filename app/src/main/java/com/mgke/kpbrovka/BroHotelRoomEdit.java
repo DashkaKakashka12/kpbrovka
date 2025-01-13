@@ -412,8 +412,10 @@ public class BroHotelRoomEdit extends AppCompatActivity {
 
     public void delite(View view) {
         hotelRoomRepository.deleteHotelRoom(hotelRoom);
-        Intent intent = new Intent(this, BroChooseHotelRoomForEdit.class);
-        startActivity(intent);
+        Intent a = new Intent(this, BroChooseHotelRoomForEdit.class);
+        if (Authentication.user.type == UserType.ADMINISTRATOR)
+            a.putExtra("HOTELID", hotelRoom.hotelId);
+        startActivity(a);
         finish();
     }
 

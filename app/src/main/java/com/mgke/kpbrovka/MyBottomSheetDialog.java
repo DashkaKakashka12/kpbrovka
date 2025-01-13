@@ -2,13 +2,19 @@ package com.mgke.kpbrovka;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.os.Handler;
 import android.util.Range;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -57,20 +63,40 @@ public class MyBottomSheetDialog extends BottomSheetDialog {
 
                     @Override
                     public void onDateRangeSelected(@NonNull Calendar calendar, @NonNull Calendar calendar1) {
-                        start = calendar.getTime();
-                        end = calendar1.getTime();
-                        dialog.dismiss();
+                        Calendar currentCalendar = Calendar.getInstance();
+                        currentCalendar.set(Calendar.HOUR_OF_DAY, 0);
+                        currentCalendar.set(Calendar.MINUTE, 0);
+                        currentCalendar.set(Calendar.SECOND, 0);
+                        currentCalendar.set(Calendar.MILLISECOND, 0);
 
-                        Calendar calendarStart = Calendar.getInstance();
-                        Calendar calendarEnd = Calendar.getInstance();
-                        calendarStart.setTime(start);
-                        calendarEnd.setTime(end);
+                        Date selectedStart = calendar.getTime();
+                        Date selectedEnd = calendar1.getTime();
 
-                        String startDate = String.format("%02d.%02d", calendarStart.get(Calendar.DAY_OF_MONTH), calendarStart.get(Calendar.MONTH) + 1);
+                        if (selectedStart.before(currentCalendar.getTime()) || selectedEnd.before(currentCalendar.getTime())) {
+                            Toast.makeText(context, "Выбор даты должен быть не раньше текущей", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
 
-                        String endDate = String.format("%02d.%02d", calendarEnd.get(Calendar.DAY_OF_MONTH), calendarEnd.get(Calendar.MONTH) + 1);
+                        if (selectedStart.equals(selectedEnd)) {
+                            return;
+                        }
 
-                        startEnd.setText(startDate + " - " + endDate);
+                        start = selectedStart;
+                        end = selectedEnd;
+
+                        new Handler().postDelayed(() -> {
+                            dialog.dismiss();
+
+                            Calendar calendarStart = Calendar.getInstance();
+                            Calendar calendarEnd = Calendar.getInstance();
+                            calendarStart.setTime(start);
+                            calendarEnd.setTime(end);
+
+                            String startDate = String.format("%02d.%02d", calendarStart.get(Calendar.DAY_OF_MONTH), calendarStart.get(Calendar.MONTH) + 1);
+                            String endDate = String.format("%02d.%02d", calendarEnd.get(Calendar.DAY_OF_MONTH), calendarEnd.get(Calendar.MONTH) + 1);
+
+                            startEnd.setText(startDate + " - " + endDate);
+                        }, 500);
                     }
                 });
 
@@ -79,9 +105,13 @@ public class MyBottomSheetDialog extends BottomSheetDialog {
                 dialog.show();
             }
         });
-        find.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+
+        find.setOnClickListener(v -> {
+
+            if (startEnd.getText().toString().trim().isEmpty() || start == null || end == null) {
+                Toast.makeText(context, "Пожалуйста, выберите даты.", Toast.LENGTH_SHORT).show();
+                return;
+            }
                 int x;
                 try {
                     x = Integer.parseInt(countOfPeople.getText().toString());
@@ -90,7 +120,7 @@ public class MyBottomSheetDialog extends BottomSheetDialog {
                 }
                 clickFind.onClick(findByHotelOrCity.getText().toString().trim(), x, start, end);
                 dismiss();
-            }
+
         });
 
     }

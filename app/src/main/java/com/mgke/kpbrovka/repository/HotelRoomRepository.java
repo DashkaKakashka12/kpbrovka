@@ -157,14 +157,13 @@ public class HotelRoomRepository {
                                     if (start != null && end != null){
                                         CompletableFuture<Void> reservationFuture = reservationRepository.getAllReservationsByHotelRoomId(hotelRoom.id)
                                                 .thenAccept(reservations -> {
-                                                    boolean isAvailable = true;
+                                                    int count = 0;
                                                     for (Reservation reservation : reservations) {
                                                         if (start.before(reservation.end) && end.after(reservation.start)) {
-                                                            isAvailable = false;
-                                                            break;
+                                                            count++;
                                                         }
                                                     }
-                                                    if (isAvailable) {
+                                                    if (count<hotelRoom.count) {
                                                         hotelRoomList.add(hotelRoom);
                                                     }
                                                 });

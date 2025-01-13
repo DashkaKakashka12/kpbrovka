@@ -186,6 +186,7 @@
                                 android:layout_marginStart="5dp"
                                 android:hint="Количество"
                                 android:textSize="14dp"
+                                android:inputType="number"
                                 android:background="@null"
                                 android:textColor="#919191"/>
                         </LinearLayout>

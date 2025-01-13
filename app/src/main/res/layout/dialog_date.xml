@@ -3,7 +3,9 @@
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/transparent">
+    android:layout_margin="10dp"
+    android:background="@drawable/rounded_corners_border"
+    android:padding="10dp">
 
     <com.archit.calendardaterangepicker.customviews.DateRangeCalendarView
         android:id="@+id/calendar"
@@ -11,7 +13,7 @@
         android:layout_height="wrap_content"
         custom:range_color="#81DD9BB2"
         custom:selected_date_circle_color="#C4DD9BB2"
-        custom:header_bg="@drawable/rounded_corners_yellow">
+        custom:header_bg="@drawable/rounded_corners_grey">
     </com.archit.calendardaterangepicker.customviews.DateRangeCalendarView>
 
 </LinearLayout>

@@ -137,7 +137,7 @@ public class MainUserActivity extends AppCompatActivity {
     }
 
     private void displayText() {
-        String textToDisplay = "Найти отель";
+        String textToDisplay = "Найти город или отель";
         Handler handler = new Handler();
 
         handler.postDelayed(new Runnable() {

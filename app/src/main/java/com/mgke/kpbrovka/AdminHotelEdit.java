@@ -3,6 +3,8 @@ package com.mgke.kpbrovka;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -37,12 +39,13 @@ public class AdminHotelEdit extends AppCompatActivity {
         AdminBurgerMenuSelect navigationListener = new AdminBurgerMenuSelect(this, navigationView);
         navigationView.setNavigationItemSelectedListener(navigationListener);
 
-        ListView listView = findViewById(R.id.list);
+        RecyclerView listView = findViewById(R.id.list);
+        listView.setLayoutManager(new LinearLayoutManager(this));
         HotelRepository hotelRepository = new HotelRepository(FirebaseFirestore.getInstance());
         hotelRepository.getAllHotels().thenAccept(list -> {
             listOfHotels.addAll(list);
             firstListOfHotels.addAll(list);
-            HotelAdapter hotelAdapter = new HotelAdapter(this, listOfHotels);
+            HotelAdapter hotelAdapter = new HotelAdapter(listOfHotels, this, -1, null, null);
             listView.setAdapter(hotelAdapter);
         });
 
@@ -57,23 +60,13 @@ public class AdminHotelEdit extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 listOfHotels = firstListOfHotels.stream().filter(hotel -> hotel.hotelName.contains(s)).collect(Collectors.toList());
-                HotelAdapter hotelAdapter = new HotelAdapter(AdminHotelEdit.this, listOfHotels);
+                HotelAdapter hotelAdapter = new HotelAdapter(listOfHotels, AdminHotelEdit.this, -1, null, null);
                 listView.setAdapter(hotelAdapter);
             }
 
             @Override
             public void afterTextChanged(Editable s) {
 
-            }
-        });
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(AdminHotelEdit.this, BroHotelEdit.class);
-                intent.putExtra("HOTEL", listOfHotels.get(position).id);
-                startActivity(intent);
-                finish();
             }
         });
 
