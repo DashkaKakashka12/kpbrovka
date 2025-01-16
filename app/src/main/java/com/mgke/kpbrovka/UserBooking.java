@@ -63,27 +63,6 @@
                     setValue();
                 });
             });
-
-            Switch switch1 = findViewById(R.id.switch1);
-            Switch switch2 = findViewById(R.id.switch2);
-            switch1.setChecked(true);
-            switch2.setChecked(false);
-
-            switch1.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                if (isChecked) {
-                    switch2.setChecked(false);
-                } else {
-                    switch2.setChecked(true);
-                }
-            });
-
-            switch2.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                if (isChecked) {
-                    switch1.setChecked(false);
-                } else {
-                    switch1.setChecked(true);
-                }
-            });
         }
 
         private void setupGreyCar() {
@@ -140,6 +119,8 @@
             ImageView photoOfNumber = findViewById(R.id.photoOfNumber);
             TextView countText = findViewById(R.id.count);
             TextView dates = findViewById(R.id.dates);
+            Switch switch1 = findViewById(R.id.switch1);
+            Switch switch2 = findViewById(R.id.switch2);
 
             countText.setText(String.valueOf(count));
 
@@ -153,9 +134,6 @@
             String endDate = String.format("%02d.%02d", calendarEnd.get(Calendar.DAY_OF_MONTH), calendarEnd.get(Calendar.MONTH) + 1);
 
             dates.setText(startDate + " - " + endDate);
-
-
-
             nameHotel.setText(hotel.hotelName);
             nameHotel2.setText(hotel.hotelName);
             nameRoom.setText(hotelRoom.name);
@@ -163,7 +141,31 @@
             countOfPeople.setText(String.valueOf(hotelRoom.countOfPeople + " основных места"));
             city.setText(hotel.city + ", ");
             adress.setText(hotel.adress);
-            cost.setText(String.valueOf(hotelRoom.costWithout + " BYN"));
+
+            cost.setText(switch1.isChecked()
+                    ? String.valueOf(hotelRoom.costWithout / 2) + " BYN"
+                    : String.valueOf(hotelRoom.costWithout) + " BYN");
+
+            switch1.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (isChecked) {
+                    switch2.setChecked(false);
+                    cost.setText(String.valueOf(hotelRoom.costWithout / 2) + " BYN");
+                } else {
+                    switch2.setChecked(true);
+                    cost.setText(String.valueOf(hotelRoom.costWithout) + " BYN");
+                }
+            });
+
+            switch2.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (isChecked) {
+                    switch1.setChecked(false);
+                    cost.setText(String.valueOf(hotelRoom.costWithout) + " BYN");
+                } else {
+                    switch1.setChecked(true);
+                    cost.setText(String.valueOf(hotelRoom.costWithout / 2) + " BYN");
+                }
+            });
+
 
             ReviewRepository reviewRepository = new ReviewRepository(FirebaseFirestore.getInstance());
             reviewRepository.getReviewsByHotelId(hotel.id).thenAccept(list -> {
@@ -282,6 +284,7 @@
 
                     Reservation reservation = new Reservation();
                     ReservationRepository reservationRepository = new ReservationRepository(FirebaseFirestore.getInstance());
+                    reservation.userCountOfPeople = count;
                     reservation.userName = name.getText().toString();
                     reservation.userSurname = surname.getText().toString();
                     reservation.userEmail = email.getText().toString();
@@ -294,6 +297,7 @@
 
                     reservation.switchPrepayment = switch1.isChecked();
                     reservation.switchAllCost = switch2.isChecked();
+
 
                     reservation.checkBoxBreakfast = checkBox1.isChecked();
                     reservation.checkBoxLunch = checkBox2.isChecked();

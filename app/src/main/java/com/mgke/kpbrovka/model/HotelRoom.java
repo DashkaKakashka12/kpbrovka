@@ -37,4 +37,8 @@ public class HotelRoom {
         this.count = count;
         this.countOfPeople = countOfPeople;
     }
+
+    public String getId() {
+        return id;
+    }
 }

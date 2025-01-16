@@ -9,6 +9,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
+import com.mgke.kpbrovka.model.HotelRoom;
 import com.mgke.kpbrovka.model.NearbyAttraction;
 import com.mgke.kpbrovka.model.Reservation;
 
@@ -157,4 +158,36 @@ public class ReservationRepository {
         db.collection("Reservations").document(reservation.id)
                 .set(reservation);
     }
+
+    public CompletableFuture<List<Reservation>> getReservationByHotelRoom(List<HotelRoom> hotelRooms) {
+        final CompletableFuture<List<Reservation>> future = new CompletableFuture<>();
+        List<Reservation> reservationList = new ArrayList<>();
+
+        List<String> hotelRoomIds = hotelRooms.stream()
+                .map(HotelRoom::getId)
+                .collect(Collectors.toList());
+
+        db.collection("Reservations")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Reservation reservation = document.toObject(Reservation.class);
+
+                                if (hotelRoomIds.contains(reservation.hotelRoomId)) {
+                                    reservationList.add(reservation);
+                                }
+                            }
+                            future.complete(reservationList);
+                        } else {
+                            future.completeExceptionally(task.getException());
+                        }
+                    }
+                });
+
+        return future;
+    }
+
 }

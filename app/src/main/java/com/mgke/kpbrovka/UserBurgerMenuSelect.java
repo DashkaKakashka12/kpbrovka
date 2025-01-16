@@ -69,7 +69,7 @@ public class UserBurgerMenuSelect implements NavigationView.OnNavigationItemSele
         } else if (menuItem.getItemId() == R.id.saved) {
             a = new Intent(context, SavedUserActivity.class);
         } else if (menuItem.getItemId() == R.id.bookings) {
-            a = new Intent(context, MainUserActivity.class);
+            a = new Intent(context, BookingUserActivity.class);
         }
 
 

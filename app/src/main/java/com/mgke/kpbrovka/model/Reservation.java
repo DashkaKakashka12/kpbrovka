@@ -26,12 +26,13 @@ public class Reservation {
     public boolean switchPrepayment;
     public boolean switchAllCost;
     public int parking;
+    public int userCountOfPeople;
 
 
     public Reservation() {
     }
 
-    public Reservation(String id, String userId, String wishesForTheNumber, StatusReservation status, String hotelRoomId, Date start, Date end, String userName, String userSurname, String userEmail, String userPhone, String numberOfCard, String dateOfCard, String nameOfCard, String ccv, boolean checkBoxBreakfast, boolean checkBoxLunch, boolean checkBoxDinner, boolean switchPrepayment, boolean switchAllCost, int parking) {
+    public Reservation(String id, String userId, String wishesForTheNumber, StatusReservation status, String hotelRoomId, Date start, Date end, String userName, String userSurname, String userEmail, String userPhone, String numberOfCard, String dateOfCard, String nameOfCard, String ccv, boolean checkBoxBreakfast, boolean checkBoxLunch, boolean checkBoxDinner, boolean switchPrepayment, boolean switchAllCost, int parking, int userCountOfPeople) {
         this.id = id;
         this.userId = userId;
         this.wishesForTheNumber = wishesForTheNumber;
@@ -53,5 +54,6 @@ public class Reservation {
         this.switchPrepayment = switchPrepayment;
         this.switchAllCost = switchAllCost;
         this.parking = parking;
+        this.userCountOfPeople = userCountOfPeople;
     }
 }
