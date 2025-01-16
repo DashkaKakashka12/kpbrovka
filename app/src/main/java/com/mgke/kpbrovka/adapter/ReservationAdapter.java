@@ -2,6 +2,8 @@ package com.mgke.kpbrovka.adapter;
 
 import static com.mgke.kpbrovka.BroHotelEdit.formatTimestamp;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -101,6 +103,7 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
                     Intent intent = new Intent(itemView.getContext(), AllReservation.class);
                     intent.putExtra("RESERVATION", reservation.id);
                     itemView.getContext().startActivity(intent);
+                    ((Activity)itemView.getContext()).finish();
                 }
             });
 

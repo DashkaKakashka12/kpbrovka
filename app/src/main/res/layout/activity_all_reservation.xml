@@ -259,6 +259,7 @@
 
                 <TextView
                     android:onClick="cancellation"
+                    android:id="@+id/cancellation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="15sp"
@@ -271,6 +272,7 @@
                     android:background="@drawable/rounded_corners_grey"/>
                 <TextView
                     android:onClick="confirm"
+                    android:id="@+id/confirm"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"

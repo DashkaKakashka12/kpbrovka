@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,19 +14,23 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.mgke.kpbrovka.adapter.ReservationAdapter;
 import com.mgke.kpbrovka.model.HotelRoom;
 import com.mgke.kpbrovka.model.Reservation;
+import com.mgke.kpbrovka.model.StatusReservation;
 import com.mgke.kpbrovka.repository.HotelRepository;
 import com.mgke.kpbrovka.repository.HotelRoomRepository;
 import com.mgke.kpbrovka.repository.ReservationRepository;
 
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 public class AllReservation extends AppCompatActivity {
     private Reservation reservation;
     private HotelRoom hotelRoom;
     private HotelRoomRepository hotelRoomRepository;
+    private ReservationRepository reservationRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +38,7 @@ public class AllReservation extends AppCompatActivity {
         setContentView(R.layout.activity_all_reservation);
         hotelRoomRepository = new HotelRoomRepository(FirebaseFirestore.getInstance());
         String id = getIntent().getStringExtra("RESERVATION");
-        ReservationRepository reservationRepository = new ReservationRepository(FirebaseFirestore.getInstance());
+        reservationRepository = new ReservationRepository(FirebaseFirestore.getInstance());
         reservationRepository.getReservationById(id).thenAccept(reservation -> {
             this.reservation = reservation;
             hotelRoomRepository.getHotelRoomById(reservation.hotelRoomId).thenAccept(hotelRoom -> {
@@ -61,6 +66,19 @@ public class AllReservation extends AppCompatActivity {
         TextView dateOfCard = findViewById(R.id.dateOfCard);
         TextView nameOfCard = findViewById(R.id.nameOfCard);
         TextView ccv = findViewById(R.id.ccv);
+
+        TextView cancellation  = findViewById(R.id.cancellation);
+        TextView confirm  = findViewById(R.id.confirm);
+
+        if (reservation.status == StatusReservation.REJECTED){
+            confirm.setVisibility(View.GONE);
+            cancellation.setClickable(false);
+            cancellation.setText("Отменено");
+        } else if (reservation.status == StatusReservation.CONFIRMED) {
+            cancellation.setVisibility(View.GONE);
+            confirm.setClickable(false);
+            confirm.setText("Подтверждено");
+        }
 
         nameAndSurname.setText(reservation.userName + " " + reservation.userSurname);
 
@@ -136,9 +154,19 @@ public class AllReservation extends AppCompatActivity {
     }
 
     public void cancellation(View view) {
+        reservation.status = StatusReservation.REJECTED;
+        reservationRepository.updateReservation(reservation);
+        Intent intent = new Intent(this, BroReservationEdit.class);
+        startActivity(intent);
+        finish();
     }
 
     public void confirm(View view) {
+        reservation.status = StatusReservation.CONFIRMED;
+        reservationRepository.updateReservation(reservation);
+        Intent intent = new Intent(this, BroReservationEdit.class);
+        startActivity(intent);
+        finish();
     }
 
     public void back(View view) {
