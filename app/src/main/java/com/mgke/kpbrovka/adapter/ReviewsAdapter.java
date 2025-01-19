@@ -16,7 +16,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.mgke.kpbrovka.R;
+import com.mgke.kpbrovka.auth.Authentication;
 import com.mgke.kpbrovka.model.Review;
+import com.mgke.kpbrovka.model.UserType;
 import com.mgke.kpbrovka.repository.ReviewRepository;
 import com.mgke.kpbrovka.repository.UserRepository;
 
@@ -68,7 +70,7 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewVi
         }
 
         public void bind(Review review, ReviewsAdapter adapter) {
-            stars.setNumStars(review.stars);
+            stars.setRating(review.stars);
             text.setText(review.text);
 
             adapter.userRepository.getUserById(review.userId).thenAccept(user -> {
@@ -79,6 +81,8 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewVi
                 }
                 nameAndData.setText(user.name + "\n" + formatTimestamp(review.dataCreation));
             });
+
+            if (Authentication.user.type == UserType.USER) delete.setVisibility(View.GONE);
 
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override

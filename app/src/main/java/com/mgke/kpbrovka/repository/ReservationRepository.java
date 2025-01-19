@@ -221,4 +221,52 @@ public class ReservationRepository {
         return future;
     }
 
+
+    public CompletableFuture<List<Reservation>> getAllReservationsByHotelId(String hotelId) {
+        final CompletableFuture<List<Reservation>> future = new CompletableFuture<>();
+        List<Reservation> reservationList = new ArrayList<>();
+
+        db.collection("hotelRooms")
+                .whereEqualTo("hotelId", hotelId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            List<String> roomIds = new ArrayList<>();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String roomId = document.getId();
+                                roomIds.add(roomId);
+                            }
+
+                            if (!roomIds.isEmpty()) {
+                                db.collection("Reservations")
+                                        .whereIn("hotelRoomId", roomIds)
+                                        .get()
+                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> reservationTask) {
+                                                if (reservationTask.isSuccessful()) {
+                                                    for (QueryDocumentSnapshot reservationDoc : reservationTask.getResult()) {
+                                                        Reservation reservation = reservationDoc.toObject(Reservation.class);
+                                                        reservationList.add(reservation);
+                                                    }
+                                                    future.complete(reservationList);
+                                                } else {
+                                                    future.completeExceptionally(reservationTask.getException());
+                                                }
+                                            }
+                                        });
+                            } else {
+                                future.complete(reservationList);
+                            }
+                        } else {
+                            future.completeExceptionally(task.getException());
+                        }
+                    }
+                });
+
+        return future;
+    }
+
 }

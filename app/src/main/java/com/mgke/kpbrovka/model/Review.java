@@ -5,7 +5,7 @@ import com.google.firebase.Timestamp;
 public class Review {
     public String id;
     public String userId;
-    public String hotelId;
+    public String reservationId;
     public Timestamp dataCreation;
     public int stars;
     public int valueForMoney;
@@ -24,10 +24,10 @@ public class Review {
     public Review() {
     }
 
-    public Review(String id, String userId, String hotelId, Timestamp dataCreation, int stars, int valueForMoney, int comfort, int cleanness, int staff, int facilities, String text) {
+    public Review(String id, String userId, String reservationId, Timestamp dataCreation, int stars, int valueForMoney, int comfort, int cleanness, int staff, int facilities, String text) {
         this.id = id;
         this.userId = userId;
-        this.hotelId = hotelId;
+        this.reservationId = reservationId;
         this.dataCreation = dataCreation;
         this.stars = stars;
         this.valueForMoney = valueForMoney;

@@ -26,11 +26,13 @@ import com.mgke.kpbrovka.adapter.ReservationAdapter;
 import com.mgke.kpbrovka.auth.Authentication;
 import com.mgke.kpbrovka.model.HotelRoom;
 import com.mgke.kpbrovka.model.Reservation;
+import com.mgke.kpbrovka.model.Review;
 import com.mgke.kpbrovka.model.StatusReservation;
 import com.mgke.kpbrovka.model.UserType;
 import com.mgke.kpbrovka.repository.HotelRepository;
 import com.mgke.kpbrovka.repository.HotelRoomRepository;
 import com.mgke.kpbrovka.repository.ReservationRepository;
+import com.mgke.kpbrovka.repository.ReviewRepository;
 
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
@@ -39,14 +41,18 @@ import java.util.stream.Collectors;
 public class AllReservation extends AppCompatActivity {
     private Reservation reservation;
     private HotelRoom hotelRoom;
+    private Review review;
     private HotelRoomRepository hotelRoomRepository;
     private ReservationRepository reservationRepository;
+    private ReviewRepository reviewRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_reservation);
         hotelRoomRepository = new HotelRoomRepository(FirebaseFirestore.getInstance());
+        reviewRepository = new ReviewRepository(FirebaseFirestore.getInstance());
+
         String id = getIntent().getStringExtra("RESERVATION");
         reservationRepository = new ReservationRepository(FirebaseFirestore.getInstance());
         reservationRepository.getReservationById(id).thenAccept(reservation -> {
@@ -75,6 +81,7 @@ public class AllReservation extends AppCompatActivity {
         Switch switch2 = findViewById(R.id.switch2);
         TextView cancellation  = findViewById(R.id.cancellation);
         TextView confirm  = findViewById(R.id.confirm);
+        TextView writeReview  = findViewById(R.id.writeReview);
         TextView halfCost  = findViewById(R.id.halfCost);
 
         if (reservation.numberOfCard != null){
@@ -85,6 +92,7 @@ public class AllReservation extends AppCompatActivity {
         if (Authentication.user.type == UserType.USER) {
             if (reservation.status == StatusReservation.REJECTED) {
                 confirm.setVisibility(View.GONE);
+                writeReview.setVisibility(View.GONE);
                 cancellation.setClickable(false);
                 cancellation.setText("Отменено");
             } else if (reservation.status == StatusReservation.CONFIRMED) {
@@ -93,16 +101,24 @@ public class AllReservation extends AppCompatActivity {
                 if (reservation.numberOfCard == null){
                     findViewById(R.id.liner5).setVisibility(View.VISIBLE);
                 }
+                reviewRepository.canWriteReview(reservation, Authentication.user).thenAccept(review -> {
+                    this.review = review;
+                    if(review == null) writeReview.setVisibility(View.GONE);
+                    else if (review.id != null) writeReview.setText("Редактировать отзыв");
+                });
             } else {
+                writeReview.setVisibility(View.GONE);
                 confirm.setVisibility(View.GONE);
                 cancellation.setVisibility(View.GONE);
             }
         } else {
             if (reservation.status == StatusReservation.REJECTED) {
+                writeReview.setVisibility(View.GONE);
                 confirm.setVisibility(View.GONE);
                 cancellation.setClickable(false);
                 cancellation.setText("Отменено");
             } else if (reservation.status == StatusReservation.CONFIRMED) {
+                writeReview.setVisibility(View.GONE);
                 confirm.setClickable(false);
                 confirm.setText("Подтверждено");
                 cancellation.setVisibility(View.GONE);
@@ -310,5 +326,13 @@ public class AllReservation extends AppCompatActivity {
         });
 
         dialog.show();
+    }
+
+    public void writeReview(View view) {
+        Intent intent = new Intent(this, WriteReview.class);
+        if (review.id != null) intent.putExtra("reviewId", review.id);
+        intent.putExtra("reservationId", reservation.id);
+        startActivity(intent);
+        finish();
     }
 }

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".WriteReview"
+    android:background="#EBEAEA">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="DreamStay"
+        android:textColor="@color/black"
+        android:background="@color/white"
+        android:gravity="center"
+        android:textSize="21dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <ImageView
+        android:onClick="back"
+        android:id="@+id/back"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/arrow_left_icon" />
+
+        <LinearLayout
+            android:id="@+id/help"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:background="@drawable/rounded_corners"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/hotelName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textSize="18dp"
+                android:textColor="@color/black"
+                android:text="Ренессанс Минск Конгресс Отель и СПА центр 5*"
+                android:paddingHorizontal="15dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:paddingHorizontal="15dp"
+                android:text="Оценка отелю"
+                android:layout_gravity="center"
+                android:textColor="@color/black"/>
+
+            <per.wsj.library.AndRatingBar
+                android:id="@+id/stars"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:rating="0"
+                app:scaleFactor="0.9"
+                android:stepSize="1"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:paddingHorizontal="15dp"
+                android:text="Цена/качество" />
+
+            <per.wsj.library.AndRatingBar
+                android:id="@+id/stars1"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:rating="0"
+                app:scaleFactor="0.9"
+                android:stepSize="1"
+                android:layout_marginStart="13dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:paddingHorizontal="15dp"
+                android:text="Комфорт" />
+
+            <per.wsj.library.AndRatingBar
+                android:id="@+id/stars2"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:rating="0"
+                app:scaleFactor="0.9"
+                android:stepSize="1"
+                android:layout_marginStart="13dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:paddingHorizontal="15dp"
+                android:text="Чистота" />
+
+            <per.wsj.library.AndRatingBar
+                android:id="@+id/stars3"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:rating="0"
+                app:scaleFactor="0.9"
+                android:stepSize="1"
+                android:layout_marginStart="13dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:paddingHorizontal="15dp"
+                android:text="Персонал" />
+
+            <per.wsj.library.AndRatingBar
+                android:id="@+id/stars4"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:rating="0"
+                app:scaleFactor="0.9"
+                android:stepSize="1"
+                android:layout_marginStart="13dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:paddingHorizontal="15dp"
+                android:text="Удобства" />
+
+            <per.wsj.library.AndRatingBar
+                android:id="@+id/stars5"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:rating="0"
+                app:scaleFactor="0.9"
+                android:stepSize="1"
+                android:layout_marginStart="13dp" />
+
+                <EditText
+                    android:id="@+id/textOfReview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginVertical="10dp"
+                    android:padding="15dp"
+                    android:textSize="15sp"
+                    android:background="#EBEAEA"
+                    android:hint="Напишите отзыв..." />
+
+
+            <TextView
+                android:onClick="addReview"
+                android:id="@+id/addReview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="15sp"
+                android:padding="8dp"
+                android:textColor="#000000"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Добавить отзыв"
+                android:background="@drawable/rounded_corners_yellow"
+                android:layout_marginBottom="20dp"/>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.drawerlayout.widget.DrawerLayout>

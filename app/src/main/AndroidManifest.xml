@@ -21,6 +21,9 @@
         android:theme="@style/Theme.kpbrovka"
         tools:targetApi="31">
         <activity
+            android:name=".WriteReview"
+            android:exported="false" />
+        <activity
             android:name=".AllReservation"
             android:exported="false" />
         <activity

@@ -446,7 +446,8 @@
                             android:rating="5"
                             app:scaleFactor="0.9"
                             android:stepSize="1"
-                            android:layout_marginStart="13dp"/>
+                            android:layout_marginStart="13dp"
+                            android:isIndicator="true"/>
 
 
 
@@ -506,7 +507,8 @@
                         android:rating="5"
                         app:scaleFactor="0.9"
                         android:stepSize="1"
-                        android:layout_marginStart="13dp"/>
+                        android:layout_marginStart="13dp"
+                        android:isIndicator="true"/>
 
                     <TextView
                         android:id="@+id/textOfReview2"

@@ -16,8 +16,10 @@ import com.mgke.kpbrovka.model.Review;
 import com.mgke.kpbrovka.model.User;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 public class ReviewRepository {
 
@@ -83,23 +85,43 @@ public class ReviewRepository {
     public CompletableFuture<List<Review>> getReviewsByHotelId(String hotelId) {
         final CompletableFuture<List<Review>> future = new CompletableFuture<>();
         List<Review> reviewList = new ArrayList<>();
+        ReservationRepository reservationRepository = new ReservationRepository(FirebaseFirestore.getInstance());
 
-        db.collection("reviews").whereEqualTo("hotelId", hotelId)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            if (document.exists()) {
-                                Review review = document.toObject(Review.class);
-                                reviewList.add(review);
-                            }
-                        }
+        reservationRepository.getAllReservationsByHotelId(hotelId)
+                .thenAccept(reservations -> {
+                    if (!reservations.isEmpty()) {
+                        List<String> reservationIds = reservations.stream()
+                                .map(reservation -> reservation.id)
+                                .collect(Collectors.toList());
+
+                        db.collection("reviews")
+                                .whereIn("reservationId", reservationIds)
+                                .get()
+                                .addOnCompleteListener(task -> {
+                                    if (task.isSuccessful()) {
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                            if (document.exists()) {
+                                                Review review = document.toObject(Review.class);
+                                                reviewList.add(review);
+                                            }
+                                        }
+                                        future.complete(reviewList);
+                                    } else {
+                                        future.completeExceptionally(task.getException());
+                                    }
+                                });
+                    } else {
                         future.complete(reviewList);
                     }
+                })
+                .exceptionally(ex -> {
+                    future.completeExceptionally(ex);
+                    return null;
                 });
 
         return future;
     }
+
 
     public void deleteReview(Review review) {
         db.collection("reviews").document(review.id)
@@ -110,4 +132,32 @@ public class ReviewRepository {
         db.collection("reviews").document(review.id)
                 .set(review);
     }
+
+    public CompletableFuture<Review> canWriteReview(Reservation reservation, User user) {
+        final CompletableFuture<Review> future = new CompletableFuture<>();
+
+        db.collection("reviews").whereEqualTo("reservationId", reservation.id)
+                .whereEqualTo("userId", user.id)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        boolean reviewFound = false;
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            if (document.exists()) {
+                                Review review = document.toObject(Review.class);
+                                future.complete(review);
+                                reviewFound = true;
+                                break;
+                            }
+                        }
+                        if (!reviewFound) {
+                            future.complete(new Review());
+                        }
+                    } else {
+                        future.completeExceptionally(task.getException());
+                    }
+                });
+        return future;
+    }
+
 }

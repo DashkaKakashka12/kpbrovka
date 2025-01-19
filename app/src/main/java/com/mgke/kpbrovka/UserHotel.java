@@ -267,36 +267,36 @@ public class UserHotel extends AppCompatActivity {
             if (list.size() >= 2){
                 findViewById(R.id.review1).setVisibility(View.VISIBLE);
                 findViewById(R.id.review2).setVisibility(View.VISIBLE);
+
+                Review review1 = list.get(0);
+                Review review2 = list.get(1);
+
+                stars.setRating(review1.stars);
+                stars2.setRating(review2.stars);
+
+                textOfReview.setText(review1.text);
+                textOfReview2.setText(review2.text);
+
+
+                userRepository.getUserById(review1.userId).thenAccept(user -> {
+                    if (user.photo != null){
+                        Glide.with(this).load(user.photo).apply(new RequestOptions()
+                                .centerCrop()
+                                .circleCrop()).into(userIcon);
+                    }
+
+                    nameAndData.setText(user.name + "\n" + formatTimestamp(review1.dataCreation));
+                });
+                userRepository.getUserById(review2.userId).thenAccept(user -> {
+                    if (user.photo != null){
+                        Glide.with(this).load(user.photo).apply(new RequestOptions()
+                                .centerCrop()
+                                .circleCrop()).into(userIcon2);
+                    }
+
+                    nameAndData2.setText(user.name + "\n" + formatTimestamp(review2.dataCreation));
+                });
             }
-            Review review1 = list.get(0);
-            Review review2 = list.get(1);
-
-            stars.setNumStars(review1.stars);
-            stars2.setNumStars(review2.stars);
-
-            textOfReview.setText(review1.text);
-            textOfReview2.setText(review2.text);
-
-
-            userRepository.getUserById(review1.userId).thenAccept(user -> {
-                if (user.photo != null){
-                    Glide.with(this).load(user.photo).apply(new RequestOptions()
-                            .centerCrop()
-                            .circleCrop()).into(userIcon);
-                }
-
-                nameAndData.setText(user.name + "\n" + formatTimestamp(review1.dataCreation));
-            });
-            userRepository.getUserById(review2.userId).thenAccept(user -> {
-                if (user.photo != null){
-                    Glide.with(this).load(user.photo).apply(new RequestOptions()
-                            .centerCrop()
-                            .circleCrop()).into(userIcon2);
-                }
-
-                nameAndData2.setText(user.name + "\n" + formatTimestamp(review2.dataCreation));
-            });
-
 
             int[] mass = new int[5];
             for (int i = 0; i < list.size(); i++){
@@ -394,4 +394,10 @@ public class UserHotel extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void checkReviews(View view) {
+        Intent a = new Intent(this, BroCheckReviews.class);
+        a.putExtra("id", currentHotel.id);
+        startActivity(a);
+        finish();
+    }
 }
