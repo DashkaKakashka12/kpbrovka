@@ -115,12 +115,11 @@
             TextView countOfPeople = findViewById(R.id.countOfPeople);
             TextView city = findViewById(R.id.city);
             TextView adress = findViewById(R.id.adress);
-            TextView cost = findViewById(R.id.cost);
+
             ImageView photoOfNumber = findViewById(R.id.photoOfNumber);
             TextView countText = findViewById(R.id.count);
             TextView dates = findViewById(R.id.dates);
-            Switch switch1 = findViewById(R.id.switch1);
-            Switch switch2 = findViewById(R.id.switch2);
+
 
             countText.setText(String.valueOf(count));
 
@@ -141,30 +140,6 @@
             countOfPeople.setText(String.valueOf(hotelRoom.countOfPeople + " основных места"));
             city.setText(hotel.city + ", ");
             adress.setText(hotel.adress);
-
-            cost.setText(switch1.isChecked()
-                    ? String.valueOf(hotelRoom.costWithout / 2) + " BYN"
-                    : String.valueOf(hotelRoom.costWithout) + " BYN");
-
-            switch1.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                if (isChecked) {
-                    switch2.setChecked(false);
-                    cost.setText(String.valueOf(hotelRoom.costWithout / 2) + " BYN");
-                } else {
-                    switch2.setChecked(true);
-                    cost.setText(String.valueOf(hotelRoom.costWithout) + " BYN");
-                }
-            });
-
-            switch2.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                if (isChecked) {
-                    switch1.setChecked(false);
-                    cost.setText(String.valueOf(hotelRoom.costWithout) + " BYN");
-                } else {
-                    switch1.setChecked(true);
-                    cost.setText(String.valueOf(hotelRoom.costWithout / 2) + " BYN");
-                }
-            });
 
 
             ReviewRepository reviewRepository = new ReviewRepository(FirebaseFirestore.getInstance());
@@ -193,57 +168,14 @@
         }
 
         public void pay(View view) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            View customView = getLayoutInflater().inflate(R.layout.dialog_user_pay, null);
-            EditText numberOfCard = customView.findViewById(R.id.numberOfCard);
-            EditText dateOfCard = customView.findViewById(R.id.dateOfCard);
-            EditText nameOfCard = customView.findViewById(R.id.nameOfCard);
-            EditText ccv = customView.findViewById(R.id.ccv);
-            nameOfCard.setFilters(new InputFilter[] { new InputFilter.AllCaps() });
-
-            numberOfCard.addTextChangedListener(new TextWatcher() {
-                private String current = "";
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {}
-                @Override
-                public void afterTextChanged(Editable s) {
-                    String cleanString = s.toString().replaceAll("[^\\d]", ""); // Убираем все нецифровые символы
-                    String formatted = cleanString.replaceAll("(.{4})", "$1 ").trim(); // Форматируем с пробелами
-
-                    if (!formatted.equals(current)) {
-                        current = formatted;
-                        numberOfCard.setText(current);
-                        numberOfCard.setSelection(current.length());
-                    }
-                }
-            });
-            dateOfCard.addTextChangedListener(new TextWatcher() {
-                private String current = "";
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {}
-                @Override
-                public void afterTextChanged(Editable s) {
-                    String cleanString = s.toString().replaceAll("[^\\d]", "");
-                    String formatted = cleanString.replaceFirst("(\\d{2})(\\d)", "$1 / $2"); // Форматируем при наличии двух цифр
-
-                    if (!formatted.equals(current)) {
-                        current = formatted;
-                        dateOfCard.setText(current);
-                        dateOfCard.setSelection(current.length());
-                    }
-                }
-            });
-
             EditText name = findViewById(R.id.name);
             EditText surname = findViewById(R.id.surname);
             EditText email = findViewById(R.id.email);
             EditText phone = findViewById(R.id.phone);
             EditText wishes = findViewById(R.id.wishes);
+            CheckBox checkBox1 = findViewById(R.id.checkBox1);
+            CheckBox checkBox2 = findViewById(R.id.checkBox2);
+            CheckBox checkBox3 = findViewById(R.id.checkBox3);
 
             String emailInput = email.getText().toString().trim();
             String phoneInput = phone.getText().toString().trim();
@@ -265,62 +197,32 @@
                 return;
             }
 
-            builder.setView(customView)
-                    .setTitle("Оплата")
-                    .setPositiveButton("ОК", null)
-                    .setNegativeButton("Отмена", (dialog, which) -> dialog.dismiss());
+            Reservation reservation = new Reservation();
+            ReservationRepository reservationRepository = new ReservationRepository(FirebaseFirestore.getInstance());
+            reservation.userCountOfPeople = count;
+            reservation.userName = name.getText().toString();
+            reservation.userSurname = surname.getText().toString();
+            reservation.userEmail = email.getText().toString();
+            reservation.userPhone = phone.getText().toString();
+            reservation.wishesForTheNumber = wishes.getText().toString();
 
-            AlertDialog dialog = builder.create();
+            reservation.userId = Authentication.user.id;
+            reservation.hotelRoomId = hotelRoom.id;
+            reservation.status = StatusReservation.INPROGRESS;
 
-            dialog.setOnShowListener(dialogInterface -> {
-                Button buttonOk = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-                buttonOk.setOnClickListener(v -> {
-                    CheckBox checkBox1 = findViewById(R.id.checkBox1);
-                    CheckBox checkBox2 = findViewById(R.id.checkBox2);
-                    CheckBox checkBox3 = findViewById(R.id.checkBox3);
+            reservation.checkBoxBreakfast = checkBox1.isChecked();
+            reservation.checkBoxLunch = checkBox2.isChecked();
+            reservation.checkBoxDinner = checkBox3.isChecked();
 
-                    Switch switch1 = findViewById(R.id.switch1);
-                    Switch switch2 = findViewById(R.id.switch2);
+            reservation.parking = selectedCarIndex;
+            reservation.start = start;
+            reservation.end = end;
 
-                    Reservation reservation = new Reservation();
-                    ReservationRepository reservationRepository = new ReservationRepository(FirebaseFirestore.getInstance());
-                    reservation.userCountOfPeople = count;
-                    reservation.userName = name.getText().toString();
-                    reservation.userSurname = surname.getText().toString();
-                    reservation.userEmail = email.getText().toString();
-                    reservation.userPhone = phone.getText().toString();
-                    reservation.wishesForTheNumber = wishes.getText().toString();
-                    reservation.numberOfCard = numberOfCard.getText().toString();
-                    reservation.dateOfCard = dateOfCard.getText().toString();
-                    reservation.nameOfCard = nameOfCard.getText().toString();
-                    reservation.ccv = ccv.getText().toString();
+            reservationRepository.addReservation(reservation);
 
-                    reservation.switchPrepayment = switch1.isChecked();
-                    reservation.switchAllCost = switch2.isChecked();
-
-
-                    reservation.checkBoxBreakfast = checkBox1.isChecked();
-                    reservation.checkBoxLunch = checkBox2.isChecked();
-                    reservation.checkBoxDinner = checkBox3.isChecked();
-
-                    reservation.userId = Authentication.user.id;
-                    reservation.hotelRoomId = hotelRoom.id;
-                    reservation.status = StatusReservation.INPROGRESS;
-
-                    reservation.parking = selectedCarIndex;
-                    reservation.start = start;
-                    reservation.end = end;
-
-                    reservationRepository.addReservation(reservation);
-
-                    dialog.dismiss();
-                    Intent intent = new Intent(this, MainUserActivity.class);
-                    startActivity(intent);
-                    finish();
-                });
-            });
-
-            dialog.show();
+            Intent intent = new Intent(this, MainUserActivity.class);
+            startActivity(intent);
+            finish();
         }
 
         private boolean isValidEmail(String email) {

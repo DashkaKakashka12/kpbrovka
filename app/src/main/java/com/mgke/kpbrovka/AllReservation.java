@@ -1,12 +1,20 @@
 package com.mgke.kpbrovka;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.InputFilter;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -15,9 +23,11 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.mgke.kpbrovka.adapter.ReservationAdapter;
+import com.mgke.kpbrovka.auth.Authentication;
 import com.mgke.kpbrovka.model.HotelRoom;
 import com.mgke.kpbrovka.model.Reservation;
 import com.mgke.kpbrovka.model.StatusReservation;
+import com.mgke.kpbrovka.model.UserType;
 import com.mgke.kpbrovka.repository.HotelRepository;
 import com.mgke.kpbrovka.repository.HotelRoomRepository;
 import com.mgke.kpbrovka.repository.ReservationRepository;
@@ -60,25 +70,68 @@ public class AllReservation extends AppCompatActivity {
         TextView eat = findViewById(R.id.eat);
         TextView wishes = findViewById(R.id.wishes);
         TextView parking = findViewById(R.id.parking);
-        TextView halfCost = findViewById(R.id.halfCost);
-        TextView allCost = findViewById(R.id.allCost);
-        TextView numberOfCard = findViewById(R.id.numberOfCard);
-        TextView dateOfCard = findViewById(R.id.dateOfCard);
-        TextView nameOfCard = findViewById(R.id.nameOfCard);
-        TextView ccv = findViewById(R.id.ccv);
-
+        TextView cost = findViewById(R.id.cost);
+        Switch switch1 = findViewById(R.id.switch1);
+        Switch switch2 = findViewById(R.id.switch2);
         TextView cancellation  = findViewById(R.id.cancellation);
         TextView confirm  = findViewById(R.id.confirm);
+        TextView halfCost  = findViewById(R.id.halfCost);
 
-        if (reservation.status == StatusReservation.REJECTED){
-            confirm.setVisibility(View.GONE);
-            cancellation.setClickable(false);
-            cancellation.setText("Отменено");
-        } else if (reservation.status == StatusReservation.CONFIRMED) {
-            cancellation.setVisibility(View.GONE);
-            confirm.setClickable(false);
-            confirm.setText("Подтверждено");
+        if (reservation.numberOfCard != null){
+            if (reservation.switchAllCost) halfCost.setText(hotelRoom.costWithout + "BYN");
+            else halfCost.setText((hotelRoom.costWithout /2) + "BYN");
         }
+
+        if (Authentication.user.type == UserType.USER) {
+            if (reservation.status == StatusReservation.REJECTED) {
+                confirm.setVisibility(View.GONE);
+                cancellation.setClickable(false);
+                cancellation.setText("Отменено");
+            } else if (reservation.status == StatusReservation.CONFIRMED) {
+                confirm.setClickable(false);
+                confirm.setText("Подтверждено");
+                if (reservation.numberOfCard == null){
+                    findViewById(R.id.liner5).setVisibility(View.VISIBLE);
+                }
+            } else {
+                confirm.setVisibility(View.GONE);
+                cancellation.setVisibility(View.GONE);
+            }
+        } else {
+            if (reservation.status == StatusReservation.REJECTED) {
+                confirm.setVisibility(View.GONE);
+                cancellation.setClickable(false);
+                cancellation.setText("Отменено");
+            } else if (reservation.status == StatusReservation.CONFIRMED) {
+                confirm.setClickable(false);
+                confirm.setText("Подтверждено");
+                cancellation.setVisibility(View.GONE);
+            }
+        }
+
+        switch1.setChecked(true);
+
+        cost.setText(String.valueOf(hotelRoom.costWithout / 2) + " BYN");
+
+        switch1.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                switch2.setChecked(false);
+                cost.setText(String.valueOf(hotelRoom.costWithout / 2) + " BYN");
+            } else {
+                switch2.setChecked(true);
+                cost.setText(String.valueOf(hotelRoom.costWithout) + " BYN");
+            }
+        });
+
+        switch2.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                switch1.setChecked(false);
+                cost.setText(String.valueOf(hotelRoom.costWithout) + " BYN");
+            } else {
+                switch1.setChecked(true);
+                cost.setText(String.valueOf(hotelRoom.costWithout / 2) + " BYN");
+            }
+        });
 
         nameAndSurname.setText(reservation.userName + " " + reservation.userSurname);
 
@@ -138,25 +191,17 @@ public class AllReservation extends AppCompatActivity {
             parking.setText("Место на парковке: не нужно");
         } else parking.setText("Место на парковке: " + reservation.parking);
 
-
-        if (reservation.switchPrepayment) {
-            halfCost.setText("Внесено: " + (String.valueOf(hotelRoom.costWithout / 2)) + " BYN");
-        } else halfCost.setText("Внесено: " + String.valueOf(hotelRoom.costWithout) + " BYN");
-
-
-        allCost.setText("Стоимость: " + String.valueOf(hotelRoom.costWithout) + " BYN");
-
-        numberOfCard.setText(reservation.numberOfCard);
-        dateOfCard.setText(reservation.dateOfCard);
-        nameOfCard.setText(reservation.nameOfCard);
-        ccv.setText(reservation.ccv);
-
     }
 
     public void cancellation(View view) {
         reservation.status = StatusReservation.REJECTED;
         reservationRepository.updateReservation(reservation);
-        Intent intent = new Intent(this, BroReservationEdit.class);
+        Intent intent;
+        if (Authentication.user.type == UserType.HOTELIER){
+            intent = new Intent(this, BroReservationEdit.class);
+        } else {
+            intent = new Intent(this, UserBookingHistoryActivity.class);
+        }
         startActivity(intent);
         finish();
     }
@@ -164,14 +209,106 @@ public class AllReservation extends AppCompatActivity {
     public void confirm(View view) {
         reservation.status = StatusReservation.CONFIRMED;
         reservationRepository.updateReservation(reservation);
-        Intent intent = new Intent(this, BroReservationEdit.class);
+        Intent intent;
+        if (Authentication.user.type == UserType.HOTELIER){
+            intent = new Intent(this, BroReservationEdit.class);
+        } else {
+            intent = new Intent(this, UserBookingHistoryActivity.class);
+        }
         startActivity(intent);
         finish();
     }
 
     public void back(View view) {
-        Intent intent = new Intent(this, BroReservationEdit.class);
+        Intent intent;
+        if (Authentication.user.type == UserType.HOTELIER){
+            intent = new Intent(this, BroReservationEdit.class);
+        } else {
+            intent = new Intent(this, UserBookingHistoryActivity.class);
+        }
         startActivity(intent);
         finish();
+    }
+
+    public void pay(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View customView = getLayoutInflater().inflate(R.layout.dialog_user_pay, null);
+        EditText numberOfCard = customView.findViewById(R.id.numberOfCard);
+        EditText dateOfCard = customView.findViewById(R.id.dateOfCard);
+        EditText nameOfCard = customView.findViewById(R.id.nameOfCard);
+        EditText ccv = customView.findViewById(R.id.ccv);
+        nameOfCard.setFilters(new InputFilter[] { new InputFilter.AllCaps() });
+
+        numberOfCard.addTextChangedListener(new TextWatcher() {
+            private String current = "";
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+                String cleanString = s.toString().replaceAll("[^\\d]", ""); // Убираем все нецифровые символы
+                String formatted = cleanString.replaceAll("(.{4})", "$1 ").trim(); // Форматируем с пробелами
+
+                if (!formatted.equals(current)) {
+                    current = formatted;
+                    numberOfCard.setText(current);
+                    numberOfCard.setSelection(current.length());
+                }
+            }
+        });
+        dateOfCard.addTextChangedListener(new TextWatcher() {
+            private String current = "";
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+                String cleanString = s.toString().replaceAll("[^\\d]", "");
+                String formatted = cleanString.replaceFirst("(\\d{2})(\\d)", "$1 / $2"); // Форматируем при наличии двух цифр
+
+                if (!formatted.equals(current)) {
+                    current = formatted;
+                    dateOfCard.setText(current);
+                    dateOfCard.setSelection(current.length());
+                }
+            }
+        });
+
+        builder.setView(customView)
+                .setTitle("Оплата")
+                .setPositiveButton("ОК", null)
+                .setNegativeButton("Отмена", (dialog, which) -> dialog.dismiss());
+
+        AlertDialog dialog = builder.create();
+
+        dialog.setOnShowListener(dialogInterface -> {
+            Button buttonOk = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+            buttonOk.setOnClickListener(v -> {
+
+                Switch switch1 = findViewById(R.id.switch1);
+                Switch switch2 = findViewById(R.id.switch2);
+
+                reservation.numberOfCard = numberOfCard.getText().toString();
+                reservation.dateOfCard = dateOfCard.getText().toString();
+                reservation.nameOfCard = nameOfCard.getText().toString();
+                reservation.ccv = ccv.getText().toString();
+
+                reservation.switchPrepayment = switch1.isChecked();
+                reservation.switchAllCost = switch2.isChecked();
+
+                reservationRepository.updateReservation(reservation);
+
+                dialog.dismiss();
+                findViewById(R.id.liner5).setVisibility(View.GONE);
+                TextView halfCost  = findViewById(R.id.halfCost);
+                if (reservation.switchAllCost) halfCost.setText("Внесено: " + hotelRoom.costWithout + " BYN");
+                else halfCost.setText((hotelRoom.costWithout /2) + "BYN");
+            });
+        });
+
+        dialog.show();
     }
 }

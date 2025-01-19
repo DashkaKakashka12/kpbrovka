@@ -348,6 +348,7 @@ public class UserHotel extends AppCompatActivity {
         finish();
     }
 
+
     public void maps() {
         String uri = "yandexmaps://maps.yandex.ru/?pt=" + currentHotel.coordinates.y  + "," + currentHotel.coordinates.x + ",pm2rdm";
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
@@ -392,4 +393,5 @@ public class UserHotel extends AppCompatActivity {
         intent.putExtra("END", end);
         startActivity(intent);
     }
+
 }

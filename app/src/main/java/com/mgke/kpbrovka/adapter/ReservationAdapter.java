@@ -14,6 +14,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -23,6 +24,7 @@ import com.mgke.kpbrovka.AllReservation;
 import com.mgke.kpbrovka.R;
 import com.mgke.kpbrovka.model.Reservation;
 import com.mgke.kpbrovka.model.Review;
+import com.mgke.kpbrovka.model.StatusReservation;
 import com.mgke.kpbrovka.repository.HotelRoomRepository;
 import com.mgke.kpbrovka.repository.ReviewRepository;
 import com.mgke.kpbrovka.repository.UserRepository;
@@ -63,6 +65,7 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
         private TextView nameAndSurname;
         private TextView dates;
         private TextView nameRoom;
+        private TextView status;
         private HotelRoomRepository hotelRoomRepository;
         private LinearLayout linearLayout;
         public ReservationViewHolder(View itemView) {
@@ -70,6 +73,7 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
             this.days = itemView.findViewById(R.id.days);
             this.nameAndSurname = itemView.findViewById(R.id.nameAndSurname);
             this.dates = itemView.findViewById(R.id.dates);
+            this.status = itemView.findViewById(R.id.status);
             this.nameRoom = itemView.findViewById(R.id.nameRoom);
             this.linearLayout = itemView.findViewById(R.id.content3);
             hotelRoomRepository = new HotelRoomRepository(FirebaseFirestore.getInstance());
@@ -81,6 +85,17 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
             long differenceInDays = TimeUnit.MILLISECONDS.toDays(differenceInMillis);
 
             days.setText(String.valueOf(differenceInDays -1 + " ночь"));
+
+            if (reservation.status == StatusReservation.INPROGRESS) {
+                status.setText("В ПРОЦЕССЕ");
+                status.setTextColor(0xFF808080);;
+            } else if (reservation.status == StatusReservation.REJECTED){
+                status.setText("ОТКЛОНЕНО");
+                status.setTextColor(0xFFFF0000);
+            } else {
+                status.setText("ПОДТВЕРЖДЕНО");
+                status.setTextColor(0xFF008000);
+            }
 
             nameAndSurname.setText(reservation.userName + " " + reservation.userSurname);
 

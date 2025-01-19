@@ -12,8 +12,10 @@ import com.google.firebase.firestore.SetOptions;
 import com.mgke.kpbrovka.model.HotelRoom;
 import com.mgke.kpbrovka.model.NearbyAttraction;
 import com.mgke.kpbrovka.model.Reservation;
+import com.mgke.kpbrovka.model.StatusReservation;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -63,6 +65,9 @@ public class ReservationRepository {
 
         db.collection("Reservations")
                 .whereEqualTo("hotelRoomId", id)
+                .whereIn("status", Arrays.asList(
+                        StatusReservation.INPROGRESS.name(),
+                        StatusReservation.CONFIRMED.name()))
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -86,6 +91,9 @@ public class ReservationRepository {
         HotelRoomRepository hotelRoomRepository = new HotelRoomRepository(FirebaseFirestore.getInstance());
 
         db.collection("Reservations")
+                .whereIn("status", Arrays.asList(
+                        StatusReservation.INPROGRESS.name(),
+                        StatusReservation.CONFIRMED.name()))
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -148,6 +156,29 @@ public class ReservationRepository {
 
         return future;
     }
+
+    public CompletableFuture<List<Reservation>> getReservationsByUserId(String userId) {
+        final CompletableFuture<List<Reservation>> future = new CompletableFuture<>();
+
+        db.collection("Reservations")
+                .whereEqualTo("userId", userId)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        List<Reservation> reservations = new ArrayList<>();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Reservation reservation = document.toObject(Reservation.class);
+                            reservations.add(reservation);
+                        }
+                        future.complete(reservations);
+                    } else {
+                        future.completeExceptionally(task.getException());
+                    }
+                });
+
+        return future;
+    }
+
 
     public void deleteReservation(Reservation reservation) {
         db.collection("Reservations").document(reservation.id)

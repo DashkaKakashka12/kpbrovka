@@ -9,9 +9,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginStart="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="15dp"
         android:background="@drawable/rounded_corners_grey"
         android:padding="10dp">
         <LinearLayout
@@ -50,5 +50,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:text="Номер: Тотал Люкс" />
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="center"
+            android:text="ОТМЕНЕНО" />
     </LinearLayout>
 </LinearLayout>

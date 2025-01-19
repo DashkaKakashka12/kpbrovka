@@ -141,7 +141,7 @@
                 android:id="@+id/wishes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:textSize="17sp"
                 android:text="Пожелания: хочу спать очень очень"/>
 
@@ -149,113 +149,112 @@
                 android:id="@+id/parking"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="3dp"
                 android:textSize="17sp"
                 android:text="Место на парковке: 13"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:textSize="17sp"
-                android:text="Оплата:" />
 
             <TextView
                 android:id="@+id/halfCost"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:textSize="15sp"
-                android:text="Внесено: 50 BYN" />
-            <TextView
-                android:id="@+id/allCost"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:text="Стоимость: 100 BYN" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="3dp"
                 android:textSize="17sp"
-                android:text="Данные карты:" />
+                android:text="Внесено: 0 BYN"/>
+
+
 
             <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/liner5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="5dp">
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@id/liner1"
+                app:layout_constraintStart_toStartOf="parent"
+                android:background="@drawable/rounded_corners">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:text="Номер карты: " />
-                <TextView
-                    android:id="@+id/numberOfCard"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_marginTop="3dp"
+                    android:textSize="17sp"
+                    android:text="Оплата:" />
+                <LinearLayout
+                    android:layout_marginTop="5dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:text="1234 1234 1234 1234" />
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="Внести предоплату" />
+
+                    <Switch
+                        android:id="@+id/switch1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="Оплатить всю сумму" />
+
+                    <Switch
+                        android:id="@+id/switch2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="К оплате" />
+
+                    <TextView
+                        android:id="@+id/cost"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="790 BYN"
+                        android:textSize="25sp"
+                        android:gravity="end"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/pay"
+                    android:onClick="pay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Оплатить"
+                    android:textColor="#000000"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/rounded_corners_yellow"/>
+
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="2dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:text="Срок действия: " />
-                <TextView
-                    android:id="@+id/dateOfCard"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:text="07 / 29" />
-            </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="2dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:text="Имя владельца: " />
-                <TextView
-                    android:id="@+id/nameOfCard"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:text="SIARMIAZHKA VICTAR" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="2dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:text="CCV/CCV2: " />
-                <TextView
-                    android:id="@+id/ccv"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:text="000" />
-            </LinearLayout>
 
                 <TextView
                     android:onClick="cancellation"
@@ -268,7 +267,7 @@
                     android:textColor="#000000"
                     android:padding="8dp"
                     android:layout_marginHorizontal="10dp"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="10dp"
                     android:background="@drawable/rounded_corners_grey"/>
                 <TextView
                     android:onClick="confirm"

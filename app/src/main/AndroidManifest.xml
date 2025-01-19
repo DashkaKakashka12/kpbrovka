@@ -72,7 +72,7 @@
             android:name=".BroHotelEdit"
             android:exported="false" />
         <activity
-            android:name=".BookingUserActivity"
+            android:name=".UserBookingHistoryActivity"
             android:exported="false" />
         <activity
             android:name=".SavedUserActivity"

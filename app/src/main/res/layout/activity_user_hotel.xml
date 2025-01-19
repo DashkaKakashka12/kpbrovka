@@ -115,6 +115,7 @@
                         android:scaleType="fitXY"/>
 
                     <ImageView
+                        android:id="@+id/heartIcon"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_gravity="end|top"
