@@ -15,20 +15,18 @@ public class Hotel {
     public String adress;
     public String hotelName;
     public String photos;
-    public String description;
     public boolean isActive;
     public String userId;
     public Coordinates coordinates;
     public String city;
 
 
-    public Hotel(String id, List<String> facilities, String adress, String hotelName, String photos, String description, boolean isActive, String userId, Coordinates coordinates, String city) {
+    public Hotel(String id, List<String> facilities, String adress, String hotelName, String photos, boolean isActive, String userId, Coordinates coordinates, String city) {
         this.id = id;
         this.facilities = facilities;
         this.adress = adress;
         this.hotelName = hotelName;
         this.photos = photos;
-        this.description = description;
         this.isActive = isActive;
         this.userId = userId;
         this.coordinates = coordinates;

@@ -22,6 +22,8 @@ import com.mgke.kpbrovka.model.UserType;
 import com.mgke.kpbrovka.repository.HotelRepository;
 import com.mgke.kpbrovka.repository.ReviewRepository;
 
+import java.text.DecimalFormat;
+
 public class BroCheckReviews extends AppCompatActivity {
 
     private ReviewRepository reviewRepository;
@@ -71,17 +73,19 @@ public class BroCheckReviews extends AppCompatActivity {
             }
 
 
-            int1.setText(String.valueOf((double) mass[0] / list.size()));
-            int2.setText(String.valueOf((double) mass[1] / list.size()));
-            int3.setText(String.valueOf((double) mass[2] / list.size()));
-            int4.setText(String.valueOf((double) mass[3] / list.size()));
-            int5.setText(String.valueOf((double) mass[4] / list.size()));
+            DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
-            progressBar1.setProgress(mass[0] / list.size());
-            progressBar2.setProgress(mass[1] / list.size());
-            progressBar3.setProgress(mass[2] / list.size());
-            progressBar4.setProgress(mass[3] / list.size());
-            progressBar5.setProgress(mass[4] / list.size());
+            int1.setText(decimalFormat.format((double) mass[0] / list.size()));
+            int2.setText(decimalFormat.format((double) mass[1] / list.size()));
+            int3.setText(decimalFormat.format((double) mass[2] / list.size()));
+            int4.setText(decimalFormat.format((double) mass[3] / list.size()));
+            int5.setText(decimalFormat.format((double) mass[4] / list.size()));
+
+            progressBar1.setProgress((int) Math.round((double) mass[0] / list.size()));
+            progressBar2.setProgress((int) Math.round((double) mass[1] / list.size()));
+            progressBar3.setProgress((int) Math.round((double) mass[2] / list.size()));
+            progressBar4.setProgress((int) Math.round((double) mass[3] / list.size()));
+            progressBar5.setProgress((int) Math.round((double) mass[4] / list.size()));
         });
 
         TextView hotelName = findViewById(R.id.hotelName);
@@ -101,12 +105,14 @@ public class BroCheckReviews extends AppCompatActivity {
     }
 
     public void hotelEdit (View b){
-        Intent a = new Intent(this, BroHotelEdit.class);
         if (Authentication.user.type == UserType.ADMINISTRATOR){
+            Intent a = new Intent(this, BroHotelEdit.class);
             a.putExtra("HOTEL", id);
-        }
-        startActivity(a);
-        finish();
+            startActivity(a);
+            finish();
+        } else finish();
+
+
     }
 
 

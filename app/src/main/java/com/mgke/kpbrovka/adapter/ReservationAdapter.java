@@ -26,10 +26,12 @@ import com.mgke.kpbrovka.model.Reservation;
 import com.mgke.kpbrovka.model.Review;
 import com.mgke.kpbrovka.model.StatusReservation;
 import com.mgke.kpbrovka.repository.HotelRoomRepository;
+import com.mgke.kpbrovka.repository.ReservationRepository;
 import com.mgke.kpbrovka.repository.ReviewRepository;
 import com.mgke.kpbrovka.repository.UserRepository;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -68,6 +70,7 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
         private TextView status;
         private HotelRoomRepository hotelRoomRepository;
         private LinearLayout linearLayout;
+        private ReservationRepository reservationRepository;
         public ReservationViewHolder(View itemView) {
             super(itemView);
             this.days = itemView.findViewById(R.id.days);
@@ -77,6 +80,7 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
             this.nameRoom = itemView.findViewById(R.id.nameRoom);
             this.linearLayout = itemView.findViewById(R.id.content3);
             hotelRoomRepository = new HotelRoomRepository(FirebaseFirestore.getInstance());
+            reservationRepository = new ReservationRepository(FirebaseFirestore.getInstance());
         }
 
         public void bind(Reservation reservation) {
@@ -86,15 +90,24 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
 
             days.setText(String.valueOf(differenceInDays -1 + " ночь"));
 
+
+            if (reservation.end.before(new Date())){
+                reservation.status = StatusReservation.FINISH;
+                reservationRepository.updateReservation(reservation);
+            }
+
             if (reservation.status == StatusReservation.INPROGRESS) {
                 status.setText("В ПРОЦЕССЕ");
                 status.setTextColor(0xFF808080);;
             } else if (reservation.status == StatusReservation.REJECTED){
-                status.setText("ОТКЛОНЕНО");
+                status.setText("ОТМЕНЕНО");
                 status.setTextColor(0xFFFF0000);
-            } else {
+            } else if (reservation.status == StatusReservation.CONFIRMED){
                 status.setText("ПОДТВЕРЖДЕНО");
                 status.setTextColor(0xFF008000);
+            } else {
+                status.setText("ИСТЕКЛО");
+                status.setTextColor(0xFFFF0000);
             }
 
             nameAndSurname.setText(reservation.userName + " " + reservation.userSurname);

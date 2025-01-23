@@ -4,18 +4,11 @@ package com.mgke.kpbrovka.repository;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.TaskCompletionSource;
     import com.google.firebase.firestore.DocumentSnapshot;
     import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-    import com.google.firebase.firestore.SetOptions;
     import com.mgke.kpbrovka.model.Hotel;
-    import com.mgke.kpbrovka.model.HotelRoom;
-    import com.mgke.kpbrovka.model.NearbyAttraction;
-    import com.mgke.kpbrovka.model.Reservation;
-    import com.mgke.kpbrovka.model.Review;
-    import com.mgke.kpbrovka.model.StatusReservation;
     import com.mgke.kpbrovka.model.User;
     import com.mgke.kpbrovka.model.UserType;
 

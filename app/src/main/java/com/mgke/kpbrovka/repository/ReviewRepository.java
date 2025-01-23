@@ -136,6 +136,11 @@ public class ReviewRepository {
     public CompletableFuture<Review> canWriteReview(Reservation reservation, User user) {
         final CompletableFuture<Review> future = new CompletableFuture<>();
 
+        if (new Date().before(reservation.start)) {
+            future.complete(null);
+            return future;
+        }
+
         db.collection("reviews").whereEqualTo("reservationId", reservation.id)
                 .whereEqualTo("userId", user.id)
                 .get()

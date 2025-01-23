@@ -46,6 +46,7 @@ import com.yandex.mapkit.mapview.MapView;
 import com.yandex.runtime.image.ImageProvider;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -308,17 +309,19 @@ public class UserHotel extends AppCompatActivity {
             }
 
 
-            int1.setText(String.valueOf((double) mass[0] / list.size()));
-            int2.setText(String.valueOf((double) mass[1] / list.size()));
-            int3.setText(String.valueOf((double) mass[2] / list.size()));
-            int4.setText(String.valueOf((double) mass[3] / list.size()));
-            int5.setText(String.valueOf((double) mass[4] / list.size()));
+            DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
-            progressBar1.setProgress(mass[0] / list.size());
-            progressBar2.setProgress(mass[1] / list.size());
-            progressBar3.setProgress(mass[2] / list.size());
-            progressBar4.setProgress(mass[3] / list.size());
-            progressBar5.setProgress(mass[4] / list.size());
+            int1.setText(decimalFormat.format((double) mass[0] / list.size()));
+            int2.setText(decimalFormat.format((double) mass[1] / list.size()));
+            int3.setText(decimalFormat.format((double) mass[2] / list.size()));
+            int4.setText(decimalFormat.format((double) mass[3] / list.size()));
+            int5.setText(decimalFormat.format((double) mass[4] / list.size()));
+
+            progressBar1.setProgress((int) Math.round((double) mass[0] / list.size()));
+            progressBar2.setProgress((int) Math.round((double) mass[1] / list.size()));
+            progressBar3.setProgress((int) Math.round((double) mass[2] / list.size()));
+            progressBar4.setProgress((int) Math.round((double) mass[3] / list.size()));
+            progressBar5.setProgress((int) Math.round((double) mass[4] / list.size()));
 
         });
 
@@ -398,6 +401,5 @@ public class UserHotel extends AppCompatActivity {
         Intent a = new Intent(this, BroCheckReviews.class);
         a.putExtra("id", currentHotel.id);
         startActivity(a);
-        finish();
     }
 }

@@ -45,6 +45,7 @@ import com.mgke.kpbrovka.adapter.FacilitiesAdapter;
 import com.mgke.kpbrovka.auth.Authentication;
 import com.mgke.kpbrovka.model.Hotel;
 import com.mgke.kpbrovka.model.Review;
+import com.mgke.kpbrovka.model.UserType;
 import com.mgke.kpbrovka.repository.HotelRepository;
 import com.mgke.kpbrovka.repository.ReviewRepository;
 import com.mgke.kpbrovka.repository.UserRepository;
@@ -61,6 +62,7 @@ import android.Manifest;
 import android.widget.Toast;
 
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -166,11 +168,14 @@ public class BroHotelEdit extends AppCompatActivity {
         map.setScrollGesturesEnabled(false);
         map.setTiltGesturesEnabled(false);
 
-        Point point = new Point(hotel.coordinates.x, hotel.coordinates.y);
-        map.move(new CameraPosition(point, 15.0f, 0.0f, 0.0f));
+        if (hotel.coordinates != null){
 
-        ImageProvider imageProvider = ImageProvider.fromResource(this, R.drawable.geo4);
-        placeMark = map.getMapObjects().addPlacemark(point, imageProvider);
+            Point point = new Point(hotel.coordinates.x, hotel.coordinates.y);
+            map.move(new CameraPosition(point, 15.0f, 0.0f, 0.0f));
+
+            ImageProvider imageProvider = ImageProvider.fromResource(this, R.drawable.geo4);
+            placeMark = map.getMapObjects().addPlacemark(point, imageProvider);
+        }
         inputListener = new InputListener() {
             @Override
             public void onMapTap(@NonNull Map map, @NonNull Point point) {
@@ -344,7 +349,7 @@ public class BroHotelEdit extends AppCompatActivity {
         Intent a = new Intent(this, BroCheckReviews.class);
         a.putExtra("id", hotel.id);
         startActivity(a);
-        finish();
+        if (Authentication.user.type == UserType.ADMINISTRATOR) finish();
     }
 
 
@@ -437,17 +442,19 @@ public class BroHotelEdit extends AppCompatActivity {
           }
 
 
-          int1.setText(String.valueOf((double) mass[0] / list.size()));
-          int2.setText(String.valueOf((double) mass[1] / list.size()));
-          int3.setText(String.valueOf((double) mass[2] / list.size()));
-          int4.setText(String.valueOf((double) mass[3] / list.size()));
-          int5.setText(String.valueOf((double) mass[4] / list.size()));
+            DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
-          progressBar1.setProgress(mass[0] / list.size());
-          progressBar2.setProgress(mass[1] / list.size());
-          progressBar3.setProgress(mass[2] / list.size());
-          progressBar4.setProgress(mass[3] / list.size());
-          progressBar5.setProgress(mass[4] / list.size());
+            int1.setText(decimalFormat.format((double) mass[0] / list.size()));
+            int2.setText(decimalFormat.format((double) mass[1] / list.size()));
+            int3.setText(decimalFormat.format((double) mass[2] / list.size()));
+            int4.setText(decimalFormat.format((double) mass[3] / list.size()));
+            int5.setText(decimalFormat.format((double) mass[4] / list.size()));
+
+            progressBar1.setProgress((int) Math.round((double) mass[0] / list.size()));
+            progressBar2.setProgress((int) Math.round((double) mass[1] / list.size()));
+            progressBar3.setProgress((int) Math.round((double) mass[2] / list.size()));
+            progressBar4.setProgress((int) Math.round((double) mass[3] / list.size()));
+            progressBar5.setProgress((int) Math.round((double) mass[4] / list.size()));
 
         });
 

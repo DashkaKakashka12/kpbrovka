@@ -87,6 +87,7 @@ public class AllReservation extends AppCompatActivity {
         if (reservation.numberOfCard != null){
             if (reservation.switchAllCost) halfCost.setText(hotelRoom.costWithout + "BYN");
             else halfCost.setText((hotelRoom.costWithout /2) + "BYN");
+            cancellation.setVisibility(View.GONE);
         }
 
         if (Authentication.user.type == UserType.USER) {
@@ -109,13 +110,13 @@ public class AllReservation extends AppCompatActivity {
             } else {
                 writeReview.setVisibility(View.GONE);
                 confirm.setVisibility(View.GONE);
-                cancellation.setVisibility(View.GONE);
             }
         } else {
             if (reservation.status == StatusReservation.REJECTED) {
                 writeReview.setVisibility(View.GONE);
                 confirm.setVisibility(View.GONE);
                 cancellation.setClickable(false);
+                writeReview.setVisibility(View.GONE);
                 cancellation.setText("Отменено");
             } else if (reservation.status == StatusReservation.CONFIRMED) {
                 writeReview.setVisibility(View.GONE);
@@ -322,6 +323,7 @@ public class AllReservation extends AppCompatActivity {
                 TextView halfCost  = findViewById(R.id.halfCost);
                 if (reservation.switchAllCost) halfCost.setText("Внесено: " + hotelRoom.costWithout + " BYN");
                 else halfCost.setText((hotelRoom.costWithout /2) + "BYN");
+                findViewById(R.id.cancellation).setVisibility(View.GONE);
             });
         });
 

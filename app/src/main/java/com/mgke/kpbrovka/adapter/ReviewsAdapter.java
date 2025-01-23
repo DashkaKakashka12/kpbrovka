@@ -82,7 +82,8 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewVi
                 nameAndData.setText(user.name + "\n" + formatTimestamp(review.dataCreation));
             });
 
-            if (Authentication.user.type == UserType.USER) delete.setVisibility(View.GONE);
+            if (Authentication.user.type == UserType.USER || Authentication.user.type == UserType.HOTELIER) delete.setVisibility(View.GONE);
+
 
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
