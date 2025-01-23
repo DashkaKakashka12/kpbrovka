@@ -12,6 +12,9 @@ import android.content.Intent;
 
 import com.archit.calendardaterangepicker.customviews.CalendarListener;
 import com.archit.calendardaterangepicker.customviews.DateRangeCalendarView;
+import com.mgke.kpbrovka.auth.Authentication;
+import com.mgke.kpbrovka.model.Like;
+import com.mgke.kpbrovka.repository.LikeRepository;
 import com.yandex.mapkit.geometry.Point;
 import android.net.Uri;
 import android.os.Bundle;
@@ -56,6 +59,7 @@ import per.wsj.library.AndRatingBar;
 public class UserHotel extends AppCompatActivity {
 
     private Hotel currentHotel;
+    private LikeRepository likeRepository;
     private Date start, end;
     private InputListener inputListener;
     private UserRepository userRepository;
@@ -63,6 +67,8 @@ public class UserHotel extends AppCompatActivity {
     private int countOfPeople;
     private PlacemarkMapObject placeMark = null;
     private TextView dates;
+
+    private boolean isHeartSelected = false;
 
 
     @Override
@@ -169,7 +175,19 @@ public class UserHotel extends AppCompatActivity {
                 dialog.show();
             }
         });
+
     }
+    private void toggleHeartIcon(ImageView heartIcon) {
+        if (isHeartSelected) {
+            heartIcon.setImageResource(R.drawable.heart);
+            likeRepository.deleteLikeByUserId(currentHotel.id, Authentication.user.id);
+        } else {
+            heartIcon.setImageResource(R.drawable.red_heart);
+            likeRepository.addLike(new Like(null, currentHotel.id, Authentication.user.id));
+        }
+        isHeartSelected = !isHeartSelected;
+    }
+
 
     private void setMap() {
         Map map = mapView.getMap();
@@ -240,6 +258,23 @@ public class UserHotel extends AppCompatActivity {
         TextView int3 = findViewById(R.id.int3);
         TextView int4 = findViewById(R.id.int4);
         TextView int5 = findViewById(R.id.int5);
+
+        ImageView heartIcon = findViewById(R.id.heartIcon);
+        likeRepository = new LikeRepository(FirebaseFirestore.getInstance());
+        likeRepository.getLikeByUserId(Authentication.user.id, currentHotel.id).thenAccept(aBoolean -> {
+            isHeartSelected = aBoolean;
+            if (!isHeartSelected) {
+                heartIcon.setImageResource(R.drawable.heart);
+            } else {
+                heartIcon.setImageResource(R.drawable.red_heart);
+            }
+            heartIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    toggleHeartIcon(heartIcon);
+                }
+            });
+        });
 
         name.setText(currentHotel.hotelName);
         adress.setText(currentHotel.adress);

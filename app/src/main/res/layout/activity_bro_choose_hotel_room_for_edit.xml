@@ -48,7 +48,7 @@
 
 
             <ListView
-                android:layout_margin="10dp"
+                android:layout_margin="20dp"
                 android:id="@+id/listOfRooms"
                 android:divider="@null"
                 android:dividerHeight="10dp"
@@ -65,8 +65,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="1dp"
-                android:layout_marginHorizontal="5dp"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/rounded_corners"
                 app:layout_constraintStart_toStartOf="parent"

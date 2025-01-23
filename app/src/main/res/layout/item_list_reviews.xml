@@ -6,14 +6,14 @@
     android:background="@drawable/rounded_corners_grey"
     android:orientation="vertical"
     android:padding="15dp"
-    android:layout_margin="8dp"
+    android:layout_marginVertical="8dp"
+    android:layout_marginHorizontal="20dp"
     android:backgroundTint="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingStart="10dp"
         android:paddingEnd="10dp"
         android:paddingTop="5dp"
         android:paddingBottom="5dp">
@@ -41,6 +41,7 @@
 
     <per.wsj.library.AndRatingBar
         android:id="@+id/stars"
+
         android:layout_width="wrap_content"
         android:layout_height="15dp"
         android:rating="5"
@@ -54,7 +55,7 @@
 
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:textSize="10sp"
+        android:textSize="13sp"
         android:text="Отличная гостиница, очень вкусные завтраки, в лаундж гостиной тоже всё хорошо и вкусно. Номер отличный,
 с хорошим видом на город, качественное постельное белье и подушки. В мой день
 рождения отель сделал комплимент, что тоже было очень приятно. Спа с бассейном и двумя саунами 70 и 90 градусов,

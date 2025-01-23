@@ -21,12 +21,6 @@
         android:icon="@drawable/hotel_room_icon"/>
 
     <item
-        android:id="@+id/dates"
-        android:orderInCategory="4"
-        android:title="Даты"
-        android:icon="@drawable/calendar_icon"/>
-
-    <item
         android:id="@+id/bookings"
         android:orderInCategory="5"
         android:title="Бронирования"

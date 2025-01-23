@@ -1,22 +1,37 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:layout_marginHorizontal="10dp"
     android:layout_marginTop="10dp"
-    android:padding="15dp"
+    android:padding="13dp"
     android:background="@drawable/rounded_corners"
     android:id="@+id/hotelchik">
 
-    <ImageView
-        android:id="@+id/photo"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:src="@drawable/hotel_first_photo"
-        android:background="@drawable/rounded_corners"
-        android:clipToOutline="true"
-        android:scaleType="fitXY"/>
+        android:layout_height="200dp">
+
+        <ImageView
+            android:id="@+id/photo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/hotel_first_photo"
+            android:background="@drawable/rounded_corners"
+            android:clipToOutline="true"
+            android:scaleType="fitXY"/>
+
+        <ImageView
+            android:id="@+id/heartIcon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="end|top"
+            android:layout_margin="10dp"
+            android:src="@drawable/heart"
+            android:padding="7dp"
+            android:background="@drawable/rounded_corners"
+            android:scaleType="fitXY"/>
+    </FrameLayout>
 
     <TextView
         android:id="@+id/editName"
@@ -76,5 +91,4 @@
         android:layout_marginTop="5dp"
         android:textSize="18sp"
         android:textColor="@color/black"/>
-
 </LinearLayout>

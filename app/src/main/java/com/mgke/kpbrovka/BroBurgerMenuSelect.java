@@ -82,8 +82,6 @@ public class BroBurgerMenuSelect implements NavigationView.OnNavigationItemSelec
             intent = new Intent(context, BroHotelEdit.class);
         } else if (menuItem.getItemId() == R.id.rooms) {
             intent = new Intent(context, BroChooseHotelRoomForEdit.class);
-        } else if (menuItem.getItemId() == R.id.dates) {
-            intent = new Intent(context, BroReservationEdit.class);
         } else if (menuItem.getItemId() == R.id.bookings) {
             intent = new Intent(context, BroReservationEdit.class);
         }

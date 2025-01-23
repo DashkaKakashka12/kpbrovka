@@ -28,6 +28,7 @@ import com.mgke.kpbrovka.model.Hotel;
 import com.mgke.kpbrovka.model.Review;
 import com.mgke.kpbrovka.model.UserType;
 import com.mgke.kpbrovka.repository.HotelRoomRepository;
+import com.mgke.kpbrovka.repository.LikeRepository;
 import com.mgke.kpbrovka.repository.ReviewRepository;
 
 import java.util.Date;
@@ -123,6 +124,7 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
             hotelRoomRepository.getMinCostByHotelId(hotel.id).thenAccept(costValue -> {
                 cost.setText(costValue + " BYN");
             });
+
             hotelchik.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

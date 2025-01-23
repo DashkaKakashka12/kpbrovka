@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
@@ -85,8 +86,8 @@ public class AllReservation extends AppCompatActivity {
         TextView halfCost  = findViewById(R.id.halfCost);
 
         if (reservation.numberOfCard != null){
-            if (reservation.switchAllCost) halfCost.setText(hotelRoom.costWithout + "BYN");
-            else halfCost.setText((hotelRoom.costWithout /2) + "BYN");
+            if (reservation.switchAllCost) halfCost.setText("Внесено: " + hotelRoom.costWithout + "BYN");
+            else halfCost.setText("Внесено: " + (hotelRoom.costWithout /2) + "BYN");
             cancellation.setVisibility(View.GONE);
         }
 
@@ -94,9 +95,11 @@ public class AllReservation extends AppCompatActivity {
             if (reservation.status == StatusReservation.REJECTED) {
                 confirm.setVisibility(View.GONE);
                 writeReview.setVisibility(View.GONE);
+                cancellation.setVisibility(View.VISIBLE);
                 cancellation.setClickable(false);
                 cancellation.setText("Отменено");
             } else if (reservation.status == StatusReservation.CONFIRMED) {
+                confirm.setVisibility(View.VISIBLE);
                 confirm.setClickable(false);
                 confirm.setText("Подтверждено");
                 if (reservation.numberOfCard == null){
@@ -105,24 +108,28 @@ public class AllReservation extends AppCompatActivity {
                 reviewRepository.canWriteReview(reservation, Authentication.user).thenAccept(review -> {
                     this.review = review;
                     if(review == null) writeReview.setVisibility(View.GONE);
-                    else if (review.id != null) writeReview.setText("Редактировать отзыв");
+                    else if (review.id != null) {
+                        writeReview.setVisibility(View.VISIBLE);
+                        writeReview.setText("Редактировать отзыв");
+                    };
                 });
             } else {
+                cancellation.setVisibility(View.VISIBLE);
                 writeReview.setVisibility(View.GONE);
                 confirm.setVisibility(View.GONE);
             }
         } else {
             if (reservation.status == StatusReservation.REJECTED) {
-                writeReview.setVisibility(View.GONE);
-                confirm.setVisibility(View.GONE);
+                cancellation.setVisibility(View.VISIBLE);
                 cancellation.setClickable(false);
-                writeReview.setVisibility(View.GONE);
                 cancellation.setText("Отменено");
             } else if (reservation.status == StatusReservation.CONFIRMED) {
-                writeReview.setVisibility(View.GONE);
+                confirm.setVisibility(View.VISIBLE);
                 confirm.setClickable(false);
                 confirm.setText("Подтверждено");
-                cancellation.setVisibility(View.GONE);
+            } else {
+                confirm.setVisibility(View.VISIBLE);
+                cancellation.setVisibility(View.VISIBLE);
             }
         }
 
@@ -305,6 +312,17 @@ public class AllReservation extends AppCompatActivity {
             Button buttonOk = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
             buttonOk.setOnClickListener(v -> {
 
+                String cardNumber = numberOfCard.getText().toString().trim();
+                String cardDate = dateOfCard.getText().toString().trim();
+                String cardName = nameOfCard.getText().toString().trim();
+                String cardCcv = ccv.getText().toString().trim();
+
+                if (cardNumber.isEmpty() || cardDate.isEmpty() || cardName.isEmpty() || cardCcv.isEmpty()) {
+                    // Уведомление пользователю, если есть незаполненные поля
+                    Toast.makeText(this, "Все поля обязательны для заполнения", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 Switch switch1 = findViewById(R.id.switch1);
                 Switch switch2 = findViewById(R.id.switch2);
 
@@ -319,10 +337,11 @@ public class AllReservation extends AppCompatActivity {
                 reservationRepository.updateReservation(reservation);
 
                 dialog.dismiss();
+
                 findViewById(R.id.liner5).setVisibility(View.GONE);
                 TextView halfCost  = findViewById(R.id.halfCost);
                 if (reservation.switchAllCost) halfCost.setText("Внесено: " + hotelRoom.costWithout + " BYN");
-                else halfCost.setText((hotelRoom.costWithout /2) + "BYN");
+                else halfCost.setText("Внесено: " + (hotelRoom.costWithout /2) + "BYN");
                 findViewById(R.id.cancellation).setVisibility(View.GONE);
             });
         });

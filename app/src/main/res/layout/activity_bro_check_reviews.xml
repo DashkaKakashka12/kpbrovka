@@ -255,6 +255,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
             android:paddingHorizontal="15dp">
             <ProgressBar
                 android:id="@+id/progressBar5"
@@ -274,32 +275,6 @@
                 android:layout_weight="1"
                 style="?android:attr/progressBarStyleHorizontal"/>
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="140dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="20dp"
-            android:padding="5dp"
-            android:layout_marginHorizontal="15dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/rounded_corners_grey">
-            <TextView
-                android:id="@+id/p"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="Популярные"
-                android:gravity="center"
-                android:textSize="13sp"
-                android:layout_marginStart="5dp" />
-            <ImageView
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_gravity="center"
-                android:background="@drawable/arrow_down_icon"
-                android:layout_marginEnd="5dp"/>
         </LinearLayout>
 
     </LinearLayout>

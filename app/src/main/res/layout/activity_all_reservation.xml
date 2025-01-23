@@ -251,7 +251,6 @@
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/rounded_corners_yellow"/>
-
             </LinearLayout>
 
 
@@ -259,6 +258,7 @@
                 <TextView
                     android:onClick="cancellation"
                     android:id="@+id/cancellation"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="15sp"
@@ -272,6 +272,7 @@
                 <TextView
                     android:onClick="confirm"
                     android:id="@+id/confirm"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -286,6 +287,7 @@
                 <TextView
                     android:onClick="writeReview"
                     android:id="@+id/writeReview"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
