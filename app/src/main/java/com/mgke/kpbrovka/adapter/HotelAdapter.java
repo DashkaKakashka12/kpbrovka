@@ -77,6 +77,7 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
         TextView city;
         TextView cost;
         LinearLayout hotelchik;
+        ImageView heartIcon;
         private int countOfPeople;
         private Date start;
         private Date end;
@@ -90,6 +91,7 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
             city = itemView.findViewById(R.id.city);
             cost = itemView.findViewById(R.id.cost);
             hotelchik = itemView.findViewById(R.id.hotelchik);
+            heartIcon = itemView.findViewById(R.id.heartIcon);
             this.countOfPeople = countOfPeople;
             this.start = start;
             this.end = end;
@@ -124,7 +126,16 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
             hotelRoomRepository.getMinCostByHotelId(hotel.id).thenAccept(costValue -> {
                 cost.setText(costValue + " BYN");
             });
+            if (Authentication.user.type == UserType.ADMINISTRATOR) heartIcon.setVisibility(View.GONE);
 
+            LikeRepository likeRepository = new LikeRepository(FirebaseFirestore.getInstance());
+            likeRepository.getLikeByUserId(Authentication.user.id, hotel.id).thenAccept(aBoolean -> {
+                if (!aBoolean) {
+                    heartIcon.setImageResource(R.drawable.heart);
+                } else {
+                    heartIcon.setImageResource(R.drawable.red_heart);
+                }
+            });
             hotelchik.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

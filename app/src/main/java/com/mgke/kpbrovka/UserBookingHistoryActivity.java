@@ -28,6 +28,8 @@ public class UserBookingHistoryActivity extends AppCompatActivity {
         UserBurgerMenuSelect navigationListener = new UserBurgerMenuSelect(this, navigationView);
         navigationView.setNavigationItemSelectedListener(navigationListener);
 
+
+
         ReservationRepository reservationRepository = new ReservationRepository(FirebaseFirestore.getInstance());
         HotelRepository hotelRepository = new HotelRepository(FirebaseFirestore.getInstance());
         HotelRoomRepository hotelRoomRepository = new HotelRoomRepository(FirebaseFirestore.getInstance());

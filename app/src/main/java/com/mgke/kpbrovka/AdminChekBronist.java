@@ -42,7 +42,7 @@ public class AdminChekBronist extends AppCompatActivity {
         setContentView(R.layout.activity_admin_chek_bronist);
 
         NavigationView navigationView = findViewById(R.id.navigationMenu);
-        AdminBurgerMenuSelect navigationListener = new AdminBurgerMenuSelect(this);
+        AdminBurgerMenuSelect navigationListener = new AdminBurgerMenuSelect(this, navigationView);
         navigationView.setNavigationItemSelectedListener(navigationListener);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();

@@ -24,8 +24,9 @@ public class SavedUserActivity extends AppCompatActivity {
         setContentView(R.layout.activity_saved_user);
 
         NavigationView navigationView = findViewById(R.id.navigationMenuUser);
-        UserBurgerMenuSelect navigationListener = new UserBurgerMenuSelect(this);
+        UserBurgerMenuSelect navigationListener = new UserBurgerMenuSelect(this, navigationView);
         navigationView.setNavigationItemSelectedListener(navigationListener);
+
         LikeRepository likeRepository = new LikeRepository(FirebaseFirestore.getInstance());
         likeRepository.getAllLikeHotel(Authentication.user.id).thenAccept(hotelList -> {
             RecyclerView recyclerView = findViewById(R.id.rv);

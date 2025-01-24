@@ -81,7 +81,8 @@
                 android:layout_height="200dp"
                 android:background="@drawable/rounded_corners"
                 android:clipToOutline="true"
-                app:srcCompat="@drawable/add_photo_room" />
+                android:scaleType="fitXY"
+                android:src="@drawable/photo_first_room" />
 
             <LinearLayout
                 android:layout_width="match_parent"

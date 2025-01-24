@@ -105,7 +105,7 @@ public class BroProfileEdit extends AppCompatActivity {
 
     }
     public void broEditName(View view) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.dialogBlack);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View customView = getLayoutInflater().inflate(R.layout.dialog_bro_edit_name, null);
         EditText name = customView.findViewById(R.id.name);
         name.setText(Authentication.user.name);
@@ -144,7 +144,7 @@ public class BroProfileEdit extends AppCompatActivity {
     }
 
     public void broEditPassword(View view) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.dialogBlack);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View customView = getLayoutInflater().inflate(R.layout.dialog_bro_edit_password, null);
         EditText pass = customView.findViewById(R.id.password1);
         pass.setText(Authentication.user.pass);
@@ -155,10 +155,10 @@ public class BroProfileEdit extends AppCompatActivity {
         togglePasswordButton.setOnClickListener(v -> {
             if (passwordField.getInputType() == (InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD)) {
                 passwordField.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                togglePasswordButton.setImageResource(R.drawable.icon_not_visible_white);
+                togglePasswordButton.setImageResource(R.drawable.icon_not_visible_black);
             } else {
                 passwordField.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-                togglePasswordButton.setImageResource(R.drawable.icon_visible_white);
+                togglePasswordButton.setImageResource(R.drawable.icon_visible_black);
             }
             passwordField.setSelection(passwordField.getText().length());
         });
@@ -198,7 +198,7 @@ public class BroProfileEdit extends AppCompatActivity {
     }
 
     public void broEditEmail(View view) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.dialogBlack);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View customView = getLayoutInflater().inflate(R.layout.dialog_bro_edit_email, null);
         EditText email = customView.findViewById(R.id.editEmail1);
         email.setText(Authentication.user.email);

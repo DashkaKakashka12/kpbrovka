@@ -367,6 +367,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:menu="@menu/user_menu" />
+        app:menu="@menu/user_menu"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>
