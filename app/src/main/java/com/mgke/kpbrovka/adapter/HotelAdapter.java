@@ -25,6 +25,7 @@ import com.mgke.kpbrovka.UserHotel;
 import com.mgke.kpbrovka.UserShowHotels;
 import com.mgke.kpbrovka.auth.Authentication;
 import com.mgke.kpbrovka.model.Hotel;
+import com.mgke.kpbrovka.model.Like;
 import com.mgke.kpbrovka.model.Review;
 import com.mgke.kpbrovka.model.UserType;
 import com.mgke.kpbrovka.repository.HotelRoomRepository;
@@ -82,6 +83,7 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
         private Date start;
         private Date end;
         private Context context;
+        private boolean isHeartSelected = false;
         public HotelViewHolder(View itemView, int countOfPeople, Date start, Date end, Context context) {
             super(itemView);
             photo = itemView.findViewById(R.id.photo);
@@ -126,6 +128,7 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
             hotelRoomRepository.getMinCostByHotelId(hotel.id).thenAccept(costValue -> {
                 cost.setText(costValue + " BYN");
             });
+
             if (Authentication.user.type == UserType.ADMINISTRATOR) heartIcon.setVisibility(View.GONE);
 
             LikeRepository likeRepository = new LikeRepository(FirebaseFirestore.getInstance());
@@ -135,7 +138,23 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
                 } else {
                     heartIcon.setImageResource(R.drawable.red_heart);
                 }
+
+                heartIcon.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (isHeartSelected) {
+                            heartIcon.setImageResource(R.drawable.heart);
+                            likeRepository.deleteLikeByUserId(hotel.id, Authentication.user.id);
+                        } else {
+                            heartIcon.setImageResource(R.drawable.red_heart);
+                            likeRepository.addLike(new Like(null, hotel.id, Authentication.user.id));
+                        }
+                        isHeartSelected = !isHeartSelected;
+                    }
+                });
+
             });
+
             hotelchik.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

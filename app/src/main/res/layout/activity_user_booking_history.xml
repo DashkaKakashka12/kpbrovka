@@ -51,12 +51,18 @@
             app:layout_constraintBottom_toBottomOf="parent">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/notFind"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="История бронирований"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:padding="5dp"/>
+                android:text="Совершите бронирование и оно отразится в Вашей истории. "
+                android:gravity="center|top"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/help"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginHorizontal="13dp"
+                android:layout_marginTop="20dp"
+                android:visibility="gone"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv"

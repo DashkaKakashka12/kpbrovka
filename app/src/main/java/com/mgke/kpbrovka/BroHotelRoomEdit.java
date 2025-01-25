@@ -361,7 +361,7 @@ public class BroHotelRoomEdit extends AppCompatActivity {
 
                         hotelRoom.costWithout = Double.valueOf(editText1.getText().toString().replaceAll("^0+(?!$)", ""));
                         TextView cost1 = findViewById(R.id.cost1);
-                        cost1.setText("Без питания\n" + hotelRoom.costWithout + " BYN");
+                        cost1.setText(hotelRoom.costWithout + " BYN");
                         hotelRoomRepository.updateHotelRoom(hotelRoom);
 
                     }

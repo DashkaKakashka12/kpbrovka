@@ -15,12 +15,6 @@
         android:icon="@drawable/hotel_icon"/>
 
     <item
-        android:id="@+id/bookings"
-        android:orderInCategory="4"
-        android:title="Бронирования"
-        android:icon="@drawable/checkmark_icon"/>
-
-    <item
     android:id="@+id/hoteliers"
     android:orderInCategory="5"
     android:title="Отельеры"

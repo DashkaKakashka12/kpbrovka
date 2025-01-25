@@ -84,10 +84,24 @@ public class AllReservation extends AppCompatActivity {
         TextView confirm  = findViewById(R.id.confirm);
         TextView writeReview  = findViewById(R.id.writeReview);
         TextView halfCost  = findViewById(R.id.halfCost);
+        TextView textRet  = findViewById(R.id.textRet);
 
-        if (reservation.numberOfCard != null){
-            if (reservation.switchAllCost) halfCost.setText("Внесено: " + hotelRoom.costWithout + "BYN");
-            else halfCost.setText("Внесено: " + (hotelRoom.costWithout /2) + "BYN");
+        if (reservation.numberOfCard != null) {
+            if (reservation.switchAllCost) {
+                halfCost.setText("Внесено: " + hotelRoom.costWithout + "BYN");
+            } else {
+                halfCost.setText("Внесено: " + (hotelRoom.costWithout / 2) + "BYN");
+            }
+            cancellation.setVisibility(View.VISIBLE);
+            cancellation.setOnClickListener(v -> {
+                Toast.makeText(this, "Деньги будут возвращены на карту в течение 10 рабочих банковских дней.", Toast.LENGTH_LONG).show();
+                textRet.setVisibility(View.VISIBLE);
+                cancellation.setText("Отменено");
+                confirm.setVisibility(View.GONE);
+                reservation.status = StatusReservation.REJECTED;
+                reservationRepository.updateReservation(reservation);
+            });
+        } else {
             cancellation.setVisibility(View.GONE);
         }
 
@@ -98,6 +112,7 @@ public class AllReservation extends AppCompatActivity {
                 cancellation.setVisibility(View.VISIBLE);
                 cancellation.setClickable(false);
                 cancellation.setText("Отменено");
+                if (reservation.numberOfCard != null) textRet.setVisibility(View.VISIBLE);
             } else if (reservation.status == StatusReservation.CONFIRMED) {
                 confirm.setVisibility(View.VISIBLE);
                 confirm.setClickable(false);
@@ -210,7 +225,6 @@ public class AllReservation extends AppCompatActivity {
             wishes.setText("Пожелания: отсутствуют");
         } else wishes.setText("Пожелания: " + reservation.wishesForTheNumber);
 
-
         if (reservation.parking == -1) {
             parking.setText("Место на парковке: не нужно");
         } else parking.setText("Место на парковке: " + reservation.parking);
@@ -318,7 +332,6 @@ public class AllReservation extends AppCompatActivity {
                 String cardCcv = ccv.getText().toString().trim();
 
                 if (cardNumber.isEmpty() || cardDate.isEmpty() || cardName.isEmpty() || cardCcv.isEmpty()) {
-                    // Уведомление пользователю, если есть незаполненные поля
                     Toast.makeText(this, "Все поля обязательны для заполнения", Toast.LENGTH_SHORT).show();
                     return;
                 }

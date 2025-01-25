@@ -153,15 +153,25 @@
                 android:textSize="17sp"
                 android:text="Место на парковке: 13"/>
 
-            <TextView
-                android:id="@+id/halfCost"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:textSize="17sp"
-                android:text="Внесено: 0 BYN"/>
 
+                <TextView
+                    android:id="@+id/halfCost"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:textSize="17sp"
+                    android:text="Внесено: 0 BYN"/>
 
+                <TextView
+                    android:id="@+id/textRet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_gravity="center"
+                    android:textSize="14sp"
+                    android:textColor="#FF1616"
+                    android:text="ОЖИДАЕТСЯ ВОЗВРАТ СРЕДСТВ"
+                    android:visibility="gone"/>
 
             <LinearLayout
                 android:visibility="gone"

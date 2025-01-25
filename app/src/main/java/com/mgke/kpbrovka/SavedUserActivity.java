@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -33,6 +34,14 @@ public class SavedUserActivity extends AppCompatActivity {
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             HotelAdapter hotelAdapter = new HotelAdapter(hotelList, this, 2, null, null);
             recyclerView.setAdapter(hotelAdapter);
+            TextView text = findViewById(R.id.notFind);
+            if (hotelList.isEmpty()) {
+                text.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.GONE);
+            } else {
+                text.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
+            }
         });
     }
 

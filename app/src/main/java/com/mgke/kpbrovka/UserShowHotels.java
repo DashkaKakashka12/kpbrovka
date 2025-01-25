@@ -75,10 +75,10 @@ public class UserShowHotels extends AppCompatActivity {
             TextView text = findViewById(R.id.notFind);
             if (list.isEmpty()) {
                 text.setVisibility(View.VISIBLE); // Показываем текст, если список пуст
-                listView.setVisibility(View.GONE); // Скрываем ListView
+                listView.setVisibility(View.GONE);
             } else {
-                text.setVisibility(View.GONE); // Скрываем текст, если список не пуст
-                listView.setVisibility(View.VISIBLE); // Показываем ListView
+                text.setVisibility(View.GONE);
+                listView.setVisibility(View.VISIBLE);
             }
         });
     }
