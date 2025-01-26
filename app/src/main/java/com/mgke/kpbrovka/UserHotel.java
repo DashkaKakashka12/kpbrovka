@@ -340,15 +340,16 @@ public class UserHotel extends AppCompatActivity {
                 mass[3] += list.get(i).staff;
                 mass[4] += list.get(i).facilities;
             }
+            if (list.size() != 0 ) {
 
+                DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
-            DecimalFormat decimalFormat = new DecimalFormat("#.##");
-
-            int1.setText(decimalFormat.format((double) mass[0] / list.size()));
-            int2.setText(decimalFormat.format((double) mass[1] / list.size()));
-            int3.setText(decimalFormat.format((double) mass[2] / list.size()));
-            int4.setText(decimalFormat.format((double) mass[3] / list.size()));
-            int5.setText(decimalFormat.format((double) mass[4] / list.size()));
+                int1.setText(decimalFormat.format((double) mass[0] / list.size()));
+                int2.setText(decimalFormat.format((double) mass[1] / list.size()));
+                int3.setText(decimalFormat.format((double) mass[2] / list.size()));
+                int4.setText(decimalFormat.format((double) mass[3] / list.size()));
+                int5.setText(decimalFormat.format((double) mass[4] / list.size()));
+            }
 
             progressBar1.setProgress((int) Math.round((double) mass[0] / list.size()));
             progressBar2.setProgress((int) Math.round((double) mass[1] / list.size()));

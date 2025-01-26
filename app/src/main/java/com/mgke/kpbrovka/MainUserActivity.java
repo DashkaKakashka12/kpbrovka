@@ -19,7 +19,9 @@ import android.widget.TextView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.mgke.kpbrovka.adapter.HotelMiniAdapter;
+import com.mgke.kpbrovka.model.Review;
 import com.mgke.kpbrovka.repository.HotelRepository;
+import com.mgke.kpbrovka.repository.ReviewRepository;
 
 import java.util.ArrayList;
 import java.util.List;

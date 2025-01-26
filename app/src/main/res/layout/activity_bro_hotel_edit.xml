@@ -216,11 +216,6 @@
                     android:layout_weight="1"
                     android:text="На карте" />
 
-                <ImageView
-                    android:id="@+id/broEditHotelInMaps"
-                    android:layout_width="21dp"
-                    android:layout_height="21dp"
-                    android:src="@drawable/pencil" />
             </LinearLayout>
 
             <com.yandex.mapkit.mapview.MapView

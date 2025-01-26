@@ -122,11 +122,13 @@ public class AllReservation extends AppCompatActivity {
                 }
                 reviewRepository.canWriteReview(reservation, Authentication.user).thenAccept(review -> {
                     this.review = review;
-                    if(review == null) writeReview.setVisibility(View.VISIBLE);
-                    else if (review.id != null) {
+                    if(review != null) {
                         writeReview.setVisibility(View.VISIBLE);
-                        writeReview.setText("Редактировать отзыв");
-                    };
+                        if (review.id != null) {
+                            writeReview.setText("Редактировать отзыв");
+                        }
+                    }
+
                 });
             } else {
                 cancellation.setVisibility(View.VISIBLE);
