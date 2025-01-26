@@ -88,7 +88,7 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
             long differenceInMillis = reservation.end.getTime() - reservation.start.getTime();
             long differenceInDays = TimeUnit.MILLISECONDS.toDays(differenceInMillis);
 
-            days.setText(String.valueOf(differenceInDays -1 + " ночь"));
+            days.setText(String.valueOf(differenceInDays + " ночь"));
 
 
             if (reservation.end.before(new Date())){

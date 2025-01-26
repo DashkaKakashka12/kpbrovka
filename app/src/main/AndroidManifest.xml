@@ -33,6 +33,9 @@
             android:name=".UserChooseHotelRoom"
             android:exported="false" />
         <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
             android:name=".UserHotel"
             android:exported="false" />
         <activity

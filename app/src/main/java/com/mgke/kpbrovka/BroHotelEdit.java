@@ -3,6 +3,7 @@ package com.mgke.kpbrovka;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -16,6 +17,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
@@ -31,6 +33,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
@@ -49,6 +52,7 @@ import com.mgke.kpbrovka.model.UserType;
 import com.mgke.kpbrovka.repository.HotelRepository;
 import com.mgke.kpbrovka.repository.ReviewRepository;
 import com.mgke.kpbrovka.repository.UserRepository;
+import com.yalantis.ucrop.UCrop;
 import com.yandex.mapkit.MapKitFactory;
 import com.yandex.mapkit.geometry.Point;
 import com.yandex.mapkit.map.CameraPosition;
@@ -62,6 +66,7 @@ import android.Manifest;
 import android.widget.Toast;
 
 
+import java.io.File;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -125,13 +130,13 @@ public class BroHotelEdit extends AppCompatActivity {
         }
 
 
-
         imagePickerLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                         Uri imageUri = result.getData().getData();
                         if (imageUri != null) {
+                            startCrop(imageUri);
                             ImageView photo = findViewById(R.id.photo);
                             Glide.with(this)
                                     .load(imageUri)
@@ -353,7 +358,7 @@ public class BroHotelEdit extends AppCompatActivity {
     }
 
 
-    public void setUpValue (){
+    public void setUpValue() {
         TextView name = findViewById(R.id.broEditHotelName);
         RecyclerView facilities = findViewById(R.id.broEditFacilities);
         TextView adress = findViewById(R.id.broEditAdress);
@@ -398,7 +403,7 @@ public class BroHotelEdit extends AppCompatActivity {
         facilities.setAdapter(adapter);
 
         reviewRepository.getReviewsByHotelId(hotel.id).thenAccept(list -> {
-            if (list.size() >= 2){
+            if (list.size() >= 2) {
                 findViewById(R.id.review1).setVisibility(View.VISIBLE);
                 findViewById(R.id.review2).setVisibility(View.VISIBLE);
                 Review review1 = list.get(0);
@@ -410,9 +415,8 @@ public class BroHotelEdit extends AppCompatActivity {
                 textOfReview.setText(review1.text);
                 textOfReview2.setText(review2.text);
 
-
                 userRepository.getUserById(review1.userId).thenAccept(user -> {
-                    if (user.photo != null){
+                    if (user.photo != null) {
                         Glide.with(this).load(user.photo).apply(new RequestOptions()
                                 .centerCrop()
                                 .circleCrop()).into(userIcon);
@@ -420,8 +424,9 @@ public class BroHotelEdit extends AppCompatActivity {
 
                     nameAndData.setText(user.name + "\n" + formatTimestamp(review1.dataCreation));
                 });
+
                 userRepository.getUserById(review2.userId).thenAccept(user -> {
-                    if (user.photo != null){
+                    if (user.photo != null) {
                         Glide.with(this).load(user.photo).apply(new RequestOptions()
                                 .centerCrop()
                                 .circleCrop()).into(userIcon2);
@@ -431,16 +436,14 @@ public class BroHotelEdit extends AppCompatActivity {
                 });
             }
 
-
-          int[] mass = new int[5];
-          for (int i = 0; i < list.size(); i++){
-              mass[0] += list.get(i).valueForMoney;
-              mass[1] += list.get(i).comfort;
-              mass[2] += list.get(i).cleanness;
-              mass[3] += list.get(i).staff;
-              mass[4] += list.get(i).facilities;
-          }
-
+            int[] mass = new int[5];
+            for (int i = 0; i < list.size(); i++) {
+                mass[0] += list.get(i).valueForMoney;
+                mass[1] += list.get(i).comfort;
+                mass[2] += list.get(i).cleanness;
+                mass[3] += list.get(i).staff;
+                mass[4] += list.get(i).facilities;
+            }
 
             DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
@@ -455,10 +458,9 @@ public class BroHotelEdit extends AppCompatActivity {
             progressBar3.setProgress((int) Math.round((double) mass[2] / list.size()));
             progressBar4.setProgress((int) Math.round((double) mass[3] / list.size()));
             progressBar5.setProgress((int) Math.round((double) mass[4] / list.size()));
-
         });
-
     }
+
 
     public static String formatTimestamp(Timestamp timestamp) {
         Date date = timestamp.toDate();
@@ -477,7 +479,7 @@ public class BroHotelEdit extends AppCompatActivity {
                 openGallery();
             }
         } else {
-            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
                     != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
             } else {
@@ -489,6 +491,64 @@ public class BroHotelEdit extends AppCompatActivity {
     private void openGallery() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         imagePickerLauncher.launch(intent);
+    }
+
+    private void startCrop(Uri sourceUri) {
+        if (sourceUri != null) {
+            Uri destinationUri = Uri.fromFile(new File(getCacheDir(), "cropped_image.jpg"));
+
+            UCrop.Options options = new UCrop.Options();
+            options.setCompressionFormat(Bitmap.CompressFormat.JPEG);
+            options.setCompressionQuality(90);
+
+            UCrop.of(sourceUri, destinationUri)
+                    .withAspectRatio(4, 3)
+                    .withMaxResultSize(1080, 1080)
+                    .withOptions(options)
+                    .start(this);
+        }
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
+            Uri resultUri = UCrop.getOutput(data);
+            if (resultUri != null) {
+                ImageView photo = findViewById(R.id.photo);
+
+                Glide.with(this)
+                        .load(resultUri)
+                        .apply(new RequestOptions()
+                                .override(Target.SIZE_ORIGINAL)
+                                .centerCrop()
+                                .transform(new RoundedCorners(16))
+                        )
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
+                        .into(photo);
+
+                String hotelId = hotel.id;
+                CloudinaryUploader uploader = new CloudinaryUploader(this);
+
+                uploader.uploadImage(resultUri, hotelId, new CloudinaryUploader.UploadCallback() {
+                    @Override
+                    public void onUploadComplete(String imageUrl) {
+                        if (imageUrl != null) {
+                            hotel.photos = imageUrl;
+                            hotelRepository.updateHotel(hotel);
+                        }
+                    }
+                });
+            }
+        } else if (resultCode == UCrop.RESULT_ERROR) {
+            Throwable cropError = UCrop.getError(data);
+            if (cropError != null) {
+                Toast.makeText(this, "Ошибка обрезки: " + cropError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     @Override

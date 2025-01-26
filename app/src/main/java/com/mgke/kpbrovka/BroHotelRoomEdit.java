@@ -3,6 +3,7 @@ package com.mgke.kpbrovka;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -14,6 +15,7 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -31,6 +33,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
@@ -43,7 +46,9 @@ import com.mgke.kpbrovka.auth.Authentication;
 import com.mgke.kpbrovka.model.HotelRoom;
 import com.mgke.kpbrovka.model.UserType;
 import com.mgke.kpbrovka.repository.HotelRoomRepository;
+import com.yalantis.ucrop.UCrop;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,13 +70,13 @@ public class BroHotelRoomEdit extends AppCompatActivity {
             setValue();
         });
 
-
         imagePickerLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                         Uri imageUri = result.getData().getData();
                         if (imageUri != null) {
+                            startCrop(imageUri);
                             ImageView photo = findViewById(R.id.photo);
                                 Glide.with(this)
                                         .load(hotelRoom.photos)
@@ -379,14 +384,14 @@ public class BroHotelRoomEdit extends AppCompatActivity {
 
     public void onClickOpenGallery(View view) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_MEDIA_IMAGES)
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES)
                     != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.READ_MEDIA_IMAGES}, 1);
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_MEDIA_IMAGES}, 1);
             } else {
                 openGallery();
             }
         } else {
-            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
                     != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
             } else {
@@ -401,7 +406,63 @@ public class BroHotelRoomEdit extends AppCompatActivity {
         imagePickerLauncher.launch(intent);
     }
 
+    private void startCrop(Uri sourceUri) {
+        if (sourceUri != null) {
+            Uri destinationUri = Uri.fromFile(new File(getCacheDir(), "cropped_image.jpg"));
 
+            UCrop.Options options = new UCrop.Options();
+            options.setCompressionFormat(Bitmap.CompressFormat.JPEG);
+            options.setCompressionQuality(90);
+
+            UCrop.of(sourceUri, destinationUri)
+                    .withAspectRatio(4, 3)
+                    .withMaxResultSize(1080, 1080)
+                    .withOptions(options)
+                    .start(this);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
+            Uri resultUri = UCrop.getOutput(data);
+            if (resultUri != null) {
+                ImageView photo = findViewById(R.id.photo);
+
+                Glide.with(this)
+                        .load(resultUri)
+                        .apply(new RequestOptions()
+                                .override(Target.SIZE_ORIGINAL)
+                                .centerCrop()
+                                .transform(new RoundedCorners(16))
+                        )
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
+                        .into(photo);
+
+                String hotelRoomId = hotelRoom.id;
+                CloudinaryUploader uploader = new CloudinaryUploader(this);
+
+                uploader.uploadImage(resultUri, hotelRoomId, new CloudinaryUploader.UploadCallback() {
+                    @Override
+                    public void onUploadComplete(String imageUrl) {
+                        if (imageUrl != null) {
+                            hotelRoom.photos = imageUrl;
+                            hotelRoomRepository.updateHotelRoom(hotelRoom);
+                        }
+                    }
+                });
+            }
+        } else if (resultCode == UCrop.RESULT_ERROR) {
+            Throwable cropError = UCrop.getError(data);
+            if (cropError != null) {
+                Toast.makeText(this, "Ошибка обрезки: " + cropError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+    
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);

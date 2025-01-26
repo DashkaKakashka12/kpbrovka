@@ -234,7 +234,6 @@ public class UserHotel extends AppCompatActivity {
         ImageView photo = findViewById(R.id.photo);
         TextView name = findViewById(R.id.hotelName);
         TextView city = findViewById(R.id.city);
-        TextView adress = findViewById(R.id.adress);
         TextView countOfReviews = findViewById(R.id.countOfReviews);
         TextView mark = findViewById(R.id.mark);
         TextView cost = findViewById(R.id.find);
@@ -277,8 +276,7 @@ public class UserHotel extends AppCompatActivity {
         });
 
         name.setText(currentHotel.hotelName);
-        adress.setText(currentHotel.adress);
-        city.setText(currentHotel.city + ", ");
+        city.setText(currentHotel.city + ", " + currentHotel.adress);
         countOfPeopleText.setText(String.valueOf(countOfPeople));
 
 

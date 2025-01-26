@@ -114,7 +114,6 @@
             TextView typeOfBed = findViewById(R.id.typeOfBed);
             TextView countOfPeople = findViewById(R.id.countOfPeople);
             TextView city = findViewById(R.id.city);
-            TextView adress = findViewById(R.id.adress);
 
             ImageView photoOfNumber = findViewById(R.id.photoOfNumber);
             TextView countText = findViewById(R.id.count);
@@ -138,8 +137,7 @@
             nameRoom.setText(hotelRoom.name);
             typeOfBed.setText(hotelRoom.typeOfBed);
             countOfPeople.setText(String.valueOf(hotelRoom.countOfPeople + " основных места"));
-            city.setText(hotel.city + ", ");
-            adress.setText(hotel.adress);
+            city.setText(hotel.city + ", " + hotel.adress);
 
 
             ReviewRepository reviewRepository = new ReviewRepository(FirebaseFirestore.getInstance());

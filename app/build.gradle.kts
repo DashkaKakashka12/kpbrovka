@@ -58,4 +58,6 @@ dependencies {
 
     implementation("io.github.architshah248.calendar:awesome-calendar:2.0.0")
 
+    implementation ("com.github.yalantis:ucrop:2.2.8")
+
 }

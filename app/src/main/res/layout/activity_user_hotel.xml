@@ -92,13 +92,6 @@
                                 android:text="Минск, "
                                 android:textSize="15sp" />
 
-                            <TextView
-                                android:id="@+id/adress"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="проспект Мира, 150"
-                                android:textSize="15sp" />
-
                         </LinearLayout>
                     </LinearLayout>
 
