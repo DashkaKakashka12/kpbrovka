@@ -25,6 +25,7 @@
                 android:text="Бронь" />
             <TextView
                 android:id="@+id/days"
+                android:fontFamily="sans-serif-medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#2EB508"
@@ -33,6 +34,7 @@
 
         <TextView
             android:id="@+id/nameAndSurname"
+            android:fontFamily="sans-serif-medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"

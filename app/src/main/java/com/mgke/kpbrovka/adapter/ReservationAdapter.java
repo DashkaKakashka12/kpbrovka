@@ -85,10 +85,31 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
 
         public void bind(Reservation reservation) {
 
-            long differenceInMillis = reservation.end.getTime() - reservation.start.getTime();
-            long differenceInDays = TimeUnit.MILLISECONDS.toDays(differenceInMillis);
+            Calendar calendar = Calendar.getInstance();
 
-            days.setText(String.valueOf(differenceInDays + " ночь"));
+            calendar.setTime(reservation.start);
+            calendar.set(Calendar.HOUR_OF_DAY, 0);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+            Date startDate1 = calendar.getTime();
+
+            calendar.setTime(reservation.end);
+            calendar.set(Calendar.HOUR_OF_DAY, 0);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+            Date endDate1 = calendar.getTime();
+
+            long differenceInMillis = endDate1.getTime() - startDate1.getTime();
+            long differenceInDays = TimeUnit.MILLISECONDS.toDays(differenceInMillis);
+            if (differenceInDays == 1) {
+                days.setText(String.valueOf(differenceInDays + " ночь"));
+            } else if (differenceInDays >= 2 && differenceInDays <= 4) {
+                days.setText(String.valueOf(differenceInDays + " ночи"));
+            } else {
+                days.setText(String.valueOf(differenceInDays + " ночей"));
+            }
 
 
             if (reservation.end.before(new Date())){

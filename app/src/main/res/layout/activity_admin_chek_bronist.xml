@@ -72,7 +72,7 @@
                 android:id="@+id/plus"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:layout_marginEnd="10dp"
+                android:layout_marginEnd="15dp"
                 app:srcCompat="@drawable/plus"
                 android:layout_gravity="center"/>
 
@@ -91,18 +91,20 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
-                android:hint="Поиск"
+                android:hint="Поиск..."
+                android:textStyle="italic"
                 android:textColorHint="@color/black"
                 android:textColor="@color/black"
                 android:textSize="15sp"
                 android:gravity="left"
-                android:layout_marginStart="15dp"
+                android:layout_marginStart="10dp"
                 android:background="@color/white"
                 android:layout_gravity="center"/>
             <ImageView
                 android:id="@+id/magnifier"
                 android:layout_width="17dp"
                 android:layout_height="17dp"
+                android:layout_marginEnd="10dp"
                 app:srcCompat="@drawable/magnifier"
                 android:layout_gravity="center"/>
 

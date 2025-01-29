@@ -50,7 +50,6 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
         this.start = start;
         this.end = end;
 
-        // Загружаем минимальные цены и сортируем список
         loadAndSortHotels(hotels);
     }
 
@@ -72,9 +71,6 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
         return hotels.size();
     }
 
-    /**
-     * Асинхронная загрузка минимальных цен и сортировка отелей.
-     */
     private void loadAndSortHotels(List<Hotel> hotelList) {
         HotelRoomRepository hotelRoomRepository = new HotelRoomRepository(FirebaseFirestore.getInstance());
 
@@ -88,14 +84,12 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
         }
 
         CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).thenRun(() -> {
-            // Сортировка отелей по стоимости
             hotelList.sort((h1, h2) -> {
                 Double cost1 = hotelCosts.getOrDefault(h1.id, Double.MAX_VALUE);
                 Double cost2 = hotelCosts.getOrDefault(h2.id, Double.MAX_VALUE);
                 return cost1.compareTo(cost2);
             });
 
-            // Обновление данных адаптера
             this.hotels = hotelList;
             notifyDataSetChanged();
         });

@@ -38,11 +38,23 @@ public class ListOfBroAdapter extends ArrayAdapter<User> {
         }
 
         ImageView icon = convertView.findViewById(R.id.icon);
-        Glide.with(getContext()).load(user.photo).apply(new RequestOptions()
-                .centerCrop()
-                .circleCrop()).into(icon);
-
+        if (user.photo != null && !user.photo.isEmpty()) {
+            Glide.with(getContext())
+                    .load(user.photo)
+                    .apply(new RequestOptions()
+                            .centerCrop()
+                            .circleCrop())
+                    .into(icon);
+        } else {
+            Glide.with(getContext())
+                    .load(R.drawable.icon_user_grey)
+                    .apply(new RequestOptions()
+                            .centerCrop()
+                            .circleCrop())
+                    .into(icon);
+        }
         TextView textView = convertView.findViewById(R.id.koresh);
+        TextView textView2 = convertView.findViewById(R.id.hot);
         textView.setText(user.name);
         textView.setTag(user.id);
 
@@ -54,7 +66,8 @@ public class ListOfBroAdapter extends ArrayAdapter<User> {
 
         hotelRepository.getHotelByUserId(user.id).thenAccept(hotel -> {
             if (textView.getTag().equals(user.id)) {
-                textView.setText(user.name + "\nБронист отеля " + hotel.hotelName);
+                textView.setText(user.name);
+                textView2.setText("Отельер " + hotel.hotelName);
             }
         });
 

@@ -15,12 +15,12 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingEnd="10dp"
-        android:paddingTop="5dp"
+
         android:paddingBottom="5dp">
         <ImageView
             android:id="@+id/photo"
-            android:layout_width="26dp"
-            android:layout_height="26dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_gravity="center"
             android:src="@drawable/profileuser" />
         <TextView

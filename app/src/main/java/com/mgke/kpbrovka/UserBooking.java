@@ -8,6 +8,7 @@
     import android.text.Editable;
     import android.text.InputFilter;
     import android.text.TextWatcher;
+    import android.util.Log;
     import android.view.View;
     import android.widget.Button;
     import android.widget.CheckBox;
@@ -32,6 +33,7 @@
     import com.mgke.kpbrovka.repository.HotelRoomRepository;
     import com.mgke.kpbrovka.repository.ReservationRepository;
     import com.mgke.kpbrovka.repository.ReviewRepository;
+    import com.mgke.kpbrovka.repository.UserRepository;
 
     import java.util.Calendar;
     import java.util.Date;
@@ -142,7 +144,11 @@
 
             ReviewRepository reviewRepository = new ReviewRepository(FirebaseFirestore.getInstance());
             reviewRepository.getReviewsByHotelId(hotel.id).thenAccept(list -> {
-                countOfReviews.setText(list.size() + " отзывов");
+                if (list.size() >= 2 && list.size() <= 4) {
+                    countOfReviews.setText(list.size() + " отзыва");
+                } else {
+                    countOfReviews.setText(list.size() + " отзывов");
+                }
                 double averageStars = list.stream().mapToDouble(Review::getStars).average().orElse(0.0);
                 String formattedAverage = String.format("%.1f", averageStars);
                 mark.setText(formattedAverage);

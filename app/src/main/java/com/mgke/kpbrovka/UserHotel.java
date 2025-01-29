@@ -53,6 +53,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import per.wsj.library.AndRatingBar;
 
@@ -282,7 +283,11 @@ public class UserHotel extends AppCompatActivity {
 
         ReviewRepository reviewRepository = new ReviewRepository(FirebaseFirestore.getInstance());
         reviewRepository.getReviewsByHotelId(currentHotel.id).thenAccept(list -> {
-            countOfReviews.setText(list.size() + " отзывов");
+            if (list.size() >= 2 && list.size() <= 4) {
+                countOfReviews.setText(list.size() + " отзыва");
+            } else {
+                countOfReviews.setText(list.size() + " отзывов");
+            }
             double averageStars = list.stream().mapToDouble(Review::getStars).average().orElse(0.0);
             String formattedAverage = String.format("%.1f", averageStars);
             mark.setText(formattedAverage);

@@ -191,8 +191,8 @@ public class AdminChekBronist extends AppCompatActivity {
                 EditText city = customView.findViewById(R.id.hotel_city);
 
                 if (validateInput(name, password, email)) {
-                    userRepository.nameMatchingCheck(name.getText().toString()).thenAccept(b ->{
-                        if (!b){
+                    userRepository.passwordMatchingCheck(password.getText().toString()).thenAccept(b -> {
+                        if (!b) {
                             user.name = name.getText().toString();
                             user.pass = password.getText().toString();
                             user.type = UserType.HOTELIER;
@@ -215,6 +215,8 @@ public class AdminChekBronist extends AppCompatActivity {
                         }
                     });
                 }
+
+
             });
         });
 
@@ -225,11 +227,6 @@ public class AdminChekBronist extends AppCompatActivity {
         String nameText = name.getText().toString().trim();
         String passwordText = password.getText().toString();
         String emailText = email.getText().toString().trim();
-
-        if (nameText.length() < 5 ) {
-            name.setError("Имя должно содержать не менее 5 символов.");
-            return false;
-        }
 
         if (passwordText.length() < 5 ||
                 !passwordText.matches(".*[a-zA-Zа-яА-ЯЁё].*") ||

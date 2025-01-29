@@ -59,12 +59,6 @@ public class RegistrationActivity extends AppCompatActivity {
         String password = passEdit.getText().toString();
         String passwordConfirm = passEdit2.getText().toString();
 
-
-        if (name.length() < 5) {
-            nameEdit.setError("Имя должно содержать не менее 5 символов.");
-            return;
-        }
-
         if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             userEmail.setError("Введите корректный адрес электронной почты.");
             return;
@@ -86,24 +80,25 @@ public class RegistrationActivity extends AppCompatActivity {
         }
 
 
-        userRepository.nameMatchingCheck(name).thenAccept(b -> {
-            if (!b) {
+        userRepository.passwordMatchingCheck(password).thenAccept(b -> { // Проверяем уникальность пароля
+            if (!b) { // Если пароль не существует
                 User user = new User();
-                user.name = name;
-                user.email = email;
-                user.pass = password;
-                user.type = UserType.USER;
-                userRepository.addUser(user);
+                user.name = name;       // Устанавливаем имя
+                user.email = email;     // Устанавливаем email
+                user.pass = password;   // Устанавливаем пароль
+                user.type = UserType.USER; // Устанавливаем тип пользователя
+                userRepository.addUser(user); // Сохраняем пользователя в репозитории
 
-                Authentication.user = user;
+                Authentication.user = user; // Авторизуем пользователя
 
-                Intent intent = new Intent(this, MainUserActivity.class);
+                Intent intent = new Intent(this, MainUserActivity.class); // Переход на главный экран
                 startActivity(intent);
-                finish();
-            } else {
+                finish(); // Завершаем текущую активность
+            } else { // Если пароль уже существует
                 nameEdit.setError("Такой пользователь уже существует");
             }
         });
+
     }
 
     private boolean isValidPassword(String password) {

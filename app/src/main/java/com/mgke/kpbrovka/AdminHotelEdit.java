@@ -59,7 +59,7 @@ public class AdminHotelEdit extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                listOfHotels = firstListOfHotels.stream().filter(hotel -> hotel.hotelName.contains(s)).collect(Collectors.toList());
+                listOfHotels = firstListOfHotels.stream().filter(hotel -> hotel.hotelName.trim().toLowerCase().contains(s.toString().trim().toLowerCase()) || hotel.city.contains(s.toString().trim().toLowerCase())).collect(Collectors.toList());
                 HotelAdapter hotelAdapter = new HotelAdapter(listOfHotels, AdminHotelEdit.this, -1, null, null);
                 listView.setAdapter(hotelAdapter);
             }

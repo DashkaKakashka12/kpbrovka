@@ -10,21 +10,32 @@
             android:id="@+id/icon"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/icon"
+            android:src="@drawable/icon_user_grey"
             android:layout_gravity="center"
             android:layout_marginEnd="10dp"
             android:layout_marginStart="10dp"/>
-
-        <TextView
-            android:id="@+id/koresh"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Лёша Кореш\nБронист отеля бла бла бла"
-            android:textSize="17sp"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"/>
+            android:orientation="vertical">
+                <TextView
+                    android:id="@+id/koresh"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Лёша Кореш"
+                    android:fontFamily="sans-serif-medium"
+                    android:textSize="17sp"
+                    android:layout_marginTop="10dp" />
+                <TextView
+                    android:id="@+id/hot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Бронист отеля бла бла бла"
+                    android:textSize="17sp"
+                    android:layout_marginBottom="10dp"/>
+
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/delete_bro"

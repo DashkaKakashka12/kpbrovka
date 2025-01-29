@@ -52,6 +52,7 @@
                 android:layout_marginTop="10dp"
                 android:textSize="18dp"
                 android:textColor="@color/black"
+                android:fontFamily="sans-serif-medium"
                 android:text="Ренессанс Минск Конгресс Отель и СПА центр 5*"
                 android:paddingHorizontal="15dp"/>
 

@@ -81,8 +81,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Фотографии"
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
+                    android:fontFamily="sans-serif-medium"
+                    android:textSize="15sp" />
 
                 <ImageView
                     android:onClick="onClickOpenGallery"
@@ -112,7 +112,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Название" />
+                    android:text="Название"
+                    android:fontFamily="sans-serif-medium"
+                    android:textSize="15sp"/>
 
                 <ImageView
                     android:layout_width="21dp"
@@ -132,13 +134,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Удобства" />
+                    android:text="Удобства"
+                    android:fontFamily="sans-serif-medium"
+                    android:textSize="15sp"/>
 
                 <ImageView
                     android:layout_width="21dp"
@@ -158,13 +163,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Адрес" />
+                    android:text="Адрес"
+                    android:fontFamily="sans-serif-medium"
+                    android:textSize="15sp"/>
 
                 <ImageView
                     android:layout_width="21dp"
@@ -214,7 +222,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="На карте" />
+                    android:text="На карте"
+                    android:fontFamily="sans-serif-medium"
+                    android:textSize="15sp"/>
 
             </LinearLayout>
 
@@ -234,13 +244,15 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Отзывы" />
+                    android:text="Отзывы"
+                    android:fontFamily="sans-serif-medium"
+                    android:textSize="15sp"/>
 
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
                 android:orientation="horizontal">
                 <TextView
                     android:layout_width="0dp"
@@ -275,7 +287,7 @@
                     android:layout_width="0dp"
                     android:layout_height="2dp"
                     android:progress="0"
-                    android:max="10"
+                    android:max="5"
                     android:layout_weight="1"
                     style="?android:attr/progressBarStyleHorizontal"/>
                 <ProgressBar
@@ -283,7 +295,7 @@
                     android:layout_width="0dp"
                     android:layout_height="2dp"
                     android:progress="0"
-                    android:max="10"
+                    android:max="5"
                     android:layout_marginStart="40dp"
                     android:layout_weight="1"
                     style="?android:attr/progressBarStyleHorizontal"/>
@@ -328,7 +340,7 @@
                     android:layout_width="0dp"
                     android:layout_height="2dp"
                     android:progress="0"
-                    android:max="10"
+                    android:max="5"
                     android:layout_weight="1"
                     style="?android:attr/progressBarStyleHorizontal"/>
                 <ProgressBar
@@ -336,7 +348,7 @@
                     android:layout_width="0dp"
                     android:layout_height="2dp"
                     android:progress="0"
-                    android:max="10"
+                    android:max="5"
                     android:layout_marginStart="40dp"
                     android:layout_weight="1"
                     style="?android:attr/progressBarStyleHorizontal"/>
@@ -373,13 +385,14 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp">
                 <ProgressBar
                     android:id="@+id/progressBar5"
                     android:layout_width="0dp"
                     android:layout_height="2dp"
                     android:progress="0"
-                    android:max="10"
+                    android:max="5"
                     android:layout_weight="1"
                     style="?android:attr/progressBarStyleHorizontal"/>
                 <View
@@ -391,13 +404,12 @@
                     android:layout_marginStart="40dp"
                     android:layout_weight="1"
                     style="?android:attr/progressBarStyleHorizontal"/>
-
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:orientation="horizontal"
                 android:layout_marginBottom="20dp">
                 <LinearLayout
@@ -419,8 +431,8 @@
                         android:paddingBottom="5dp">
                         <ImageView
                             android:id="@+id/userIcon"
-                            android:layout_width="21dp"
-                            android:layout_height="21dp"
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
                             android:layout_gravity="center"
                             android:src="@drawable/profileuser" />
                         <TextView
@@ -429,7 +441,7 @@
                             android:layout_weight="1"
                             android:layout_marginStart="10dp"
                             android:layout_height="wrap_content"
-                            android:textSize="9sp"
+                            android:textSize="13sp"
                             android:text="Дмитрий Петров\n07.06.2024" />
                     </LinearLayout>
 
@@ -437,14 +449,12 @@
                         <per.wsj.library.AndRatingBar
                             android:id="@+id/stars"
                             android:layout_width="wrap_content"
-                            android:layout_height="10dp"
+                            android:layout_height="12dp"
                             android:rating="5"
                             app:scaleFactor="0.9"
                             android:stepSize="1"
                             android:layout_marginStart="13dp"
                             android:isIndicator="true"/>
-
-
 
                     <TextView
                         android:id="@+id/textOfReview"
@@ -453,10 +463,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:layout_marginEnd="15dp"
-                        android:textSize="8sp"
+                        android:maxLines="5"
+                        android:ellipsize="end"
+                        android:textSize="11sp"
                         android:text="Отличная гостиница, очень вкусные завтраки, в лаундж гостинной тоже всё хорошо и вкусно. Номер отличный, с х..." />
-
-
 
                 </LinearLayout>
 
@@ -466,8 +476,8 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:background="#EBEAEA"
-                    android:layout_marginStart="40dp"
+                    android:background="@drawable/rounded_corners_grey"
+                    android:layout_marginStart="20dp"
                     android:orientation="vertical"
                     android:paddingBottom="5dp"
                     android:visibility="gone">
@@ -481,8 +491,8 @@
                         android:paddingBottom="5dp">
                         <ImageView
                             android:id="@+id/userIcon2"
-                            android:layout_width="21dp"
-                            android:layout_height="21dp"
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
                             android:layout_gravity="center"
                             android:src="@drawable/profileuser" />
                         <TextView
@@ -491,14 +501,14 @@
                             android:layout_weight="1"
                             android:layout_marginStart="10dp"
                             android:layout_height="wrap_content"
-                            android:textSize="9sp"
+                            android:textSize="13sp"
                             android:text="Эдвард Хайд\n12.07.2024" />
                     </LinearLayout>
 
                     <per.wsj.library.AndRatingBar
                         android:id="@+id/stars2"
                         android:layout_width="wrap_content"
-                        android:layout_height="10dp"
+                        android:layout_height="12dp"
                         android:rating="5"
                         app:scaleFactor="0.9"
                         android:stepSize="1"
@@ -511,8 +521,10 @@
                         android:layout_marginStart="15dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
+                        android:maxLines="5"
+                        android:ellipsize="end"
                         android:layout_marginEnd="15dp"
-                        android:textSize="8sp"
+                        android:textSize="11sp"
                         android:text="Один из лучших и самый любимый отель Минска. Большие номера, удобная кровать, водичка в номер. ..."/>
 
 
@@ -520,23 +532,32 @@
 
             </LinearLayout>
 
-            <Button
+            <TextView
+                android:onClick="checkReviews"
+                android:textStyle="italic"
+                android:layout_gravity="center"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:text="Все отзывы"
-                android:layout_gravity="center"
-                android:backgroundTint="#EBEAEA"
-                android:textColor="@color/black"
+                android:gravity="center"
+                android:textSize="17sp"
+                android:padding="7dp"
+                android:textColor="#000000"
+                android:layout_marginHorizontal="10dp"
                 android:layout_marginBottom="10dp"
-                android:onClick="checkReviews"/>
+                android:text="Все отзывы"
+                android:background="@drawable/rounded_corners_grey"/>
 
-            <Button
+            <TextView
                 android:id="@+id/roomsButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textStyle="italic"
                 android:text="Редактировать номера"
+                android:gravity="center"
+                android:textSize="17sp"
+                android:padding="7dp"
                 android:layout_gravity="center"
-                android:backgroundTint="#EBEAEA"
+                android:background="@drawable/rounded_corners_grey"
                 android:textColor="@color/black"
                 android:layout_marginBottom="30dp"
                 android:onClick="checkRooms"/>

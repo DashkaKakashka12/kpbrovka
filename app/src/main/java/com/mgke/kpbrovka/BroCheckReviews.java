@@ -94,7 +94,11 @@ public class BroCheckReviews extends AppCompatActivity {
            hotelName.setText(hotel.hotelName);
             ReviewRepository reviewRepository = new ReviewRepository(FirebaseFirestore.getInstance());
             reviewRepository.getReviewsByHotelId(hotel.id).thenAccept(list -> {
-                countOfReviews.setText(list.size() + " отзывов");
+                if (list.size() >= 2 && list.size() <= 4) {
+                    countOfReviews.setText(list.size() + " отзыва");
+                } else {
+                    countOfReviews.setText(list.size() + " отзывов");
+                }
                 double averageStars = list.stream().mapToDouble(Review::getStars).average().orElse(0.0);
                 String formattedAverage = String.format("%.1f", averageStars);
                 mark.setText(formattedAverage);

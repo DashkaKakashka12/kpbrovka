@@ -86,7 +86,7 @@
                     android:onClick="adminEditName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Бла бла бла"
+                    android:text=""
                     android:textColor="#9F9E9E"
                     android:textSize="15sp"
                     android:layout_marginTop="5dp"/>
@@ -132,7 +132,7 @@
                     android:onClick="adminEditPassword"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Бла бла бла"
+                    android:text=""
                     android:textColor="#9F9E9E"
                     android:textSize="15sp"
                     android:layout_marginTop="5dp"/>
@@ -180,7 +180,7 @@
                     android:src="@drawable/pencil"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Бла бла бла"
+                    android:text=""
                     android:textColor="#9F9E9E"
                     android:textSize="15sp"
                     android:layout_marginTop="5dp"/>

@@ -75,6 +75,7 @@
             android:layout_marginTop="10dp"
             android:textSize="18dp"
             android:textColor="@color/black"
+            android:fontFamily="sans-serif-medium"
             android:text="Ренессанс Минск Конгресс Отель и СПА центр 5*"
             android:paddingHorizontal="15dp"/>
 
@@ -151,7 +152,7 @@
                 android:layout_width="0dp"
                 android:layout_height="2dp"
                 android:progress="0"
-                android:max="10"
+                android:max="5"
                 android:layout_weight="1"
                 style="?android:attr/progressBarStyleHorizontal"/>
             <ProgressBar
@@ -159,7 +160,7 @@
                 android:layout_width="0dp"
                 android:layout_height="2dp"
                 android:progress="0"
-                android:max="10"
+                android:max="5"
                 android:layout_marginStart="40dp"
                 android:layout_weight="1"
                 style="?android:attr/progressBarStyleHorizontal"/>
@@ -207,7 +208,7 @@
                 android:layout_width="0dp"
                 android:layout_height="2dp"
                 android:progress="0"
-                android:max="10"
+                android:max="5"
                 android:layout_weight="1"
                 style="?android:attr/progressBarStyleHorizontal"/>
             <ProgressBar
@@ -215,7 +216,7 @@
                 android:layout_width="0dp"
                 android:layout_height="2dp"
                 android:progress="0"
-                android:max="10"
+                android:max="5"
                 android:layout_marginStart="40dp"
                 android:layout_weight="1"
                 style="?android:attr/progressBarStyleHorizontal"/>
@@ -262,7 +263,7 @@
                 android:layout_width="0dp"
                 android:layout_height="2dp"
                 android:progress="0"
-                android:max="10"
+                android:max="5"
                 android:layout_weight="1"
                 style="?android:attr/progressBarStyleHorizontal"/>
             <View

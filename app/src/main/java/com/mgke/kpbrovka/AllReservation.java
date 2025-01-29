@@ -36,6 +36,7 @@ import com.mgke.kpbrovka.repository.ReservationRepository;
 import com.mgke.kpbrovka.repository.ReviewRepository;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -130,11 +131,25 @@ public class AllReservation extends AppCompatActivity {
                     }
 
                 });
+            } else if (reservation.status == StatusReservation.INPROGRESS) {
+                cancellation.setVisibility(View.VISIBLE);
+                cancellation.setClickable(false);
+                cancellation.setText("В процессе");
             } else {
                 cancellation.setVisibility(View.VISIBLE);
-                writeReview.setVisibility(View.GONE);
-                confirm.setVisibility(View.GONE);
+                cancellation.setClickable(false);
+                cancellation.setText("Истекло");
+                reviewRepository.canWriteReview(reservation, Authentication.user).thenAccept(review -> {
+                    this.review = review;
+                    if(review != null) {
+                        writeReview.setVisibility(View.VISIBLE);
+                        if (review.id != null) {
+                            writeReview.setText("Редактировать отзыв");
+                        }
+                    }
+                });
             }
+
         } else {
             if (reservation.status == StatusReservation.REJECTED) {
                 cancellation.setVisibility(View.VISIBLE);
@@ -176,9 +191,32 @@ public class AllReservation extends AppCompatActivity {
 
         nameAndSurname.setText(reservation.userName + " " + reservation.userSurname);
 
-        long differenceInMillis = reservation.end.getTime() - reservation.start.getTime();
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.setTime(reservation.start);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        Date startDate1 = calendar.getTime();
+
+        calendar.setTime(reservation.end);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        Date endDate1 = calendar.getTime();
+
+        long differenceInMillis = endDate1.getTime() - startDate1.getTime();
         long differenceInDays = TimeUnit.MILLISECONDS.toDays(differenceInMillis);
-        days.setText(String.valueOf(differenceInDays -1 + " ночь"));
+        if (differenceInDays == 1) {
+            days.setText(String.valueOf(differenceInDays + " ночь"));
+        } else if (differenceInDays >= 2 && differenceInDays <= 4) {
+            days.setText(String.valueOf(differenceInDays + " ночи"));
+        } else {
+            days.setText(String.valueOf(differenceInDays + " ночей"));
+        }
+
 
         Calendar calendarStart = Calendar.getInstance();
         Calendar calendarEnd = Calendar.getInstance();

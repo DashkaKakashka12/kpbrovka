@@ -114,24 +114,25 @@ public class UserRepository {
 
         return future;
     }
-
-    public CompletableFuture<Boolean> nameMatchingCheck (String name) {
+    public CompletableFuture<Boolean> passwordMatchingCheck(String password) {
         final CompletableFuture<Boolean> future = new CompletableFuture<>();
 
-
-        db.collection("users").whereEqualTo("name", name)
+        db.collection("users").whereEqualTo("pass", password) // Проверяем поле "pass" вместо "name"
                 .get()
                 .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             if (document.exists()) {
-                                future.complete(true);
+                                future.complete(true); // Пароль найден, возвращаем true// Прекращаем выполнение, если найден
                             }
                         }
-                        future.complete(false);
+                        future.complete(false); // Пароль не найден
+                    }
                 });
 
         return future;
     }
+
 
     public void deleteUser(User user) {
         db.collection("users").document(user.id).delete().addOnCompleteListener(task -> {

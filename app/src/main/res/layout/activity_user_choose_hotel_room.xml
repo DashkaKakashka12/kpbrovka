@@ -39,6 +39,7 @@
             android:layout_height="wrap_content"
             android:text="Малые города России"
             android:textSize="13sp"
+            android:gravity="center"
             android:layout_marginBottom="3dp"
             android:layout_gravity="center" />
         <LinearLayout

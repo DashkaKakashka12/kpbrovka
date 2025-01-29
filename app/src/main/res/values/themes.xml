@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.kpbrovka" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-       <item name="colorPrimary">#FFB0B0</item>
+       <item name="colorPrimary">#000000</item>
         <item name="colorAccent">#EFA12B</item>
     </style>
 

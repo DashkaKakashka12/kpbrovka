@@ -26,6 +26,7 @@
         android:layout_marginStart="80dp"
         android:layout_marginTop="230dp"
         android:textSize="15dp"
+        android:textColor="@color/black"
         android:text="Имя"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -39,6 +40,7 @@
         android:hint=""
         android:padding="8dp"
         android:inputType="text"
+        android:textColor="@color/black"
         android:layout_marginTop="5dp"
         android:background="@drawable/roundbackround"
         app:layout_constraintEnd_toEndOf="parent"
@@ -54,6 +56,7 @@
         android:layout_marginStart="80dp"
         android:layout_marginTop="15dp"
         android:text="Пароль"
+        android:textColor="@color/black"
         android:textSize="15dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/nameEdit" />
@@ -68,6 +71,7 @@
         android:paddingVertical="8dp"
         android:paddingEnd="45dp"
         android:paddingStart="8dp"
+        android:textColor="@color/black"
         android:inputType="textPassword"
         android:layout_marginTop="5dp"
         android:background="@drawable/roundbackround"
@@ -110,6 +114,7 @@
         android:textSize="14dp"
         android:onClick="registration"
         android:text="Зарегистрироваться"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/logButton" />
